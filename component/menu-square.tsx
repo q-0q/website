@@ -64,7 +64,7 @@ export default function MenuSquare({ index }: MenuSquareProps) {
         background: "tomato",
         borderRadius: "0px",
         marginLeft: `${marginLeft}px`,
-        // transition: "margin-left 0.2s ease", // Optional: smooth the move
+        transition: "margin-left 0.2s ease", // Optional: smooth the move
       }}
     />
   );

@@ -1,4 +1,4 @@
-import MenuSquare from "@/component/menu-square";
+import MenuItem from "@/component/menu-item";
 import SvgNoiseBackground from "@/component/noise-svg";
 import Image from "next/image";
 import type { CSSProperties } from "react";
@@ -8,10 +8,10 @@ export default function Home() {
   return (
     <SvgNoiseBackground>
       <div style={styles.main}>
-        <MenuSquare index={0}></MenuSquare>
-        <MenuSquare index={1}></MenuSquare>
-        <MenuSquare index={2}></MenuSquare>
-        <MenuSquare index={3}></MenuSquare>
+        <MenuItem index={0} title={"games"}></MenuItem>
+        <MenuItem index={1} title={"games"}></MenuItem>
+        <MenuItem index={2} title={"games"}></MenuItem>
+        <MenuItem index={3} title={"games"}></MenuItem>
       </div>
     </SvgNoiseBackground>
   );
