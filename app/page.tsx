@@ -9,21 +9,35 @@ export default function Home() {
     <SvgNoiseBackground>
 
       <div style={styles.title}>
-        q-0q
+        <p>q-0q | jack withers</p>
       </div>
 
       <div style={styles.main}>
-        <MenuItem index={0} title={"games"}></MenuItem>
-        <MenuItem index={1} title={"games"}></MenuItem>
-        <MenuItem index={2} title={"games"}></MenuItem>
+        <MenuItem index={0} title={"resume"}></MenuItem>
+        <MenuItem index={1} title={"bio"}></MenuItem>
+        <MenuItem index={2} title={"not games"}></MenuItem>
         <MenuItem index={3} title={"games"}></MenuItem>
       </div>
     </SvgNoiseBackground>
   );
 }
 
-const styles: { main: CSSProperties, title: CSSProperties } = {
+const styles: {
+  main: CSSProperties;
+  title: CSSProperties;
+  menu: CSSProperties;
+} = {
   main: {
+    height: "95vh",
+    width: "100vw",
+    display: "flex",
+    flexDirection: "column-reverse",
+    alignItems: "start",
+    justifyItems: "start",
+    background: "black",
+  },
+
+  menu: {
     height: "100vh",
     width: "100vw",
     display: "flex",
@@ -34,6 +48,13 @@ const styles: { main: CSSProperties, title: CSSProperties } = {
   },
 
   title: {
-    background: "red",
+    height: "3vh",
+    background: "#d4f70e",
+    color: "black",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: "10px"
   },
 };
+

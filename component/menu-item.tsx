@@ -72,8 +72,8 @@ export default function MenuItem({ index, title }: MenuItemProps) {
       <div
         ref={shapeRef}
         style={{
-          width: "25vh",
-          height: "25vh",
+          width: "15vh",
+          // height: "25vh",
           background: "#d4f70e",
           borderRadius: "0px",
         }}
@@ -89,16 +89,18 @@ export default function MenuItem({ index, title }: MenuItemProps) {
 const styles = {
   container: {
     display: "flex",
-    width: "100vw",
+    width: "10vw",
+    height: "25%",
     marginLeft: "-100vh",
   },
   title: {
     display: "flex",
     width: "10vh",
-    height: "25vh",
-    flexDirection: "column-reverse",
-    marginLeft: "26vh",
-    paddingBottom: "30px"
+    // height: "25%",
+    // flexDirection: "column-reverse",
+    marginLeft: "16vh",
+    paddingBottom: "30px",
+    color: "white"
   },
 };
 
