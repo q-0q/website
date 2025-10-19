@@ -3,7 +3,6 @@
 // pages/gsap-demo.js
 import { ReactNode, useEffect, useRef } from "react";
 import gsap from "gsap";
-import MenuSquare from "./menu-square";
 
 type MenuItemProps = {
   index: number;
@@ -16,13 +15,39 @@ export default function MenuItem({ index, title } : MenuItemProps) {
   useEffect(() => {
 
     gsap.set(boxRef.current, {
-      x: "-100vh"
+      x: "-25vh",
     });
 
-    const duration = (index + 1) * 0.25;
+    const duration = ((index) * 0.175) + 0.5;
+    const vh = window.innerHeight / 100;
+
+    const numTiles = 4;
+    const tileWidth = 25 * vh;
+    const maxPadding = 100;
+    const maxCascade = 300;
+
+    const maxStep = maxCascade / (numTiles - 1);
+    const cascadeWidth = maxStep * (numTiles - 1);
+    const totalWidth = tileWidth + cascadeWidth + 2 * maxPadding;
+
+    let padding: number;
+    let step: number;
+
+    if (totalWidth <= window.innerWidth) {
+      padding = maxPadding;
+      step = maxStep;
+    } else {
+      const denominator = maxCascade + 2 * maxPadding;
+      const s = (window.innerWidth - tileWidth) / denominator;
+      padding = maxPadding * s;
+      step = maxStep * s;
+    }
+
+    const offset = padding + index * step + 100*vh;
 
     gsap.to(boxRef.current, {
-      x: 0, // move 300px to the right
+      x: offset,
+      opacity: 1,
       duration: duration,
       ease: "power2.out",
     });
@@ -30,7 +55,14 @@ export default function MenuItem({ index, title } : MenuItemProps) {
 
   return (
     <div style={styles.container} ref={boxRef}>
-      <MenuSquare index={index}></MenuSquare>
+      <div
+        style={{
+          width: "25vh",
+          height: "25vh",
+          background: "tomato",
+          borderRadius: "0px",
+        }}
+      />
       <div style={styles.title}>
         <h1>{title}</h1>
       </div>
@@ -42,6 +74,7 @@ const styles = {
   container: {
     display: "flex",
     width: "100vw",
+    marginLeft: "-100vh"
   },
   title: {
     display: "flex",

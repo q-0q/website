@@ -47,10 +47,10 @@ export default function MenuSquare({ index }: MenuSquareProps) {
 
 
     // Initial run
-    updateMarginLeft();
+    // updateMarginLeft();
 
     // Update on resize
-    window.addEventListener("resize", updateMarginLeft);
+    // window.addEventListener("resize", updateMarginLeft);
 
     // Clean up on unmount
     return () => window.removeEventListener("resize", updateMarginLeft);
@@ -64,7 +64,7 @@ export default function MenuSquare({ index }: MenuSquareProps) {
         background: "tomato",
         borderRadius: "0px",
         marginLeft: `${marginLeft}px`,
-        transition: "margin-left 0.2s ease", // Optional: smooth the move
+        // transition: "margin-left 0.2s ease", // Optional: smooth the move
       }}
     />
   );
