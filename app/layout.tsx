@@ -34,12 +34,11 @@ export default function RootLayout({
   );
 }
 
-const styles: { body: CSSProperties} = {
+const styles: { body: CSSProperties } = {
   body: {
-    height: "100vh",
+    height: "calc(var(--vh, 1vh) * 100)",
     width: "100vw",
     alignItems: "start",
     background: "black",
   },
-
-}
+};

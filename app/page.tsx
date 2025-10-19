@@ -38,7 +38,7 @@ const styles: {
   },
 
   menu: {
-    height: "100vh",
+    height: "calc(var(--vh, 1vh) * 100)",
     width: "100vw",
     display: "flex",
     flexDirection: "column-reverse",
