@@ -9,14 +9,14 @@ export default function Home() {
     <SvgNoiseBackground>
 
       <div style={styles.title}>
-        <p>q-0q | jack withers</p>
+        <p>Jack Withers | q-0q</p>
       </div>
 
       <div style={styles.main}>
-        <MenuItem index={0} title={"resume"}></MenuItem>
-        <MenuItem index={1} title={"bio"}></MenuItem>
-        <MenuItem index={2} title={"not games"}></MenuItem>
-        <MenuItem index={3} title={"games"}></MenuItem>
+        <MenuItem index={0} title={"Bio"} description="More about me"></MenuItem>
+        <MenuItem index={1} title={"Resume"} description="Professional and educational experience"></MenuItem>
+        <MenuItem index={2} title={"Code"} description="Libraries & tools"></MenuItem>
+        <MenuItem index={3} title={"Games"} description="Interactive experiences"></MenuItem>
       </div>
     </SvgNoiseBackground>
   );

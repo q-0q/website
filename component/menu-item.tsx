@@ -8,9 +8,10 @@ import { useGSAP } from "@gsap/react";
 type MenuItemProps = {
   index: number;
   title: string;
+  description: string;
 };
 
-export default function MenuItem({ index, title }: MenuItemProps) {
+export default function MenuItem({ index, title, description }: MenuItemProps) {
   const boxRef = useRef<HTMLDivElement>(null); // whole container
   const shapeRef = useRef<HTMLDivElement>(null); // tomato-colored shape
 
@@ -90,6 +91,9 @@ export default function MenuItem({ index, title }: MenuItemProps) {
         <div style={styles.title}>
           <h1>{title}</h1>
         </div>
+        <div style={styles.description}>
+          <h1>{description}</h1>
+        </div>
       </div>
     </div>
   );
@@ -98,18 +102,24 @@ export default function MenuItem({ index, title }: MenuItemProps) {
 const styles = {
   container: {
     display: "flex",
-    width: "10vw",
+    // width: "0vw",
     height: "25%",
     marginLeft: "-100vh",
   },
   title: {
     display: "flex",
     width: "10vh",
-    // height: "25%",
-    // flexDirection: "column-reverse",
+    marginLeft: "16vh",
+    paddingTop: "2vh",
+    color: "white",
+  },
+  description: {
+    display: "flex",
+    width: "20vh",
     marginLeft: "16vh",
     paddingBottom: "30px",
-    color: "white"
+    color: "gray",
+    fontSize: "0.75rem"
   },
 };
 

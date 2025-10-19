@@ -1,17 +1,17 @@
 import React, { ReactNode } from "react";
 
-type SvgNoiseProps = {
+type NoiseBackgroundDiv = {
   children?: ReactNode; // allow children
 };
 
-export default function SvgNoise({ children }: SvgNoiseProps) {
+export default function SvgNoise({ children }: NoiseBackgroundDiv) {
   return (
     <>
       <svg style={{ position: "absolute", width: 0, height: 0 }}>
         <filter id="noiseFilter">
           <feTurbulence
             type="fractalNoise"
-            baseFrequency="0.8"
+            baseFrequency="1"
             numOctaves={4}
             stitchTiles="stitch"
           />
@@ -26,7 +26,7 @@ export default function SvgNoise({ children }: SvgNoiseProps) {
           width: "100vw",
           height: "100vh",
           filter: "url(#noiseFilter)",
-          opacity: 0.2,
+          opacity: 0.15,
           background: "#000",
           pointerEvents: "none",
           zIndex: 1,
