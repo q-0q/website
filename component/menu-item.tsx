@@ -14,6 +14,11 @@ export default function MenuItem({ index, title }: MenuItemProps) {
   const boxRef = useRef<HTMLDivElement>(null); // whole container
   const shapeRef = useRef<HTMLDivElement>(null); // tomato-colored shape
 
+  function setVhVariable() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }
+
   useGSAP(() => {
     gsap.set(boxRef.current, {
       x: "-25vh",
@@ -22,6 +27,7 @@ export default function MenuItem({ index, title }: MenuItemProps) {
 
     const duration = computeDuration(index);
     const xDestination = computeXDestination(index);
+    setVhVariable();
 
     gsap.to(boxRef.current, {
       x: xDestination,
@@ -33,6 +39,9 @@ export default function MenuItem({ index, title }: MenuItemProps) {
 
   // 👇 Effect for mouse tracking and border radius control
   useEffect(() => {
+
+
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!shapeRef.current) return;
 
@@ -57,6 +66,7 @@ export default function MenuItem({ index, title }: MenuItemProps) {
 
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("resize", _ => {
+          setVhVariable();
           gsap.set(boxRef.current, {
             x: computeXDestination(index),
             borderRadius: "0px",
@@ -73,7 +83,6 @@ export default function MenuItem({ index, title }: MenuItemProps) {
         ref={shapeRef}
         style={{
           width: "15vh",
-          // height: "25vh",
           background: "#d4f70e",
           borderRadius: "0px",
         }}

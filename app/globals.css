@@ -31,3 +31,7 @@ body {
 ::-webkit-scrollbar {
     display: none;
 }
+
+.fullheight-fixed {
+  height: var(--vh, 100vh);
+}

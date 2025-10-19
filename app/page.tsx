@@ -28,7 +28,7 @@ const styles: {
   menu: CSSProperties;
 } = {
   main: {
-    height: "95vh",
+    height: "calc(var(--vh, 1vh) * 97)",
     width: "100vw",
     display: "flex",
     flexDirection: "column-reverse",
@@ -48,13 +48,13 @@ const styles: {
   },
 
   title: {
-    height: "3vh",
+    height: "calc(var(--vh, 1vh) * 3)",
     background: "#d4f70e",
     color: "black",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: "10px"
+    paddingLeft: "10px",
   },
 };
 
