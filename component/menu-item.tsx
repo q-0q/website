@@ -42,15 +42,30 @@ export default function MenuItem({ index, title }: MenuItemProps) {
 
       const dx = e.clientX - centerX;
       const dy = e.clientY - centerY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
+      const distance = Math.max(90, Math.sqrt(dx * dx + dy * dy));
 
-      const radius = lerp(0, 60, inverseLerp(300, 50, distance))
-      shapeRef.current.style.borderRadius = `${radius}px`;
+
+      // Movement logic
+      const threshold = 150; // Distance within which shape reacts
+      const maxOffset = 10; // Maximum px movement
+
+      const weight = inverseLerp(300, 100, distance);
+      const moveX = lerp(0, maxOffset, weight)
+
+      shapeRef.current.style.transform = `translate(${moveX}px, 0px)`;
     };
 
     window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("resize", _ => {
+          gsap.set(boxRef.current, {
+            x: computeXDestination(index),
+            borderRadius: "0px",
+          });
+    });
+
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
 
   return (
     <div style={styles.container} ref={boxRef}>
@@ -61,11 +76,11 @@ export default function MenuItem({ index, title }: MenuItemProps) {
           height: "25vh",
           background: "#d4f70e",
           borderRadius: "0px",
-          // transition: "border-radius 0.1s ease",
         }}
-      />
-      <div style={styles.title}>
-        <h1>{title}</h1>
+      >
+        <div style={styles.title}>
+          <h1>{title}</h1>
+        </div>
       </div>
     </div>
   );
@@ -80,7 +95,10 @@ const styles = {
   title: {
     display: "flex",
     width: "10vh",
-    padding: "10px",
+    height: "25vh",
+    flexDirection: "column-reverse",
+    marginLeft: "26vh",
+    paddingBottom: "30px"
   },
 };
 

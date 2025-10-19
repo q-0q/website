@@ -7,6 +7,11 @@ import type { CSSProperties } from "react";
 export default function Home() {
   return (
     <SvgNoiseBackground>
+
+      <div style={styles.title}>
+        q-0q
+      </div>
+
       <div style={styles.main}>
         <MenuItem index={0} title={"games"}></MenuItem>
         <MenuItem index={1} title={"games"}></MenuItem>
@@ -17,7 +22,7 @@ export default function Home() {
   );
 }
 
-const styles: { main: CSSProperties } = {
+const styles: { main: CSSProperties, title: CSSProperties } = {
   main: {
     height: "100vh",
     width: "100vw",
@@ -26,5 +31,9 @@ const styles: { main: CSSProperties } = {
     alignItems: "start",
     justifyItems: "start",
     background: "black",
+  },
+
+  title: {
+    background: "red",
   },
 };
