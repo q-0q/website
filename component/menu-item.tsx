@@ -111,8 +111,8 @@ const styles = {
     display: "flex",
     // width: "0vw",
     height: "25%",
-    marginLeft: "-100vh",
-    backgroundColor: "white"
+    marginLeft: "calc(var(--vh, 1vh) * -100)",
+    backgroundColor: "white",
   },
   title: {
     display: "flex",
@@ -127,7 +127,7 @@ const styles = {
     marginLeft: "16vh",
     paddingBottom: "30px",
     color: "gray",
-    fontSize: "0.75rem"
+    fontSize: "0.75rem",
   },
 };
 
