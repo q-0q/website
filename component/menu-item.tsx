@@ -35,7 +35,7 @@ export default function MenuItem({ index, title, description, link, context }: M
 
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
-    handleSelectionAnimation(containerRef, sliderRef, selectedIndex, isSelected, router, link)
+    handleSelectionAnimation(containerRef, sliderRef, selectedIndex, isSelected, router, link, context)
 
     const handleMouseMove = mouseMoveHandler(sliderRef, shapeRef, selectedIndex, index);
     const handleResize = resizeHandler(selectedIndexRef, containerRef, index, context);
@@ -65,10 +65,7 @@ export default function MenuItem({ index, title, description, link, context }: M
     <div
       style={styles.container}
       ref={containerRef}
-      onClick={() => {
-        if (!swipeComplete) return;
-        setSelectedIndex(index);
-      }}
+      onClick={handleClick(swipeComplete, setSelectedIndex, index, context, containerRef, sliderRef, router)}
     >
       <div ref={sliderRef}>
         <div
@@ -121,6 +118,42 @@ const styles: {
     fontSize: "0.75rem",
   },
 };
+
+function handleClick(
+  swipeComplete: boolean,
+  setSelectedIndex: (index: number | null) => void,
+  index: number,
+  context: MenuItemContext,
+  containerRef: RefObject<HTMLDivElement | null>,
+  sliderRef: RefObject<HTMLDivElement | null>,
+  router: AppRouterInstance
+) {
+  return () => {
+    if (context === MenuItemContext.Home) {
+      if (!swipeComplete) return;
+      setSelectedIndex(index);
+    } else {
+      console.log("weee");
+      let tl = gsap.timeline();
+      tl.to(containerRef.current, {
+        x: computeSwipeOutXPosition(),
+        borderRadius: "0px",
+        duration: 0.2,
+      }).to(
+        sliderRef.current,
+        {
+          duration: 0.4,
+          x: 0,
+          ease: "power2.out",
+          onComplete: () => {
+            router.push("/")
+          }
+        },
+        "-=0.5"
+      );
+    }
+  };
+}
 
 function resizeHandler(selectedIndexRef: RefObject<number | null>, containerRef: RefObject<HTMLDivElement | null>, index: number, context : MenuItemContext) {
   return () => {
@@ -215,9 +248,11 @@ function handleSelectionAnimation(
   selectedIndex: number | null,
   isSelected: boolean,
   router: AppRouterInstance,
-  link : string
+  link : string,
+  context : MenuItemContext
 ) {
   if (!containerRef.current) return;
+  if (context != MenuItemContext.Home) return;
 
   if (selectedIndex === null) {
     // Reset all
@@ -286,6 +321,12 @@ function handleSelectionAnimation(
 function computeSelectedXPosition() {
   const vh = window.innerHeight / 100;
   const xDestination = vh * 105;
+  return xDestination;
+}
+
+function computeSwipeOutXPosition() {
+  const vh = window.innerHeight / 100;
+  const xDestination = vh * 70;
   return xDestination;
 }
 

@@ -4,7 +4,7 @@ import { createContext, useContext } from "react";
 export const MenuContext = createContext<{
   selectedIndex: number | null;
   swipeComplete: boolean;
-  setSelectedIndex: (index: number) => void;
+  setSelectedIndex: (index: number | null) => void;
   setSwipeComplete: (swipeComplete: boolean) => void;
 }>({
   selectedIndex: null,
