@@ -28,6 +28,7 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
   const shapeRef = useRef<HTMLDivElement>(null);
   const { selectedIndex, setSelectedIndex, swipeComplete, setSwipeComplete, lastSelectedIndex, setLastSelectedIndex } = useMenu();
   const selectedIndexRef = useRef<number | null>(selectedIndex);
+  const lastSelectedIndexRef = useRef<number | null>(lastSelectedIndex);
   const isSelected = selectedIndex === index;
   const router = useRouter();
 
@@ -35,7 +36,20 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
 
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
-    handleSelectionAnimation(containerRef, sliderRef, selectedIndexRef.current, isSelected, router, link, context, swipeComplete, index)
+    lastSelectedIndexRef.current = lastSelectedIndex
+
+    handleSelectionAnimation(
+      containerRef,
+      sliderRef,
+      selectedIndexRef.current,
+      isSelected,
+      router,
+      link,
+      context,
+      swipeComplete,
+      index,
+      lastSelectedIndex
+    );
 
     const handleMouseMove = mouseMoveHandler(sliderRef, shapeRef, selectedIndex, index);
     const handleResize = resizeHandler(selectedIndexRef, containerRef, index, context);
@@ -130,10 +144,10 @@ function handleClick(
   router: AppRouterInstance
 ) {
   return () => {
+    setLastSelectedIndex(index);
     if (context === MenuItemContext.Home) {
       if (!swipeComplete) return;
       setSelectedIndex(index);
-      setLastSelectedIndex(index);
     } else {
       setSelectedIndex(null);
     }
@@ -236,13 +250,16 @@ function handleSelectionAnimation(
   link : string,
   context : MenuItemContext,
   swipeComplete : boolean,
-  index : number
+  index : number,
+  lastSelectedIndexRef : number | null
 ) {
+
+  console.log(lastSelectedIndexRef)
   if (!containerRef.current) return;
   if (!swipeComplete) return;
 
   if (selectedIndexRef === null) {
-    handleMenuExpand(isSelected, containerRef, sliderRef, router, link, index);
+    handleMenuExpand(isSelected, containerRef, sliderRef, router, link, index, lastSelectedIndexRef);
   } else {
     handleMenuCollapse(isSelected, containerRef, sliderRef, router, link);
   }
@@ -309,34 +326,73 @@ function handleMenuExpand(
   sliderRef: RefObject<HTMLDivElement | null>,
   router: AppRouterInstance,
   link: string,
-  index : number
+  index : number,
+  lastSelectedIndex : number | null
 ) {
   let tl = gsap.timeline();
 
-  tl.set(containerRef.current, {
-    x: computeSelectedXPosition(),
-  })
-    .to(containerRef.current, {
-      opacity: 1,
-      y: 0,
-      duration: 0.4,
-      ease: "power2.out",
-      scale: 1,
-      height: "25%",
-    })
-    .to(containerRef.current, {
-      x: computeSwipeXDestination(index),
-      duration: 0.4,
-    })
-    .to(
-      sliderRef.current,
-      {
-        onComplete: () => {
-          router.push("/");
-        },
-      },
-      "-=0.5"
-    );
+    if (lastSelectedIndex === index) {
+
+        tl.set(containerRef.current, {
+          x: computeSelectedXPosition(),
+        })
+          .to(containerRef.current, {
+            opacity: 1,
+            y: 0,
+            duration: 0.4,
+            ease: "power2.out",
+            scale: 1,
+            height: "25%",
+          })
+          .to(containerRef.current, {
+            x: computeSwipeXDestination(index),
+            duration: 0.4,
+          })
+          .to(
+            sliderRef.current,
+            {
+              onComplete: () => {
+                router.push("/");
+              },
+            },
+            "-=0.5"
+          );
+
+
+    } else {
+
+        tl.set(containerRef.current, {
+          x: computeSelectedXPosition(),
+        })
+          .to(containerRef.current, {
+            // opacity: 1,
+            y: 0,
+            duration: 0.5,
+            ease: "power2.out",
+            scale: 0.9,
+            height: "25%",
+            x: computeSwipeXDestination(index),
+          })
+          .to(containerRef.current, {
+            duration: 0.3,
+            scale: 1,
+            opacity: 1,
+          })
+          .to(
+            sliderRef.current,
+            {
+              onComplete: () => {
+                router.push("/");
+              },
+            },
+            "-=0.5"
+          );
+
+
+    }
+
+
+
 
   // tl.to(containerRef.current, {
   //   opacity: 1,
