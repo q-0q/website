@@ -32,13 +32,15 @@ export default function RootLayout({
         <div style={styles.title}>
           <p>Jack Withers | q-0q</p>
         </div>
-        {children}
+        <div style={styles.main}>
+          {children}
+        </div>
       </body>
     </html>
   );
 }
 
-const styles: { body: CSSProperties, title: CSSProperties } = {
+const styles: { body: CSSProperties; title: CSSProperties; main : CSSProperties } = {
   body: {
     height: "calc(var(--vh, 1vh) * 100)",
     width: "100vw",
@@ -53,5 +55,14 @@ const styles: { body: CSSProperties, title: CSSProperties } = {
     flexDirection: "row",
     alignItems: "center",
     paddingLeft: "10px",
+  },
+  main: {
+    height: "calc(var(--vh, 1vh) * 97)",
+    width: "100vw",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "start",
+    justifyItems: "start",
+    background: "black",
   },
 };

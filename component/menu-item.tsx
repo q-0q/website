@@ -8,15 +8,22 @@ import { inverseLerp, lerp, setVhVariable } from "@/helper/helper"
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
+enum MenuItemContext {
+  Home,
+  Page
+}
 
 type MenuItemProps = {
   index: number;
   title: string;
   description: string;
   link: string;
+  context : MenuItemContext
 };
 
-export default function MenuItem({ index, title, description, link }: MenuItemProps) {
+export { MenuItemContext }
+
+export default function MenuItem({ index, title, description, link, context }: MenuItemProps) {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -31,7 +38,7 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
     handleSelectionAnimation(containerRef, sliderRef, selectedIndex, isSelected, router, link)
 
     const handleMouseMove = mouseMoveHandler(sliderRef, shapeRef, selectedIndex, index);
-    const handleResize = resizeHandler(selectedIndexRef, containerRef, index);
+    const handleResize = resizeHandler(selectedIndexRef, containerRef, index, context);
 
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("resize", handleResize);
@@ -43,7 +50,15 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
   }, [selectedIndex]);
 
   useGSAP(() => {
-    invokeOnLoadSwipeAnimation(index, containerRef, setSwipeComplete);
+    if (context == MenuItemContext.Home) {
+      invokeOnLoadSwipeAnimation(index, containerRef, setSwipeComplete);
+    } else if (context == MenuItemContext.Page) {
+        gsap.set(containerRef.current, {
+          x: computeSelectedXPosition(),
+          y: computeSelectedYPosition(),
+          borderRadius: "0px",
+        });
+    }
   }, []);
 
   return (
@@ -107,10 +122,10 @@ const styles: {
   },
 };
 
-function resizeHandler(selectedIndexRef: RefObject<number | null>, containerRef: RefObject<HTMLDivElement | null>, index: number) {
+function resizeHandler(selectedIndexRef: RefObject<number | null>, containerRef: RefObject<HTMLDivElement | null>, index: number, context : MenuItemContext) {
   return () => {
     setVhVariable();
-    const x = (selectedIndexRef.current !== null && selectedIndexRef.current === index) ?computeSelectedXPosition() : computeSwipeXDestination(index)
+    const x = (selectedIndexRef.current !== null && selectedIndexRef.current === index) || context === MenuItemContext.Page ? computeSelectedXPosition() : computeSwipeXDestination(index)
     gsap.set(containerRef.current, {
       x: x,
       borderRadius: "0px",
@@ -229,7 +244,7 @@ function handleSelectionAnimation(
     })
       .to(containerRef.current, {
         duration: 0.1,
-        y: 50,
+        y: computeSelectedYPosition(),
         ease: "power2.out",
       })
       .to(
@@ -272,4 +287,10 @@ function computeSelectedXPosition() {
   const vh = window.innerHeight / 100;
   const xDestination = vh * 105;
   return xDestination;
+}
+
+function computeSelectedYPosition() {
+  const vh = window.innerHeight / 100;
+  const yDestination = vh * 5;
+  return yDestination;
 }
