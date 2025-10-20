@@ -53,7 +53,6 @@ export default function Home() {
 const styles: {
   main: CSSProperties;
   title: CSSProperties;
-  menu: CSSProperties;
 } = {
   main: {
     height: "calc(var(--vh, 1vh) * 97)",
@@ -64,17 +63,6 @@ const styles: {
     justifyItems: "start",
     background: "black",
   },
-
-  menu: {
-    height: "calc(var(--vh, 1vh) * 100)",
-    width: "100vw",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "start",
-    justifyItems: "start",
-    background: "black",
-  },
-
   title: {
     height: "calc(var(--vh, 1vh) * 3)",
     background: "#d4f70e",
