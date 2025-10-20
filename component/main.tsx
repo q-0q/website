@@ -1,7 +1,6 @@
 "use client";
 
 import MenuItem from "@/component/menu-item";
-import { MenuItemContext } from "@/component/menu-item";
 import SvgNoiseBackground from "@/component/noise-svg";
 import Image from "next/image";
 import { useState, type CSSProperties } from "react";
@@ -26,7 +25,6 @@ export default function Main() {
         title={"Bio"}
         description="More about me"
         link="bio"
-        context={MenuItemContext.Home}
       ></MenuItem>
       <MenuItem
         key={1}
@@ -34,7 +32,6 @@ export default function Main() {
         title={"Resume"}
         description="Professional and educational experience"
         link="resume"
-        context={MenuItemContext.Home}
       ></MenuItem>
       <MenuItem
         key={2}
@@ -42,7 +39,6 @@ export default function Main() {
         title={"Code"}
         description="Libraries & tools"
         link="code"
-        context={MenuItemContext.Home}
       ></MenuItem>
       <MenuItem
         key={3}
@@ -50,7 +46,6 @@ export default function Main() {
         title={"Games"}
         description="Interactive experiences"
         link="games"
-        context={MenuItemContext.Home}
       ></MenuItem>
     </MenuContext.Provider>
   );

@@ -1,7 +1,6 @@
 "use client"
 
 import MenuItem from "@/component/menu-item";
-import {MenuItemContext} from "@/component/menu-item";
 import SvgNoiseBackground from "@/component/noise-svg";
 import Image from "next/image";
 import { useState, type CSSProperties } from "react";

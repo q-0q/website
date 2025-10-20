@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useMenu } from "@/component/menu-context";
 import { inverseLerp, lerp, setVhVariable } from "@/helper/helper"
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 enum MenuItemContext {
@@ -18,12 +18,10 @@ type MenuItemProps = {
   title: string;
   description: string;
   link: string;
-  context : MenuItemContext
 };
 
-export { MenuItemContext }
 
-export default function MenuItem({ index, title, description, link, context }: MenuItemProps) {
+export default function MenuItem({ index, title, description, link }: MenuItemProps) {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -32,6 +30,8 @@ export default function MenuItem({ index, title, description, link, context }: M
   const selectedIndexRef = useRef<number | null>(selectedIndex);
   const isSelected = selectedIndex === index;
   const router = useRouter();
+
+  const context = usePathname() == "/" ? MenuItemContext.Home : MenuItemContext.Page;
 
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
