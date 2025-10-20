@@ -13,7 +13,7 @@ export default function Home() {
   const [swipeComplete, setSwipeComplete] = useState<boolean>(false);
 
   return (
-    <SvgNoiseBackground>
+
       <MenuContext.Provider
         value={{
           selectedIndex,
@@ -22,10 +22,6 @@ export default function Home() {
           setSwipeComplete,
         }}
       >
-        <div style={styles.title}>
-          <p>Jack Withers | q-0q</p>
-        </div>
-
         <div style={styles.main}>
           <MenuItem
             key={0}
@@ -57,13 +53,12 @@ export default function Home() {
           ></MenuItem>
         </div>
       </MenuContext.Provider>
-    </SvgNoiseBackground>
+
   );
 }
 
 const styles: {
   main: CSSProperties;
-  title: CSSProperties;
 } = {
   main: {
     height: "calc(var(--vh, 1vh) * 97)",
@@ -73,15 +68,6 @@ const styles: {
     alignItems: "start",
     justifyItems: "start",
     background: "black",
-  },
-  title: {
-    height: "calc(var(--vh, 1vh) * 3)",
-    background: "#d4f70e",
-    color: "black",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingLeft: "10px",
-  },
+  }
 };
 

@@ -25,20 +25,33 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={styles.body}
+      <body
+        style={styles.body}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div style={styles.title}>
+          <p>Jack Withers | q-0q</p>
+        </div>
         {children}
       </body>
     </html>
   );
 }
 
-const styles: { body: CSSProperties } = {
+const styles: { body: CSSProperties, title: CSSProperties } = {
   body: {
     height: "calc(var(--vh, 1vh) * 100)",
     width: "100vw",
     alignItems: "start",
     background: "black",
+  },
+  title: {
+    height: "calc(var(--vh, 1vh) * 3)",
+    background: "#d4f70e",
+    color: "black",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: "10px",
   },
 };
