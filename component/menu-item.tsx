@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 
+
 type MenuItemProps = {
   index: number;
   title: string;
@@ -13,17 +14,19 @@ type MenuItemProps = {
 
 export default function MenuItem({ index, title, description }: MenuItemProps) {
   const boxRef = useRef<HTMLDivElement>(null); // whole container
-  const shapeRef = useRef<HTMLDivElement>(null); // tomato-colored shape
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const shapeRef = useRef<HTMLDivElement>(null);
 
   function setVhVariable() {
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   }
 
+
   useGSAP(() => {
     gsap.set(boxRef.current, {
-      x: "-25vh",
-      borderRadius: "0px"
+      x: "calc(var(--vh, 1vh) * -25)",
+      borderRadius: "0px",
     });
 
     const duration = computeDuration(index);
@@ -41,12 +44,11 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
   // 👇 Effect for mouse tracking and border radius control
   useEffect(() => {
 
-
-
     const handleMouseMove = (e: MouseEvent) => {
+      if (!sliderRef.current) return;
       if (!shapeRef.current) return;
 
-      const rect = shapeRef.current.getBoundingClientRect();
+      const rect = sliderRef.current.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
 
@@ -61,8 +63,10 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
 
       const weight = inverseLerp(300, 100, distance);
       const moveX = lerp(0, maxOffset, weight)
+      const color = lerpHexColor("#d4f70e", "#ffffff", weight * 0.9);
 
-      shapeRef.current.style.transform = `translate(${moveX}px, 0px)`;
+      sliderRef.current.style.transform = `translate(${moveX}px, 0px)`;
+      // shapeRef.current.style.backgroundColor = `${color}`;
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -80,19 +84,22 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
 
   return (
     <div style={styles.container} ref={boxRef}>
-      <div
-        ref={shapeRef}
-        style={{
-          width: "15vh",
-          background: "#d4f70e",
-          borderRadius: "0px",
-        }}
-      >
-        <div style={styles.title}>
-          <h1>{title}</h1>
-        </div>
-        <div style={styles.description}>
-          <h1>{description}</h1>
+      <div ref={sliderRef}>
+        <div
+          ref={shapeRef}
+          style={{
+            width: "15vh",
+            height: "100%",
+            background: "#d4f70e",
+            borderRadius: "0px",
+          }}
+        >
+          <div style={styles.title}>
+            <h1>{title}</h1>
+          </div>
+          <div style={styles.description}>
+            <h1>{description}</h1>
+          </div>
         </div>
       </div>
     </div>
@@ -105,6 +112,7 @@ const styles = {
     // width: "0vw",
     height: "25%",
     marginLeft: "-100vh",
+    backgroundColor: "white"
   },
   title: {
     display: "flex",
@@ -167,4 +175,58 @@ function lerp(a: number, b: number, t: number): number {
 function inverseLerp(a: number, b: number, value: number): number {
   if (a === b) return 0; // Avoid division by zero
   return clamp((value - a) / (b - a), 0, 1);
+}
+
+
+/**
+ * Convert hex string to RGB object.
+ */
+function hexToRgb(hex: string): { r: number; g: number; b: number } {
+  // Remove "#" if present
+  hex = hex.replace(/^#/, '');
+
+  if (hex.length === 3) {
+    // Expand shorthand (e.g. "f00" → "ff0000")
+    hex = hex.split('').map(c => c + c).join('');
+  }
+
+  const int = parseInt(hex, 16);
+
+  return {
+    r: (int >> 16) & 255,
+    g: (int >> 8) & 255,
+    b: int & 255
+  };
+}
+
+/**
+ * Convert RGB object to hex string.
+ */
+function rgbToHex({ r, g, b }: { r: number; g: number; b: number }): string {
+  return (
+    '#' +
+    [r, g, b]
+      .map(x => {
+        const hex = x.toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+      })
+      .join('')
+  );
+}
+
+/**
+ * Lerp between two hex colors with clamped t, returns a hex string.
+ */
+function lerpHexColor(hexA: string, hexB: string, t: number): string {
+  const clampedT = clamp(t, 0, 1);
+  const colorA = hexToRgb(hexA);
+  const colorB = hexToRgb(hexB);
+
+  const lerped = {
+    r: Math.round(colorA.r + (colorB.r - colorA.r) * clampedT),
+    g: Math.round(colorA.g + (colorB.g - colorA.g) * clampedT),
+    b: Math.round(colorA.b + (colorB.b - colorA.b) * clampedT),
+  };
+
+  return rgbToHex(lerped);
 }
