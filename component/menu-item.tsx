@@ -26,7 +26,7 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
   const containerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
   const shapeRef = useRef<HTMLDivElement>(null);
-  const { selectedIndex, setSelectedIndex, swipeComplete, setSwipeComplete } = useMenu();
+  const { selectedIndex, setSelectedIndex, swipeComplete, setSwipeComplete, lastSelectedIndex, setLastSelectedIndex } = useMenu();
   const selectedIndexRef = useRef<number | null>(selectedIndex);
   const isSelected = selectedIndex === index;
   const router = useRouter();
@@ -65,7 +65,7 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
     <div
       style={styles.container}
       ref={containerRef}
-      onClick={handleClick(swipeComplete, setSelectedIndex, index, context, containerRef, sliderRef, router)}
+      onClick={handleClick(swipeComplete, setSelectedIndex, setLastSelectedIndex, index, context, containerRef, sliderRef, router)}
     >
       <div ref={sliderRef}>
         <div
@@ -122,6 +122,7 @@ const styles: {
 function handleClick(
   swipeComplete: boolean,
   setSelectedIndex: (index: number | null) => void,
+  setLastSelectedIndex: (index: number | null) => void,
   index: number,
   context: MenuItemContext,
   containerRef: RefObject<HTMLDivElement | null>,
@@ -132,6 +133,7 @@ function handleClick(
     if (context === MenuItemContext.Home) {
       if (!swipeComplete) return;
       setSelectedIndex(index);
+      setLastSelectedIndex(index);
     } else {
       setSelectedIndex(null);
     }

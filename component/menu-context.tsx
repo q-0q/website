@@ -6,22 +6,27 @@ import { usePathname } from "next/navigation";
 
 type MenuContextType = {
   selectedIndex: number | null;
+  lastSelectedIndex: number | null;
   swipeComplete: boolean;
   previousPathname: string | null;
   setSelectedIndex: (index: number | null) => void;
+  setLastSelectedIndex: (index: number | null) => void;
   setSwipeComplete: (swipeComplete: boolean) => void;
 };
 
 export const MenuContext = createContext<MenuContextType>({
   selectedIndex: null,
+  lastSelectedIndex: null,
   swipeComplete: false,
   previousPathname: null,
+  setLastSelectedIndex: () => {},
   setSelectedIndex: () => {},
   setSwipeComplete: () => {},
 });
 
 export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [lastSelectedIndex, setLastSelectedIndex] = useState<number | null>(null);
   const [swipeComplete, setSwipeComplete] = useState<boolean>(false);
   const [previousPathname, setPreviousPathname] = useState<string | null>(null);
 
@@ -40,8 +45,10 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
     <MenuContext.Provider
       value={{
         selectedIndex,
+        lastSelectedIndex,
         swipeComplete,
         previousPathname,
+        setLastSelectedIndex,
         setSelectedIndex,
         setSwipeComplete,
       }}
