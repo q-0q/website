@@ -54,12 +54,7 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
       <div ref={sliderRef}>
         <div
           ref={shapeRef}
-          style={{
-            width: "15vh",
-            height: "100%",
-            background: "#d4f70e",
-            borderRadius: "0px",
-          }}
+          style={styles.shape}
         >
           <div style={styles.title}>
             <h1>{title}</h1>
@@ -77,12 +72,19 @@ const styles: {
   container: CSSProperties;
   title: CSSProperties;
   description: CSSProperties;
+  shape: CSSProperties;
 } = {
   container: {
     display: "flex",
     height: "25%",
     marginLeft: "calc(var(--vh, 1vh) * -100)",
     backgroundColor: "white",
+  },
+  shape: {
+    width: "calc(var(--vh, 1vh) * 15)",
+    height: "100%",
+    background: "#d4f70e",
+    borderRadius: "0px",
   },
   title: {
     display: "flex",
@@ -213,37 +215,35 @@ function handleSelectionAnimation(
     const vh = window.innerHeight / 100;
     const xDestination = vh * 105;
 
-    // Selected animation
+    // Move selected to corner
     tl.to(containerRef.current, {
-      // scale: 1.1,
       opacity: 1,
       x: xDestination,
       duration: 0.4,
       ease: "power2.out",
     })
-      .to(containerRef.current, {
-        // scale: 1.1,
-        duration: 0.1,
-        y: 50,
+    .to(containerRef.current, {
+      duration: 0.1,
+      y: 50,
+      ease: "power2.out",
+    })
+    .to(
+      sliderRef.current,
+      {
+        duration: 0.4,
+        x: 0,
         ease: "power2.out",
-      })
-      .to(
-        sliderRef.current,
-        {
-          // scale: 1.1,
-          duration: 0.4,
-          x: 0,
-          ease: "power2.out",
-        },
-        "-=0.5"
-      );
+      },
+      "-=0.5"
+    );
   } else {
-    // Unselected animation
+
+    // Collapse unselected
     tl.to(containerRef.current, {
       opacity: 0,
       scale: 0.9,
       duration: 0.3,
-      ease: "power2.out",
+      ease: "power2.inOut",
     }).to(
       containerRef.current,
       {
