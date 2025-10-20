@@ -4,7 +4,7 @@ import { CSSProperties, RefObject, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useMenu } from "@/component/menu-context";
-import { inverseLerp, lerp } from "@/helper/helper"
+import { inverseLerp, lerp, setVhVariable } from "@/helper/helper"
 
 
 type MenuItemProps = {
@@ -22,89 +22,25 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
   const selectedIndexRef = useRef<number | null>(selectedIndex);
   const isSelected = selectedIndex === index;
 
-  //
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
-  }, [selectedIndex]);
-
-  // Trigger animation on selection change
-  useEffect(() => {
     handleSelectionAnimation(containerRef, sliderRef, selectedIndex, isSelected)
+
+    const handleMouseMove = mouseMoveHandler(sliderRef, shapeRef, selectedIndex, index);
+    const handleResize = resizeHandler(selectedIndexRef, containerRef, index);
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize", handleResize);
+    };
   }, [selectedIndex]);
-
-  
-
-  function setVhVariable() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-  }
 
   useGSAP(() => {
-
-    const duration = computeDuration(index);
-    const xDestination = computeXDestination(index);
-    setVhVariable();
-
-    gsap.to(containerRef.current, {
-      x: xDestination,
-      opacity: 1,
-      duration: duration,
-      ease: "power2.out",
-      onComplete: () => {
-        if (index === 3) setSwipeComplete(true);
-      },
-    });
+    invokeOnLoadSwipeAnimation(index, containerRef, setSwipeComplete);
   }, []);
-
-  // 👇 Effect for mouse tracking and border radius control
-  useEffect(() => {
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!sliderRef.current) return;
-      if (!shapeRef.current) return;
-
-      const rect = sliderRef.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-
-      const dx = e.clientX - centerX;
-      const dy = e.clientY - centerY;
-      const distance = Math.max(90, Math.sqrt(dx * dx + dy * dy));
-
-
-      // Movement logic
-      const threshold = 150; // Distance within which shape reacts
-      const maxOffset = 10; // Maximum px movement
-
-      let weight = inverseLerp(300, 100, distance);
-
-      if (selectedIndex != null && selectedIndex !== index) weight = 0;
-
-      const moveX = lerp(0, maxOffset, weight)
-      // const color = lerpHexColor("#d4f70e", "#ffffff", weight * 0.9);
-
-      sliderRef.current.style.transform = `translate(${moveX}px, 0px)`;
-      // shapeRef.current.style.backgroundColor = `${color}`;
-    };
-
-  const handleResize = () => {
-    if (selectedIndexRef.current != null) return; // ✅ Use ref value
-    setVhVariable();
-    gsap.set(containerRef.current, {
-      x: computeXDestination(index),
-      borderRadius: "0px",
-    });
-  };
-
-  window.addEventListener("mousemove", handleMouseMove);
-  window.addEventListener("resize", handleResize);
-
-  return () => {
-    window.removeEventListener("mousemove", handleMouseMove);
-    window.removeEventListener("resize", handleResize);
-  };
-  });
-
 
   return (
     <div
@@ -164,6 +100,60 @@ const styles: {
     fontSize: "0.75rem",
   },
 };
+
+function resizeHandler(selectedIndexRef: RefObject<number | null>, containerRef: RefObject<HTMLDivElement | null>, index: number) {
+  return () => {
+    if (selectedIndexRef.current != null) return;
+    setVhVariable();
+    gsap.set(containerRef.current, {
+      x: computeXDestination(index),
+      borderRadius: "0px",
+    });
+  };
+}
+
+function mouseMoveHandler(sliderRef: RefObject<HTMLDivElement | null>, shapeRef: RefObject<HTMLDivElement | null>, selectedIndex: number | null, index: number) {
+  return (e: MouseEvent) => {
+    if (!sliderRef.current) return;
+    if (!shapeRef.current) return;
+
+    const rect = sliderRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const dx = e.clientX - centerX;
+    const dy = e.clientY - centerY;
+    const distance = Math.max(90, Math.sqrt(dx * dx + dy * dy));
+
+
+    // Movement logic
+    const maxOffset = 10; // Maximum px movement
+
+    let weight = inverseLerp(300, 100, distance);
+
+    if (selectedIndex != null && selectedIndex !== index) weight = 0;
+
+    const moveX = lerp(0, maxOffset, weight);
+    // const color = lerpHexColor("#d4f70e", "#ffffff", weight * 0.9);
+    sliderRef.current.style.transform = `translate(${moveX}px, 0px)`;
+  };
+}
+
+function invokeOnLoadSwipeAnimation(index: number, containerRef: RefObject<HTMLDivElement | null>, setSwipeComplete: (swipeComplete: boolean) => void) {
+  const duration = computeDuration(index);
+  const xDestination = computeXDestination(index);
+  setVhVariable();
+
+  gsap.to(containerRef.current, {
+    x: xDestination,
+    opacity: 1,
+    duration: duration,
+    ease: "power2.out",
+    onComplete: () => {
+      if (index === 3) setSwipeComplete(true);
+    },
+  });
+}
 
 function computeDuration(index: number) {
   return index * 0.175 + 0.5;

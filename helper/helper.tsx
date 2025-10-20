@@ -67,4 +67,9 @@ function lerpHexColor(hexA: string, hexB: string, t: number): string {
   return rgbToHex(lerped);
 }
 
-export {inverseLerp, lerp, lerpHexColor}
+function setVhVariable() {
+const vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty("--vh", `${vh}px`);
+}
+
+export {inverseLerp, lerp, lerpHexColor, setVhVariable}
