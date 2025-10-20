@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useMenu } from "@/component/menu-context";
 import { inverseLerp, lerp, setVhVariable } from "@/helper/helper"
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 enum MenuItemContext {
@@ -18,24 +18,38 @@ type MenuItemProps = {
   title: string;
   description: string;
   link: string;
-  context : MenuItemContext
 };
 
-export { MenuItemContext }
 
-export default function MenuItem({ index, title, description, link, context }: MenuItemProps) {
+export default function MenuItem({ index, title, description, link }: MenuItemProps) {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
   const shapeRef = useRef<HTMLDivElement>(null);
-  const { selectedIndex, setSelectedIndex, swipeComplete, setSwipeComplete } = useMenu();
+  const { selectedIndex, setSelectedIndex, swipeComplete, setSwipeComplete, lastSelectedIndex, setLastSelectedIndex } = useMenu();
   const selectedIndexRef = useRef<number | null>(selectedIndex);
+  const lastSelectedIndexRef = useRef<number | null>(lastSelectedIndex);
   const isSelected = selectedIndex === index;
   const router = useRouter();
 
+  const context = usePathname() == "/" ? MenuItemContext.Home : MenuItemContext.Page;
+
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
-    handleSelectionAnimation(containerRef, sliderRef, selectedIndex, isSelected, router, link, context)
+    lastSelectedIndexRef.current = lastSelectedIndex
+
+    handleSelectionAnimation(
+      containerRef,
+      sliderRef,
+      selectedIndexRef.current,
+      isSelected,
+      router,
+      link,
+      context,
+      swipeComplete,
+      index,
+      lastSelectedIndex
+    );
 
     const handleMouseMove = mouseMoveHandler(sliderRef, shapeRef, selectedIndex, index);
     const handleResize = resizeHandler(selectedIndexRef, containerRef, index, context);
@@ -65,7 +79,7 @@ export default function MenuItem({ index, title, description, link, context }: M
     <div
       style={styles.container}
       ref={containerRef}
-      onClick={handleClick(swipeComplete, setSelectedIndex, index, context, containerRef, sliderRef, router)}
+      onClick={handleClick(swipeComplete, setSelectedIndex, setLastSelectedIndex, index, context, containerRef, sliderRef, router)}
     >
       <div ref={sliderRef}>
         <div
@@ -122,6 +136,7 @@ const styles: {
 function handleClick(
   swipeComplete: boolean,
   setSelectedIndex: (index: number | null) => void,
+  setLastSelectedIndex: (index: number | null) => void,
   index: number,
   context: MenuItemContext,
   containerRef: RefObject<HTMLDivElement | null>,
@@ -129,28 +144,12 @@ function handleClick(
   router: AppRouterInstance
 ) {
   return () => {
+    setLastSelectedIndex(index);
     if (context === MenuItemContext.Home) {
       if (!swipeComplete) return;
       setSelectedIndex(index);
     } else {
-      console.log("weee");
-      let tl = gsap.timeline();
-      tl.to(containerRef.current, {
-        x: computeSwipeOutXPosition(),
-        borderRadius: "0px",
-        duration: 0.2,
-      }).to(
-        sliderRef.current,
-        {
-          duration: 0.4,
-          x: 0,
-          ease: "power2.out",
-          onComplete: () => {
-            router.push("/")
-          }
-        },
-        "-=0.5"
-      );
+      setSelectedIndex(null);
     }
   };
 }
@@ -245,26 +244,29 @@ function computeSwipeXDestination(index: number) {
 function handleSelectionAnimation(
   containerRef: RefObject<HTMLDivElement | null>,
   sliderRef: RefObject<HTMLDivElement | null>,
-  selectedIndex: number | null,
+  selectedIndexRef: number | null,
   isSelected: boolean,
   router: AppRouterInstance,
   link : string,
-  context : MenuItemContext
+  context : MenuItemContext,
+  swipeComplete : boolean,
+  index : number,
+  lastSelectedIndexRef : number | null
 ) {
-  if (!containerRef.current) return;
-  if (context != MenuItemContext.Home) return;
 
-  if (selectedIndex === null) {
-    // Reset all
-    gsap.to(containerRef.current, {
-      scale: 1,
-      // opacity: 1,
-      duration: 0.4,
-      ease: "power2.out",
-    });
-    return;
+  console.log(lastSelectedIndexRef)
+  if (!containerRef.current) return;
+  if (!swipeComplete) return;
+
+  if (selectedIndexRef === null) {
+    handleMenuExpand(isSelected, containerRef, sliderRef, router, link, index, lastSelectedIndexRef);
+  } else {
+    handleMenuCollapse(isSelected, containerRef, sliderRef, router, link);
   }
 
+}
+
+function handleMenuCollapse(isSelected: boolean, containerRef: RefObject<HTMLDivElement | null>, sliderRef: RefObject<HTMLDivElement | null>, router: AppRouterInstance, link: string) {
   let tl = gsap.timeline();
 
   if (isSelected) {
@@ -276,6 +278,7 @@ function handleSelectionAnimation(
       x: xDestination,
       duration: 0.4,
       ease: "power2.out",
+      height: "25%",
     })
       .to(containerRef.current, {
         duration: 0.1,
@@ -295,8 +298,7 @@ function handleSelectionAnimation(
         onComplete: () => {
           router.push("/" + link);
         },
-      },
-    );
+      });
   } else {
 
     // Collapse unselected
@@ -318,15 +320,115 @@ function handleSelectionAnimation(
   }
 }
 
+function handleMenuExpand(
+  isSelected: boolean,
+  containerRef: RefObject<HTMLDivElement | null>,
+  sliderRef: RefObject<HTMLDivElement | null>,
+  router: AppRouterInstance,
+  link: string,
+  index : number,
+  lastSelectedIndex : number | null
+) {
+  let tl = gsap.timeline();
+
+    if (lastSelectedIndex === index) {
+
+        tl.set(containerRef.current, {
+          x: computeSelectedXPosition(),
+        })
+          .to(containerRef.current, {
+            opacity: 1,
+            y: 0,
+            duration: 0.4,
+            ease: "power2.out",
+            scale: 1,
+            height: "25%",
+          })
+          .to(containerRef.current, {
+            x: computeSwipeXDestination(index),
+            duration: 0.4,
+          })
+          .to(
+            sliderRef.current,
+            {
+              onComplete: () => {
+                router.push("/");
+              },
+            },
+            "-=0.5"
+          );
+
+
+    } else {
+
+        tl.set(containerRef.current, {
+          x: computeSelectedXPosition(),
+        })
+          .to(containerRef.current, {
+            // opacity: 1,
+            y: 0,
+            duration: 0.5,
+            ease: "power2.out",
+            scale: 0.9,
+            height: "25%",
+            x: computeSwipeXDestination(index),
+          })
+          .to(containerRef.current, {
+            duration: 0.3,
+            scale: 1,
+            opacity: 1,
+          })
+          .to(
+            sliderRef.current,
+            {
+              onComplete: () => {
+                router.push("/");
+              },
+            },
+            "-=0.5"
+          );
+
+
+    }
+
+
+
+
+  // tl.to(containerRef.current, {
+  //   opacity: 1,
+  //   x: computeSwipeXDestination(index),
+  //   duration: 0.4,
+  //   ease: "power2.out",
+  //   height: "30%",
+  // })
+  //   .to(containerRef.current, {
+  //     duration: 0.1,
+  //     y: 0,
+  //     ease: "power2.out",
+  //   })
+  //   // .to(
+  //   //   sliderRef.current,
+  //   //   {
+  //   //     duration: 0.4,
+  //   //     x: 0,
+  //   //     ease: "power2.out",
+  //   //   },
+  //   //   "-=0.5"
+  //   // )
+  //   .to(
+  //     sliderRef.current,
+  //     {
+  //       onComplete: () => {
+  //         router.push("/");
+  //       },
+  //     },
+  //     "+=0.5"
+  //   );
+}
+
 function computeSelectedXPosition() {
   const vh = window.innerHeight / 100;
   const xDestination = vh * 105;
-  return xDestination;
-}
-
-function computeSwipeOutXPosition() {
-  const vh = window.innerHeight / 100;
-  const xDestination = vh * 70;
   return xDestination;
 }
 

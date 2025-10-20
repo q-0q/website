@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CSSProperties } from "react";
+import Home from "./page";
+import Main  from "@/component/main"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,8 +35,10 @@ export default function RootLayout({
           <p>Jack Withers | q-0q</p>
         </div>
         <div style={styles.main}>
-          {children}
+          <Main>
+          </Main>
         </div>
+          {children}
       </body>
     </html>
   );
