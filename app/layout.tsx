@@ -37,8 +37,8 @@ export default function RootLayout({
         <div style={styles.main}>
           <Main>
           </Main>
-          {children}
         </div>
+          {children}
       </body>
     </html>
   );
