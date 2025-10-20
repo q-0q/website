@@ -12,6 +12,7 @@ export default function Home() {
   const [selectedIndex, setSelectedIndex,] = useState<number | null>(null);
   const [swipeComplete, setSwipeComplete] = useState<boolean>(false);
 
+  
   return (
     null
   );
