@@ -66,3 +66,5 @@ function lerpHexColor(hexA: string, hexB: string, t: number): string {
 
   return rgbToHex(lerped);
 }
+
+export {inverseLerp, lerp, lerpHexColor}

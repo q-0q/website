@@ -1,9 +1,10 @@
 "use client";
 
-import { CSSProperties, useEffect, useRef, useState } from "react";
+import { CSSProperties, RefObject, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useMenu } from "@/component/menu-context";
+import { inverseLerp, lerp } from "@/helper/helper"
 
 
 type MenuItemProps = {
@@ -13,77 +14,22 @@ type MenuItemProps = {
 };
 
 export default function MenuItem({ index, title, description }: MenuItemProps) {
-  const containerRef = useRef<HTMLDivElement>(null); // whole container
+
+  const containerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
   const shapeRef = useRef<HTMLDivElement>(null);
-
   const { selectedIndex, setSelectedIndex, swipeComplete, setSwipeComplete } = useMenu();
-  const isSelected = selectedIndex === index;
-  const [isReady, setIsReady] = useState(false);
-
   const selectedIndexRef = useRef<number | null>(selectedIndex);
+  const isSelected = selectedIndex === index;
 
-  // Keep it in sync with latest value
+  //
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
 
   // Trigger animation on selection change
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    if (selectedIndex === null) {
-      // Reset all
-      gsap.to(containerRef.current, {
-        scale: 1,
-        // opacity: 1,
-        duration: 0.4,
-        ease: "power2.out",
-      });
-      return;
-    }
-
-    let tl = gsap.timeline();
-
-    if (isSelected) {
-
-      const vh = window.innerHeight / 100;
-      const xDestination = vh * 105;
-
-      // Selected animation
-      tl.to(containerRef.current, {
-        // scale: 1.1,
-        opacity: 1,
-        x: xDestination,
-        duration: 0.4,
-        ease: "power2.out",
-      }).to(containerRef.current, {
-        // scale: 1.1,
-        duration: 0.1,
-        y: 50,
-        ease: "power2.out",
-      })
-      .to(sliderRef.current, {
-        // scale: 1.1,
-        duration: 0.4,
-        x: 0,
-        ease: "power2.out",
-      }, "-=0.5");
-    } else {
-      // Unselected animation
-      tl.to(containerRef.current, {
-        opacity: 0,
-        scale: 0.9,
-        duration: 0.3,
-        ease: "power2.out",
-      })
-      .to(containerRef.current, {
-        opacity: 0,
-        height: 0,
-        duration: 0.5,
-        ease: "power2.out",
-      }, "+=0.1");
-    }
+    handleSelectionAnimation(containerRef, sliderRef, selectedIndex, isSelected)
   }, [selectedIndex]);
 
   
@@ -252,69 +198,71 @@ function computeXDestination(index: number) {
   return output;
 }
 
-function clamp(value: number, min: number, max: number): number {
-  return Math.max(min, Math.min(max, value));
-}
+function handleSelectionAnimation(
+  containerRef: RefObject<HTMLDivElement | null>,
+  sliderRef: RefObject<HTMLDivElement | null>,
+  selectedIndex: number | null,
+  isSelected: boolean
+) {
+  if (!containerRef.current) return;
 
-function lerp(a: number, b: number, t: number): number {
-  return a + (b - a) * t;
-}
-
-function inverseLerp(a: number, b: number, value: number): number {
-  if (a === b) return 0; // Avoid division by zero
-  return clamp((value - a) / (b - a), 0, 1);
-}
-
-
-/**
- * Convert hex string to RGB object.
- */
-function hexToRgb(hex: string): { r: number; g: number; b: number } {
-  // Remove "#" if present
-  hex = hex.replace(/^#/, '');
-
-  if (hex.length === 3) {
-    // Expand shorthand (e.g. "f00" → "ff0000")
-    hex = hex.split('').map(c => c + c).join('');
+  if (selectedIndex === null) {
+    // Reset all
+    gsap.to(containerRef.current, {
+      scale: 1,
+      // opacity: 1,
+      duration: 0.4,
+      ease: "power2.out",
+    });
+    return;
   }
 
-  const int = parseInt(hex, 16);
+  let tl = gsap.timeline();
 
-  return {
-    r: (int >> 16) & 255,
-    g: (int >> 8) & 255,
-    b: int & 255
-  };
-}
+  if (isSelected) {
+    const vh = window.innerHeight / 100;
+    const xDestination = vh * 105;
 
-/**
- * Convert RGB object to hex string.
- */
-function rgbToHex({ r, g, b }: { r: number; g: number; b: number }): string {
-  return (
-    '#' +
-    [r, g, b]
-      .map(x => {
-        const hex = x.toString(16);
-        return hex.length === 1 ? '0' + hex : hex;
+    // Selected animation
+    tl.to(containerRef.current, {
+      // scale: 1.1,
+      opacity: 1,
+      x: xDestination,
+      duration: 0.4,
+      ease: "power2.out",
+    })
+      .to(containerRef.current, {
+        // scale: 1.1,
+        duration: 0.1,
+        y: 50,
+        ease: "power2.out",
       })
-      .join('')
-  );
-}
-
-/**
- * Lerp between two hex colors with clamped t, returns a hex string.
- */
-function lerpHexColor(hexA: string, hexB: string, t: number): string {
-  const clampedT = clamp(t, 0, 1);
-  const colorA = hexToRgb(hexA);
-  const colorB = hexToRgb(hexB);
-
-  const lerped = {
-    r: Math.round(colorA.r + (colorB.r - colorA.r) * clampedT),
-    g: Math.round(colorA.g + (colorB.g - colorA.g) * clampedT),
-    b: Math.round(colorA.b + (colorB.b - colorA.b) * clampedT),
-  };
-
-  return rgbToHex(lerped);
+      .to(
+        sliderRef.current,
+        {
+          // scale: 1.1,
+          duration: 0.4,
+          x: 0,
+          ease: "power2.out",
+        },
+        "-=0.5"
+      );
+  } else {
+    // Unselected animation
+    tl.to(containerRef.current, {
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.3,
+      ease: "power2.out",
+    }).to(
+      containerRef.current,
+      {
+        opacity: 0,
+        height: 0,
+        duration: 0.5,
+        ease: "power2.out",
+      },
+      "+=0.1"
+    );
+  }
 }
