@@ -4,21 +4,14 @@ import MenuItem from "@/component/menu-item";
 import SvgNoiseBackground from "@/component/noise-svg";
 import Image from "next/image";
 import { useState, type CSSProperties } from "react";
-import { MenuContext } from "@/component/menu-context";
+import { MenuProvider } from "@/component/menu-context";
 
 export default function Main() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [swipeComplete, setSwipeComplete] = useState<boolean>(false);
 
   return (
-    <MenuContext.Provider
-      value={{
-        selectedIndex,
-        swipeComplete,
-        setSelectedIndex,
-        setSwipeComplete,
-      }}
-    >
+    <MenuProvider>
       <MenuItem
         key={0}
         index={0}
@@ -47,6 +40,6 @@ export default function Main() {
         description="Interactive experiences"
         link="games"
       ></MenuItem>
-    </MenuContext.Provider>
+    </MenuProvider>
   );
 }
