@@ -5,15 +5,18 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useMenu } from "@/component/menu-context";
 import { inverseLerp, lerp, setVhVariable } from "@/helper/helper"
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 
 type MenuItemProps = {
   index: number;
   title: string;
   description: string;
+  link: string;
 };
 
-export default function MenuItem({ index, title, description }: MenuItemProps) {
+export default function MenuItem({ index, title, description, link }: MenuItemProps) {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -21,10 +24,11 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
   const { selectedIndex, setSelectedIndex, swipeComplete, setSwipeComplete } = useMenu();
   const selectedIndexRef = useRef<number | null>(selectedIndex);
   const isSelected = selectedIndex === index;
+  const router = useRouter();
 
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
-    handleSelectionAnimation(containerRef, sliderRef, selectedIndex, isSelected)
+    handleSelectionAnimation(containerRef, sliderRef, selectedIndex, isSelected, router, link)
 
     const handleMouseMove = mouseMoveHandler(sliderRef, shapeRef, selectedIndex, index);
     const handleResize = resizeHandler(selectedIndexRef, containerRef, index);
@@ -194,7 +198,9 @@ function handleSelectionAnimation(
   containerRef: RefObject<HTMLDivElement | null>,
   sliderRef: RefObject<HTMLDivElement | null>,
   selectedIndex: number | null,
-  isSelected: boolean
+  isSelected: boolean,
+  router: AppRouterInstance,
+  link : string
 ) {
   if (!containerRef.current) return;
 
@@ -221,19 +227,25 @@ function handleSelectionAnimation(
       duration: 0.4,
       ease: "power2.out",
     })
-    .to(containerRef.current, {
-      duration: 0.1,
-      y: 50,
-      ease: "power2.out",
-    })
-    .to(
-      sliderRef.current,
-      {
-        duration: 0.4,
-        x: 0,
+      .to(containerRef.current, {
+        duration: 0.1,
+        y: 50,
         ease: "power2.out",
+      })
+      .to(
+        sliderRef.current,
+        {
+          duration: 0.4,
+          x: 0,
+          ease: "power2.out",
+        },
+        "-=0.5"
+      )
+      .to(sliderRef.current, {
+        onComplete: () => {
+          router.push("/" + link);
+        },
       },
-      "-=0.5"
     );
   } else {
 
