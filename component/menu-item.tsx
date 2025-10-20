@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-
+import { useMenu } from "@/component/menu-context";
 
 
 type MenuItemProps = {
@@ -13,27 +13,69 @@ type MenuItemProps = {
 };
 
 export default function MenuItem({ index, title, description }: MenuItemProps) {
-  const boxRef = useRef<HTMLDivElement>(null); // whole container
+  const containerRef = useRef<HTMLDivElement>(null); // whole container
   const sliderRef = useRef<HTMLDivElement>(null);
   const shapeRef = useRef<HTMLDivElement>(null);
+
+  const { selectedIndex, setSelectedIndex } = useMenu();
+  const isSelected = selectedIndex === index;
+
+  // Trigger animation on selection change
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    if (selectedIndex === null) {
+      // Reset all
+      gsap.to(containerRef.current, {
+        scale: 1,
+        opacity: 1,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+      return;
+    }
+
+    let tl = gsap.timeline();
+
+    if (isSelected) {
+      // Selected animation
+      tl.to(containerRef.current, {
+        // scale: 1.1,
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    } else {
+      // Unselected animation
+      tl.to(containerRef.current, {
+        opacity: 0,
+        scale: 0.9,
+        duration: 0.1,
+        ease: "power2.out",
+      })
+      .to(containerRef.current, {
+        opacity: 0,
+        height: 0,
+        duration: 0.5,
+        ease: "power2.out",
+      }, "+=0.5");
+    }
+  }, [selectedIndex]);
+
+  
 
   function setVhVariable() {
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   }
 
-
   useGSAP(() => {
-    gsap.set(boxRef.current, {
-      x: "calc(var(--vh, 1vh) * -25)",
-      borderRadius: "0px",
-    });
 
     const duration = computeDuration(index);
     const xDestination = computeXDestination(index);
     setVhVariable();
 
-    gsap.to(boxRef.current, {
+    gsap.to(containerRef.current, {
       x: xDestination,
       opacity: 1,
       duration: duration,
@@ -72,7 +114,7 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("resize", _ => {
           setVhVariable();
-          gsap.set(boxRef.current, {
+          gsap.set(containerRef.current, {
             x: computeXDestination(index),
             borderRadius: "0px",
           });
@@ -83,7 +125,11 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
 
 
   return (
-    <div style={styles.container} ref={boxRef}>
+    <div
+      style={styles.container}
+      ref={containerRef}
+      onClick={() => setSelectedIndex(index)}
+    >
       <div ref={sliderRef}>
         <div
           ref={shapeRef}
@@ -106,10 +152,13 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
   );
 }
 
-const styles = {
+const styles: {
+  container: CSSProperties;
+  title: CSSProperties;
+  description: CSSProperties;
+} = {
   container: {
     display: "flex",
-    // width: "0vw",
     height: "25%",
     marginLeft: "calc(var(--vh, 1vh) * -100)",
     backgroundColor: "white",

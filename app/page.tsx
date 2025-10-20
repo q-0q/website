@@ -1,23 +1,50 @@
+"use client"
+
 import MenuItem from "@/component/menu-item";
 import SvgNoiseBackground from "@/component/noise-svg";
 import Image from "next/image";
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
+import { MenuContext } from "@/component/menu-context";
+
 
 
 export default function Home() {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
   return (
     <SvgNoiseBackground>
+      <MenuContext.Provider value={{ selectedIndex, setSelectedIndex }}>
+        <div style={styles.title}>
+          <p>Jack Withers | q-0q</p>
+        </div>
 
-      <div style={styles.title}>
-        <p>Jack Withers | q-0q</p>
-      </div>
-
-      <div style={styles.main}>
-        <MenuItem index={0} title={"Bio"} description="More about me"></MenuItem>
-        <MenuItem index={1} title={"Resume"} description="Professional and educational experience"></MenuItem>
-        <MenuItem index={2} title={"Code"} description="Libraries & tools"></MenuItem>
-        <MenuItem index={3} title={"Games"} description="Interactive experiences"></MenuItem>
-      </div>
+        <div style={styles.main}>
+          <MenuItem
+            key={0}
+            index={0}
+            title={"Bio"}
+            description="More about me"
+          ></MenuItem>
+          <MenuItem
+            key={1}
+            index={1}
+            title={"Resume"}
+            description="Professional and educational experience"
+          ></MenuItem>
+          <MenuItem
+            key={2}
+            index={2}
+            title={"Code"}
+            description="Libraries & tools"
+          ></MenuItem>
+          <MenuItem
+            key={3}
+            index={3}
+            title={"Games"}
+            description="Interactive experiences"
+          ></MenuItem>
+        </div>
+      </MenuContext.Provider>
     </SvgNoiseBackground>
   );
 }
@@ -31,7 +58,7 @@ const styles: {
     height: "calc(var(--vh, 1vh) * 97)",
     width: "100vw",
     display: "flex",
-    flexDirection: "column-reverse",
+    flexDirection: "column",
     alignItems: "start",
     justifyItems: "start",
     background: "black",
@@ -41,7 +68,7 @@ const styles: {
     height: "calc(var(--vh, 1vh) * 100)",
     width: "100vw",
     display: "flex",
-    flexDirection: "column-reverse",
+    flexDirection: "column",
     alignItems: "start",
     justifyItems: "start",
     background: "black",
