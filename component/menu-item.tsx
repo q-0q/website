@@ -89,14 +89,14 @@ const styles: {
   title: {
     display: "flex",
     width: "10vh",
-    marginLeft: "16vh",
-    paddingTop: "2vh",
+    marginLeft: "calc(var(--vh, 1vh) * 16)",
+    paddingTop: "calc(var(--vh, 1vh) * 2)",
     color: "white",
   },
   description: {
     display: "flex",
-    width: "20vh",
-    marginLeft: "16vh",
+    width: "calc(var(--vh, 1vh) * 20)",
+    marginLeft: "calc(var(--vh, 1vh) * 16)",
     paddingBottom: "30px",
     color: "gray",
     fontSize: "0.75rem",
@@ -105,10 +105,10 @@ const styles: {
 
 function resizeHandler(selectedIndexRef: RefObject<number | null>, containerRef: RefObject<HTMLDivElement | null>, index: number) {
   return () => {
-    if (selectedIndexRef.current != null) return;
     setVhVariable();
+    const x = (selectedIndexRef.current !== null && selectedIndexRef.current === index) ?computeSelectedXPosition() : computeSwipeXDestination(index)
     gsap.set(containerRef.current, {
-      x: computeXDestination(index),
+      x: x,
       borderRadius: "0px",
     });
   };
@@ -142,8 +142,8 @@ function mouseMoveHandler(sliderRef: RefObject<HTMLDivElement | null>, shapeRef:
 }
 
 function invokeOnLoadSwipeAnimation(index: number, containerRef: RefObject<HTMLDivElement | null>, setSwipeComplete: (swipeComplete: boolean) => void) {
-  const duration = computeDuration(index);
-  const xDestination = computeXDestination(index);
+  const duration = computeSwipeDuration(index);
+  const xDestination = computeSwipeXDestination(index);
   setVhVariable();
 
   gsap.to(containerRef.current, {
@@ -157,11 +157,11 @@ function invokeOnLoadSwipeAnimation(index: number, containerRef: RefObject<HTMLD
   });
 }
 
-function computeDuration(index: number) {
+function computeSwipeDuration(index: number) {
   return index * 0.175 + 0.5;
 }
 
-function computeXDestination(index: number) {
+function computeSwipeXDestination(index: number) {
   const vh = window.innerHeight / 100;
 
   const numTiles = 4;
@@ -212,8 +212,7 @@ function handleSelectionAnimation(
   let tl = gsap.timeline();
 
   if (isSelected) {
-    const vh = window.innerHeight / 100;
-    const xDestination = vh * 105;
+    const xDestination = computeSelectedXPosition();
 
     // Move selected to corner
     tl.to(containerRef.current, {
@@ -255,4 +254,10 @@ function handleSelectionAnimation(
       "+=0.1"
     );
   }
+}
+
+function computeSelectedXPosition() {
+  const vh = window.innerHeight / 100;
+  const xDestination = vh * 105;
+  return xDestination;
 }
