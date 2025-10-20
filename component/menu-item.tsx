@@ -344,6 +344,15 @@ function handleMenuExpand(
             scale: 1,
             height: "25%",
           })
+          .to(
+            sliderRef.current,
+            {
+              duration: 0.5,
+              x: 0,
+              ease: "power2.out",
+            },
+            "-=0.4"
+          )
           .to(containerRef.current, {
             x: computeSwipeXDestination(index),
             duration: 0.4,
@@ -369,7 +378,7 @@ function handleMenuExpand(
             y: 0,
             duration: 0.5,
             ease: "power2.out",
-            scale: 0.9,
+            scale: 1,
             height: "25%",
             x: computeSwipeXDestination(index),
           })
@@ -378,6 +387,15 @@ function handleMenuExpand(
             scale: 1,
             opacity: 1,
           })
+          .to(
+            sliderRef.current,
+            {
+              duration: 0.5,
+              x: 0,
+              ease: "power2.out",
+            },
+            "-=0.5"
+          )
           .to(
             sliderRef.current,
             {
