@@ -17,8 +17,16 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const shapeRef = useRef<HTMLDivElement>(null);
 
-  const { selectedIndex, setSelectedIndex } = useMenu();
+  const { selectedIndex, setSelectedIndex, swipeComplete, setSwipeComplete } = useMenu();
   const isSelected = selectedIndex === index;
+  const [isReady, setIsReady] = useState(false);
+
+  const selectedIndexRef = useRef<number | null>(selectedIndex);
+
+  // Keep it in sync with latest value
+  useEffect(() => {
+    selectedIndexRef.current = selectedIndex;
+  }, [selectedIndex]);
 
   // Trigger animation on selection change
   useEffect(() => {
@@ -28,7 +36,7 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
       // Reset all
       gsap.to(containerRef.current, {
         scale: 1,
-        opacity: 1,
+        // opacity: 1,
         duration: 0.4,
         ease: "power2.out",
       });
@@ -38,19 +46,35 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
     let tl = gsap.timeline();
 
     if (isSelected) {
+
+      const vh = window.innerHeight / 100;
+      const xDestination = vh * 105;
+
       // Selected animation
       tl.to(containerRef.current, {
         // scale: 1.1,
         opacity: 1,
-        duration: 0.5,
+        x: xDestination,
+        duration: 0.4,
         ease: "power2.out",
-      });
+      }).to(containerRef.current, {
+        // scale: 1.1,
+        duration: 0.1,
+        y: 50,
+        ease: "power2.out",
+      })
+      .to(sliderRef.current, {
+        // scale: 1.1,
+        duration: 0.4,
+        x: 0,
+        ease: "power2.out",
+      }, "-=0.5");
     } else {
       // Unselected animation
       tl.to(containerRef.current, {
         opacity: 0,
         scale: 0.9,
-        duration: 0.1,
+        duration: 0.3,
         ease: "power2.out",
       })
       .to(containerRef.current, {
@@ -58,7 +82,7 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
         height: 0,
         duration: 0.5,
         ease: "power2.out",
-      }, "+=0.5");
+      }, "+=0.1");
     }
   }, [selectedIndex]);
 
@@ -80,6 +104,9 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
       opacity: 1,
       duration: duration,
       ease: "power2.out",
+      onComplete: () => {
+        if (index === 3) setSwipeComplete(true);
+      },
     });
   }, []);
 
@@ -103,32 +130,44 @@ export default function MenuItem({ index, title, description }: MenuItemProps) {
       const threshold = 150; // Distance within which shape reacts
       const maxOffset = 10; // Maximum px movement
 
-      const weight = inverseLerp(300, 100, distance);
+      let weight = inverseLerp(300, 100, distance);
+
+      if (selectedIndex != null && selectedIndex !== index) weight = 0;
+
       const moveX = lerp(0, maxOffset, weight)
-      const color = lerpHexColor("#d4f70e", "#ffffff", weight * 0.9);
+      // const color = lerpHexColor("#d4f70e", "#ffffff", weight * 0.9);
 
       sliderRef.current.style.transform = `translate(${moveX}px, 0px)`;
       // shapeRef.current.style.backgroundColor = `${color}`;
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("resize", _ => {
-          setVhVariable();
-          gsap.set(containerRef.current, {
-            x: computeXDestination(index),
-            borderRadius: "0px",
-          });
+  const handleResize = () => {
+    if (selectedIndexRef.current != null) return; // ✅ Use ref value
+    setVhVariable();
+    gsap.set(containerRef.current, {
+      x: computeXDestination(index),
+      borderRadius: "0px",
     });
+  };
 
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  window.addEventListener("mousemove", handleMouseMove);
+  window.addEventListener("resize", handleResize);
+
+  return () => {
+    window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("resize", handleResize);
+  };
+  });
 
 
   return (
     <div
       style={styles.container}
       ref={containerRef}
-      onClick={() => setSelectedIndex(index)}
+      onClick={() => {
+        if (!swipeComplete) return;
+        setSelectedIndex(index);
+      }}
     >
       <div ref={sliderRef}>
         <div

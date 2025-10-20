@@ -9,11 +9,12 @@ import { MenuContext } from "@/component/menu-context";
 
 
 export default function Home() {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex,] = useState<number | null>(null);
+  const [swipeComplete, setSwipeComplete] = useState<boolean>(false);
 
   return (
     <SvgNoiseBackground>
-      <MenuContext.Provider value={{ selectedIndex, setSelectedIndex }}>
+      <MenuContext.Provider value={{ selectedIndex, swipeComplete, setSelectedIndex, setSwipeComplete }}>
         <div style={styles.title}>
           <p>Jack Withers | q-0q</p>
         </div>
