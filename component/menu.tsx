@@ -1,12 +1,12 @@
 "use client";
 
 import { menuItems } from "@/data/menu-data";
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 import MenuItem from "./menu-item";
 
 export default function Menu() {
   return (
-    <>
+    <div style={styles.menu}>
       {menuItems.map((item) => (
         <MenuItem
           key={item.index}
@@ -16,6 +16,15 @@ export default function Menu() {
           link={item.link}
         />
       ))}
-    </>
+    </div>
   );
 }
+
+const styles : { menu: CSSProperties } = {
+  menu: {
+    height: "calc(var(--vh, 1vh) * 97)",
+    width: "10%",
+    // display: "flex",
+
+  },
+};

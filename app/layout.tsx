@@ -4,6 +4,7 @@ import "./globals.css";
 import { CSSProperties } from "react";
 import { AppContextProvider } from "@/component/context";
 import Header from "@/component/header";
+import Menu from "@/component/menu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,13 +28,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <AppContextProvider> 
+      <AppContextProvider>
         <body
           style={styles.body}
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <Header/>
-          {children}
+          <Header />
+          <Menu></Menu>
         </body>
       </AppContextProvider>
     </html>

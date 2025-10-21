@@ -37,7 +37,7 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
             })
         } else {
             gsap.to(transitionContainerRef.current, {
-                x: (index + 1) * 90,
+              x: computeSwipeXDestination(index),
             });
         }
 
@@ -45,6 +45,11 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
         const handleMouseMove = (e: MouseEvent) => {
             if (!shapeRef.current) return;
             if (!mouseMoveContainerRef.current) return;
+
+            if (selectedPageIndex === index) {
+                setMouseMoveRefTranslateX(0);
+                return;
+            }
 
             const rect = shapeRef.current.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
@@ -58,7 +63,7 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
             const minDistanceToTrigger = 100;
             let weight = inverseLerp(maxDistanceToTrigger, minDistanceToTrigger, mouseDistance);
             const moveX = lerp(0, maxOffset, weight);
-            mouseMoveContainerRef.current.style.transform = `translate(${moveX}px, 0px)`;
+            setMouseMoveRefTranslateX(moveX);
         };
         window.addEventListener("mousemove", handleMouseMove);
 
@@ -70,15 +75,52 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
     return (
       <div style={styles.container} ref={transitionContainerRef}>
         <div ref={mouseMoveContainerRef} style={styles.mouseMove}>
-            <div style={styles.shape} onClick={handleClick} ref={shapeRef}>
-            </div>
-            <div style={styles.text}>
-                <p onClick={handleClick}>{title}</p>
-                <p>{description}</p>
-            </div>
+          <div style={styles.shape} onClick={handleClick} ref={shapeRef}></div>
+          <div style={styles.text}>
+            <p onClick={handleClick} style={styles.name}>{title}</p> 
+            <p style={styles.description}>{description} </p>
+          </div>
         </div>
       </div>
     );
+
+    function setMouseMoveRefTranslateX(moveX: number) {
+        if (!mouseMoveContainerRef.current) return;
+        mouseMoveContainerRef.current.style.transform = `translate(${moveX}px, 0px)`;
+    }
+
+    function computeSwipeDuration(index: number) {
+      return index * 0.175 + 0.5;
+    }
+
+    function computeSwipeXDestination(index: number) {
+      const vh = window.innerHeight / 100;
+
+      const numTiles = 4;
+      const tileWidth = 25 * vh;
+      const maxPadding = 100;
+      const maxCascade = 300;
+
+      const maxStep = maxCascade / (numTiles - 1);
+      const cascadeWidth = maxStep * (numTiles - 1);
+      const totalWidth = tileWidth + cascadeWidth + 2 * maxPadding;
+
+      let padding: number;
+      let step: number;
+
+      if (totalWidth <= window.innerWidth) {
+        padding = maxPadding;
+        step = maxStep;
+      } else {
+        const denominator = maxCascade + 2 * maxPadding;
+        const s = (window.innerWidth - tileWidth) / denominator;
+        padding = maxPadding * s;
+        step = maxStep * s;
+      }
+
+      const output = padding + index * step;
+      return output;
+    }
 }
 
 const styles: {
@@ -86,26 +128,37 @@ const styles: {
   container: CSSProperties;
   text: CSSProperties;
   mouseMove: CSSProperties;
+  name: CSSProperties;
+  description: CSSProperties;
 } = {
   container: {
     height: "25%",
     width: "30vw",
     display: "flex",
     flexDirection: "row",
-    background: "red",
+    // background: "red",
   },
   shape: {
-    width: "20vw",
+    width: "8vw",
     height: "100%",
     background: "var(--brand-color)",
   },
   text: {
+    paddingTop: "20px",
     paddingLeft: "10px",
+    maxWidth: "40%",
+  },
+  name: {
+    color: "white",
+  },
+  description: {
+    color: "gray",
+    fontSize: "0.9rem"
   },
 
   mouseMove: {
     width: "25vw",
-    background: "blue",
+    // background: "blue",
     zIndex: "10",
     display: "flex",
     flexDirection: "row",

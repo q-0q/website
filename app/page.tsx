@@ -7,7 +7,7 @@ import { useState, type CSSProperties } from "react";
 
 export default function Home() {  
   return (
-    <Menu></Menu>
+    null
   );
 }
 
