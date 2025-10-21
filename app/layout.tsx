@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CSSProperties } from "react";
+import { ContextProvider } from "@/component/context";
+import Header from "@/component/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,42 +27,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        style={styles.body}
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <div style={styles.title}>
-          <p>Jack Withers | q-0q</p>
-        </div>
+      <ContextProvider> 
+        <body
+          style={styles.body}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <Header/>
           {children}
-      </body>
+        </body>
+      </ContextProvider>
     </html>
   );
 }
 
-const styles: { body: CSSProperties; title: CSSProperties; main : CSSProperties } = {
+const styles: { body: CSSProperties } = {
   body: {
     height: "calc(var(--vh, 1vh) * 100)",
     width: "100vw",
     alignItems: "start",
-    background: "black",
-  },
-  title: {
-    height: "calc(var(--vh, 1vh) * 3)",
-    background: "#d4f70e",
-    color: "black",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingLeft: "10px",
-  },
-  main: {
-    height: "calc(var(--vh, 1vh) * 97)",
-    width: "100vw",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "start",
-    justifyItems: "start",
     background: "black",
   },
 };

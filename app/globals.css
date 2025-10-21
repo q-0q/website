@@ -35,3 +35,7 @@ body {
 .fullheight-fixed {
   height: var(--vh, 100vh);
 }
+
+:root {
+  --brand-color: #d4f70e;
+}
