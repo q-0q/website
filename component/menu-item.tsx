@@ -220,7 +220,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
           opacity: 1,
           duration: computeInitChoreoDuration(index),
           onComplete: () => {
-            setMenuState(MenuState.Open);
+            if (index === 3) setMenuState(MenuState.Open);
           }
         });
     }
@@ -320,7 +320,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
                 x: computeClosedXDestination(),
                 opacity: 1,
                 y: computeClosedYDestination(),
-                duration: 0.2
+                duration: 0.1
               }
             );
 
@@ -330,7 +330,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
               opacity: 0,
               x: computeClosedXDestination(),
               y: 0,
-              duration: 0.2,
+              duration: 0.1,
             });
           }
         }
@@ -343,7 +343,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
           scale: 1,
           x: computeOpenXDestination(index),
           y: 0,
-          duration: 0.2,
+          duration: 0.1,
         });
     }
 }
