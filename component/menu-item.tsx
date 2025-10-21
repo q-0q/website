@@ -169,23 +169,47 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
 
     function choreographOpen() {
 
-        gsap.to(mouseMoveContainerRef.current, {
-            x: 0,
-        });
+        const scaleDuration = 0.1;
+        const xCloseDuration = 0.3;
 
-        gsap.to(transitionContainerRef.current, {
-          x: computeOpenXDestination(index),
-          height: "25%",
-          opacity: 1,
-          y: 0,
-          scale: 1,
-        });
+        let tl = gsap.timeline();
+        if (selectedPageIndex === index) {
+          gsap.to(mouseMoveContainerRef.current, {
+            x: 0,
+          });
+          tl.to(transitionContainerRef.current, {
+            duration: xCloseDuration,
+            y: 0,
+          })
+          .to(
+            transitionContainerRef.current,
+            {
+              x: computeOpenXDestination(index),
+              opacity: 1,
+              duration: xCloseDuration,
+            },
+          );
+        } else {
+          tl.to(
+            transitionContainerRef.current,
+            {
+              height: "25%",
+              opacity: 0,
+              duration: xCloseDuration,
+              x: computeOpenXDestination(index),
+            }
+          ).to(transitionContainerRef.current, {
+            scale: 1,
+            opacity: 1,
+            duration: scaleDuration,
+          });
+        }
     }
 
 
 
     function choreographClose() {
-        
+
         const scaleDuration = 0.1;
         const xCloseDuration = 0.3;
 
