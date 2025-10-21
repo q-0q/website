@@ -69,6 +69,8 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
 
 
     useEffect(() => {
+
+        setVhVariable();
         
         // Mouse motion effect
         const handleMouseMove = (e: MouseEvent) => {
@@ -216,7 +218,10 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
           x: computeOpenXDestination(index),
           y: 0,
           opacity: 1,
-          duration: computeInitChoreoDuration(index)
+          duration: computeInitChoreoDuration(index),
+          onComplete: () => {
+            setMenuState(MenuState.Open);
+          }
         });
     }
 
@@ -315,28 +320,30 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
                 x: computeClosedXDestination(),
                 opacity: 1,
                 y: computeClosedYDestination(),
+                duration: 0.2
               }
             );
 
           } else {
             gsap.set(transitionContainerRef.current, {
-                height: 0,
-                opacity: 0,
-                x: computeClosedXDestination(),
-                y: 0,
-              }
-            );
+              height: 0,
+              opacity: 0,
+              x: computeClosedXDestination(),
+              y: 0,
+              duration: 0.2,
+            });
           }
         }
 
 
     function choreographOpen() {
         gsap.set(transitionContainerRef.current, {
-            height: "25%",
-            opacity: 1,
-            scale: 1,
-            x: computeOpenXDestination(index),
-            y: 0,
+          height: "25%",
+          opacity: 1,
+          scale: 1,
+          x: computeOpenXDestination(index),
+          y: 0,
+          duration: 0.2,
         });
     }
 }
