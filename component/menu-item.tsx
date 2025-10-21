@@ -343,7 +343,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
           scale: 1,
           x: computeOpenXDestination(index),
           y: 0,
-          duration: 0.1,
+        //   duration: 0.1,
         });
     }
 }

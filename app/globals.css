@@ -39,3 +39,23 @@ body {
 :root {
   --brand-color: #d4f70e;
 }
+
+.subpage {
+  color: black;
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+
+  width: 700px;
+  top: calc(var(--vh, 1vh) * 5);
+  left: 300px;
+}
+
+/* Example breakpoint for smaller screens */
+@media (max-width: 768px) {
+  .subpage {
+    width: 90vw;
+    top: 20vh;
+    left: 5vw;
+  }
+}
