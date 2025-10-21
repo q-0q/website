@@ -2,29 +2,29 @@
 
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
-type ContextType = {
+type AppContextType = {
   selectedPageIndex: number | null;
   setSelectedPageIndex: (index: number | null) => void;
 };
 
-export const Context = createContext<ContextType>({
+export const AppContext = createContext<AppContextType>({
     selectedPageIndex: null,
     setSelectedPageIndex: () => {}
 });
 
-export const ContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [selectedPageIndex, setSelectedPageIndex] = useState<number | null>(
-    null
-  );
+export const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const [selectedPageIndex, setSelectedPageIndex] = useState<number | null>(null);
 
   return (
-    <Context.Provider
+    <AppContext.Provider
       value={{
         selectedPageIndex,
         setSelectedPageIndex,
       }}
     >
       {children}
-    </Context.Provider>
+    </AppContext.Provider>
   );
 };
+
+export const useAppContext = () => useContext(AppContext);
