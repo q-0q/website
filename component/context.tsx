@@ -49,16 +49,13 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
             console.log("seed init");
             setMenuState(MenuState.Init);
         }
+    } else if (previousSelectedPageIndex === null && selectedPageIndex !== null && path === "/" && menuState === MenuState.Closed) {
+        setMenuState(MenuState.Opening)
+        setPreviousSelectedPageIndex(selectedPageIndex);
+        setSelectedPageIndex(null)
     }
+  }, [path]);
 
-  });
-//   console.log("AppContextProvider rendered");
-//   useEffect(() => {
-//     console.log("AppContextProvider mounted");
-//     return () => {
-//       console.log("AppContextProvider unmounted");
-//     };
-//   }, []);    
 
   return (
     <AppContext.Provider

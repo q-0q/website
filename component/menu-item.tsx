@@ -176,7 +176,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
           }
           case MenuState.Opening: {
             console.log("choreo open");
-            choreographOpen();
+            choreographOpening();
             break;
           }
           case MenuState.Closing: {
@@ -187,6 +187,11 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
           case MenuState.Closed: {
             console.log("choreo closed");
             choreographClosed();
+            break;
+          }
+          case MenuState.Open: {
+            console.log("choreo closed");
+            choreographOpen();
             break;
           }
         }
@@ -205,7 +210,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
         });
     }
 
-    function choreographOpen() {
+    function choreographOpening() {
 
         const scaleDuration = 0.1;
         const xCloseDuration = 0.3;
@@ -313,6 +318,16 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
             );
           }
         }
+
+
+    function choreographOpen() {
+        gsap.set(transitionContainerRef.current, {
+            height: "25%",
+            opacity: 1,
+            x: computeOpenXDestination(index),
+            y: 0,
+        });
+    }
 }
 
 const styles: {
