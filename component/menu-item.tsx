@@ -85,14 +85,17 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
 
     function setMouseMoveRefTranslateX(moveX: number) {
         if (!mouseMoveContainerRef.current) return;
-        mouseMoveContainerRef.current.style.transform = `translate(${moveX}px, 0px)`;
+        gsap.to(mouseMoveContainerRef.current, {
+            x: moveX,
+            duration: 0.1
+        });
     }
 
-    function computeSwipeDuration(index: number) {
+    function computeInitChoreoDuration(index: number) {
       return index * 0.175 + 0.5;
     }
 
-    function computeSwipeXDestination(index: number) {
+    function computeOpenXDestination(index: number) {
       const vh = window.innerHeight / 100;
 
       const numTiles = 4;
@@ -117,11 +120,24 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
         step = maxStep * s;
       }
 
-      const output = padding + index * step;
+      const output = padding + index * step + 100 * vh;
       return output;
     }
 
+    function computeClosedXDestination() {
+        const vh = window.innerHeight / 100;
+        const output = 103 * vh;
+        return output;
+    }
+
+    function computeClosedYDestination() {
+        const vh = window.innerHeight / 100;
+        const output = 3 * vh;
+        return output;
+    }
+
     function choreograph() {
+
         switch (menuState) {
           case MenuState.Init: {
             choreographInit();
@@ -139,34 +155,69 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
     }
 
     function choreographInit() {
-        gsap.to(transitionContainerRef.current, {
-          x: computeSwipeXDestination(index),
+        gsap.set(transitionContainerRef.current, {
           opacity: 1,
+          y: 0,
+        });
+        gsap.to(transitionContainerRef.current, {
+          x: computeOpenXDestination(index),
+          y: 0,
+          opacity: 1,
+          duration: computeInitChoreoDuration(index)
         });
     }
 
     function choreographOpen() {
+
+        gsap.to(mouseMoveContainerRef.current, {
+            x: 0,
+        });
+
         gsap.to(transitionContainerRef.current, {
-          x: computeSwipeXDestination(index),
+          x: computeOpenXDestination(index),
           height: "25%",
           opacity: 1,
+          y: 0,
+          scale: 1,
         });
     }
 
+
+
     function choreographClose() {
+        
+        const scaleDuration = 0.1;
+        const xCloseDuration = 0.3;
+
+        let tl = gsap.timeline()
         if (selectedPageIndex === index) {
-            gsap.to(transitionContainerRef.current, {
-            x: 0,
-            opacity: 1,
-            });
             gsap.to(mouseMoveContainerRef.current, {
                 x: 0,
             });
-        } else {
-            gsap.to(transitionContainerRef.current, {
-            height: 0,
-            opacity: 0,
+            tl.to(transitionContainerRef.current, {
+              x: computeClosedXDestination(),
+              opacity: 1,
+              duration: xCloseDuration,
+            }, "+=" + scaleDuration.toString())
+            .to(transitionContainerRef.current, {
+                y: computeClosedYDestination(),
             });
+        } else {
+            tl.to(transitionContainerRef.current, {
+              scale: 0.9,
+              opacity: 0,
+              duration: scaleDuration,
+            }).to(
+              transitionContainerRef.current,
+              {
+                height: 0,
+                opacity: 0,
+                duration: xCloseDuration,
+                x: computeClosedXDestination(),
+                y: 0,
+              },
+              "+=0.4"
+            );
         }
     }
 
@@ -185,6 +236,7 @@ const styles: {
     width: "30vw",
     display: "flex",
     flexDirection: "row",
+    marginLeft: "calc(var(--vh, 1vh) * -100)",
     // background: "red",
   },
   shape: {
