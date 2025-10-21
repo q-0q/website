@@ -6,8 +6,6 @@ import { useState, type CSSProperties } from "react";
 
 
 export default function Resume() {  
-  return (
-    null
-  );
+  return <p> Info about my resume </p>;
 }
 

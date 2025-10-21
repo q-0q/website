@@ -6,8 +6,6 @@ import { useState, type CSSProperties } from "react";
 
 
 export default function Games() {  
-  return (
-    null
-  );
+  return <p> Info about my games </p>;
 }
 

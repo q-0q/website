@@ -4,6 +4,7 @@ import { menuItems } from "@/data/menu-data";
 import { CSSProperties, useState } from "react";
 import MenuItem from "./menu-item";
 
+
 export default function Menu() {
   return (
     <div style={styles.menu}>

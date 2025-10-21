@@ -7,7 +7,7 @@ import { useState, type CSSProperties } from "react";
 
 export default function Code() {  
   return (
-    null
+    <p> Info about my code </p>
   );
 }
 

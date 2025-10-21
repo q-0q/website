@@ -7,6 +7,7 @@ import { CSSProperties } from "react";
 import { AppContextProvider } from "@/component/context";
 import Header from "@/component/header";
 import Menu from "@/component/menu";
+import Subpage from "@/component/subpage";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,18 +37,23 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <Header />
-          <Menu></Menu>
+
+          <div style={styles.content}>
+            <Menu></Menu>
+            <Subpage>{children}</Subpage>
+          </div>
         </body>
       </AppContextProvider>
     </html>
   );
 }
 
-const styles: { body: CSSProperties } = {
+const styles: { body: CSSProperties; content: CSSProperties } = {
   body: {
     height: "calc(var(--vh, 1vh) * 100)",
     width: "100vw",
     alignItems: "start",
     background: "black",
   },
+  content: {},
 };
