@@ -36,24 +36,44 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
       if (previousSelectedPageIndex === null && selectedPageIndex === null) {
-          let init = true;
-          menuItems.forEach((i) => {
-            if (i.slug == path) {
-                setSelectedPageIndex(i.index);
-                console.log("seed closed");
-                setMenuState(MenuState.Closed);
-                init = false;
-            }
+        let init = true;
+        menuItems.forEach((i) => {
+          if (i.slug == path) {
+            setSelectedPageIndex(i.index);
+            console.log("seed closed");
+            setMenuState(MenuState.Closed);
+            init = false;
+          }
         });
         if (init) {
-            console.log("seed init");
-            setMenuState(MenuState.Init);
+          console.log("seed init");
+          setMenuState(MenuState.Init);
         }
-    } else if (previousSelectedPageIndex === null && selectedPageIndex !== null && path === "/" && menuState === MenuState.Closed) {
-        setMenuState(MenuState.Opening)
+      } else if (
+        previousSelectedPageIndex === null &&
+        selectedPageIndex !== null &&
+        path === "/" &&
+        menuState === MenuState.Closed
+      ) {
+        setMenuState(MenuState.Opening);
         setPreviousSelectedPageIndex(selectedPageIndex);
-        setSelectedPageIndex(null)
-    }
+        setSelectedPageIndex(null);
+      } else if (
+        menuState === MenuState.Open && path !== "/"
+      ) {
+        setMenuState(MenuState.Closing);
+        menuItems.forEach((i) => {
+            if (i.slug == path) {
+            setSelectedPageIndex(i.index);
+            }
+        });
+        // console.log(
+        //     "Current: " + selectedPageIndex +
+        //     " Prev: " + previousSelectedPageIndex +
+        //     " Path: " + path +
+        //     " State: " + menuState
+        // )
+      }
   }, [path]);
 
 
