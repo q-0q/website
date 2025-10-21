@@ -7,6 +7,8 @@ import { useMenu } from "@/component/menu-context";
 import { inverseLerp, lerp, setVhVariable } from "@/helper/helper"
 import { useRouter, usePathname } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { menuItems } from "@/data/menu-data";
+
 
 enum MenuItemContext {
   Home,
@@ -33,10 +35,20 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
   const router = useRouter();
 
   const context = usePathname() == "/" ? MenuItemContext.Home : MenuItemContext.Page;
+  const pathname = usePathname();
 
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
     lastSelectedIndexRef.current = lastSelectedIndex
+
+    if (context === MenuItemContext.Page && selectedIndex === null) {
+      menuItems.forEach((i) => {
+        if (i.link == pathname) {
+          setSelectedIndex(i.index);
+          console.log(i.index);
+        }
+      });
+    }
 
     handleSelectionAnimation(
       containerRef,
@@ -63,15 +75,28 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
     };
   }, [selectedIndex]);
 
+
   useGSAP(() => {
     if (context == MenuItemContext.Home) {
       invokeOnLoadSwipeAnimation(index, containerRef, setSwipeComplete);
     } else if (context == MenuItemContext.Page) {
-        gsap.set(containerRef.current, {
-          x: computeSelectedXPosition(),
-          y: computeSelectedYPosition(),
-          borderRadius: "0px",
-        });
+    
+        if (selectedIndex === index) {
+          gsap.set(containerRef.current, {
+            x: computeSelectedXPosition(),
+            y: computeSelectedYPosition(),
+            opacity: 1,
+            scale: 1,
+            borderRadius: "0px",
+          });
+        } else {
+          gsap.set(containerRef.current, {
+            opacity: 0,
+            scale: 0.9,
+            height: 0,
+            borderRadius: "0px",
+          });
+        }
     }
   }, []);
 
@@ -254,11 +279,10 @@ function handleSelectionAnimation(
   lastSelectedIndexRef : number | null
 ) {
 
-  console.log(lastSelectedIndexRef)
   if (!containerRef.current) return;
   if (!swipeComplete) return;
 
-  if (selectedIndexRef === null) {
+  if (selectedIndexRef === null && lastSelectedIndexRef !== null) {
     handleMenuExpand(isSelected, containerRef, sliderRef, router, link, index, lastSelectedIndexRef);
   } else {
     handleMenuCollapse(isSelected, containerRef, sliderRef, router, link);
@@ -272,7 +296,6 @@ function handleMenuCollapse(isSelected: boolean, containerRef: RefObject<HTMLDiv
   if (isSelected) {
     const xDestination = computeSelectedXPosition();
 
-    // Move selected to corner
     tl.to(containerRef.current, {
       opacity: 1,
       x: xDestination,
@@ -296,7 +319,7 @@ function handleMenuCollapse(isSelected: boolean, containerRef: RefObject<HTMLDiv
       )
       .to(sliderRef.current, {
         onComplete: () => {
-          router.push("/" + link);
+          router.push(link);
         },
       });
   } else {
@@ -334,7 +357,7 @@ function handleMenuExpand(
     if (lastSelectedIndex === index) {
 
         tl.set(containerRef.current, {
-          x: computeSelectedXPosition(),
+          x: computeSwipeXDestination(index),
         })
           .to(containerRef.current, {
             opacity: 1,
