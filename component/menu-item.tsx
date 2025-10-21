@@ -119,7 +119,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
           <div style={styles.shape} onClick={handleClick} ref={shapeRef}></div>
           <div style={styles.text}>
             <p onClick={handleClick} style={styles.name}>{title}</p> 
-            <p style={styles.description}>{description} </p>
+            {/* <p style={styles.description}>{description} </p> */}
           </div>
         </div>
       </div>
@@ -238,15 +238,12 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
           tl.to(transitionContainerRef.current, {
             duration: xCloseDuration,
             y: 0,
-          })
-          .to(
-            transitionContainerRef.current,
-            {
-              x: computeOpenXDestination(index),
-              opacity: 1,
-              duration: xCloseDuration,
-            },
-          );
+            height: "25%",
+          }).to(transitionContainerRef.current, {
+            x: computeOpenXDestination(index),
+            opacity: 1,
+            duration: xCloseDuration,
+          });
         } else {
           tl.to(transitionContainerRef.current, {
             height: "25%",
@@ -277,17 +274,21 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
             gsap.to(mouseMoveContainerRef.current, {
                 x: 0,
             });
-            tl.to(transitionContainerRef.current, {
-              x: computeClosedXDestination(),
-              opacity: 1,
-              duration: xCloseDuration,
-            }, "+=" + scaleDuration.toString())
-            .to(transitionContainerRef.current, {
-                y: computeClosedYDestination(),
-                onComplete: () => {
-                    router.push(slug)
-                    setMenuState(MenuState.Closed);
-                }
+            tl.to(
+              transitionContainerRef.current,
+              {
+                x: computeClosedXDestination(),
+                opacity: 1,
+                duration: xCloseDuration,
+            },
+            "+=" + scaleDuration.toString()
+        ).to(transitionContainerRef.current, {
+            height: "15%",
+              y: computeClosedYDestination(),
+              onComplete: () => {
+                router.push(slug);
+                setMenuState(MenuState.Closed);
+              },
             });
         } else {
             tl.to(transitionContainerRef.current, {
@@ -320,7 +321,8 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
                 x: computeClosedXDestination(),
                 opacity: 1,
                 y: computeClosedYDestination(),
-                duration: 0.1
+                // duration: 0.1,
+                height: "15%"
               }
             );
 

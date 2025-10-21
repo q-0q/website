@@ -22,7 +22,7 @@ const styles: {
 } = {
   container: {
     width: "100%",
-    height: "100px",
+    // height: "100px",
     borderColor: "gray",
     borderWidth: "1px",
     borderRadius: "5px",
@@ -30,7 +30,7 @@ const styles: {
     flexDirection: "column",
     // background: "red",
     padding: "20px",
-    margin: "10px",
+    marginBottom: "10px",
   },
   title: {
     // paddingTop: "20px",
