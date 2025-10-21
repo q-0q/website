@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useAppContext } from "./context";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { inverseLerp, lerp } from "@/helper/helper";
+import { inverseLerp, lerp, setVhVariable } from "@/helper/helper";
 import { usePathname, useRouter } from "next/navigation";
 
 type MenuItemProps = {
@@ -89,10 +89,20 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
             const moveX = lerp(0, maxOffset, weight);
             setMouseMoveRefTranslateX(moveX);
         };
+
+        const handleResize = () => {
+            setVhVariable();
+            choreograph();
+        }
+
         window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("resize", handleResize);
+
+        
 
         return () => {
             window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("resize", handleResize);
         }
     });
 
@@ -348,14 +358,14 @@ const styles: {
     // background: "red",
   },
   shape: {
-    width: "8vw",
+    width: "calc(var(--vh, 1vh) * 15)",
     height: "100%",
     background: "var(--brand-color)",
   },
   text: {
     paddingTop: "20px",
     paddingLeft: "10px",
-    maxWidth: "40%",
+    maxWidth: "30%",
   },
   name: {
     color: "white",
