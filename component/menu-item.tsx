@@ -7,44 +7,69 @@ import { useAppContext } from "./context";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { inverseLerp, lerp } from "@/helper/helper";
+import { usePathname, useRouter } from "next/navigation";
 
 type MenuItemProps = {
   index: number;
   title: string;
   description: string;
-  link: string;
+  slug: string;
 };
 
 enum MenuState {
     Init,
     Opening,
-    Closing
+    Open,
+    Closing,
+    Closed
 }
 
 export { MenuState }
 
-export default function MenuItem({ index, title, description, link }: MenuItemProps) {
+export default function MenuItem({ index, title, description, slug }: MenuItemProps) {
 
     const shapeRef = useRef<HTMLDivElement>(null);
     const mouseMoveContainerRef = useRef<HTMLDivElement>(null);
     const transitionContainerRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
 
-    const { selectedPageIndex, setSelectedPageIndex, menuState, setMenuState} = useAppContext()
+    const { 
+        selectedPageIndex, 
+        setSelectedPageIndex, 
+        previousSelectedPageIndex,
+        setPreviousSelectedPageIndex,
+        menuState, 
+        setMenuState
+    } = useAppContext()
+
 
     function handleClick(){
-        setSelectedPageIndex(index)
-        if (menuState === MenuState.Init || menuState === MenuState.Opening) {
-            setMenuState(MenuState.Closing);
+
+        let prev = selectedPageIndex
+        let current = selectedPageIndex === index ? null : index;
+
+        setPreviousSelectedPageIndex(prev);
+        setSelectedPageIndex(current)
+
+        if (current === null && prev === null) {
+          console.log("init");
+        //   setMenuState(MenuState.Init);
+        } else if (current !== null && prev === null) {
+          console.log("close");
+          setMenuState(MenuState.Closing);
+        } else if (current === null && prev !== null) {
+          console.log("open");
+          setMenuState(MenuState.Opening);
         } else {
-            setMenuState(MenuState.Opening);
+          console.error(
+            "Unhandled menu state. Current: " + current + ", prev: " + prev
+          );
         }
     }
 
+
     useEffect(() => {
-
-        // menu-wide animations
-        choreograph();
-
+        
         // Mouse motion effect
         const handleMouseMove = (e: MouseEvent) => {
             if (!shapeRef.current) return;
@@ -70,6 +95,11 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
             window.removeEventListener("mousemove", handleMouseMove);
         }
     });
+
+    useEffect(() => {
+      // menu-wide animations
+      choreograph();
+    }, [menuState]);
 
     return (
       <div style={styles.container} ref={transitionContainerRef}>
@@ -137,18 +167,26 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
     }
 
     function choreograph() {
-
+    
         switch (menuState) {
           case MenuState.Init: {
+            console.log("choreo init");
             choreographInit();
             break;
           }
           case MenuState.Opening: {
+            console.log("choreo open");
             choreographOpen();
             break;
           }
           case MenuState.Closing: {
+            console.log("choreo close");
             choreographClose();
+            break;
+          }
+          case MenuState.Closed: {
+            console.log("choreo closed");
+            choreographClosed();
             break;
           }
         }
@@ -173,10 +211,10 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
         const xCloseDuration = 0.3;
 
         let tl = gsap.timeline();
-        if (selectedPageIndex === index) {
-          gsap.to(mouseMoveContainerRef.current, {
-            x: 0,
-          });
+        gsap.to(mouseMoveContainerRef.current, {
+          x: 0,
+        });
+        if (previousSelectedPageIndex === index) {
           tl.to(transitionContainerRef.current, {
             duration: xCloseDuration,
             y: 0,
@@ -190,18 +228,19 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
             },
           );
         } else {
-          tl.to(
-            transitionContainerRef.current,
-            {
-              height: "25%",
-              opacity: 0,
-              duration: xCloseDuration,
-              x: computeOpenXDestination(index),
-            }
-          ).to(transitionContainerRef.current, {
+          tl.to(transitionContainerRef.current, {
+            height: "25%",
+            opacity: 0,
+            duration: xCloseDuration,
+            x: computeOpenXDestination(index),
+          }).to(transitionContainerRef.current, {
             scale: 1,
             opacity: 1,
             duration: scaleDuration,
+            onComplete: () => {
+              router.push("/");
+              setMenuState(MenuState.Open)
+            },
           });
         }
     }
@@ -225,6 +264,10 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
             }, "+=" + scaleDuration.toString())
             .to(transitionContainerRef.current, {
                 y: computeClosedYDestination(),
+                onComplete: () => {
+                    router.push(slug)
+                    setMenuState(MenuState.Closed);
+                }
             });
         } else {
             tl.to(transitionContainerRef.current, {
@@ -245,6 +288,31 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
         }
     }
 
+        function choreographClosed() {
+
+          if (selectedPageIndex === index) {
+            gsap.set(mouseMoveContainerRef.current, {
+              x: 0,
+            });
+            gsap.set(
+              transitionContainerRef.current,
+              {
+                x: computeClosedXDestination(),
+                opacity: 1,
+                y: computeClosedYDestination(),
+              }
+            );
+
+          } else {
+            gsap.set(transitionContainerRef.current, {
+                height: 0,
+                opacity: 0,
+                x: computeClosedXDestination(),
+                y: 0,
+              }
+            );
+          }
+        }
 }
 
 const styles: {

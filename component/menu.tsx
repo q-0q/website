@@ -13,7 +13,7 @@ export default function Menu() {
           index={item.index}
           title={item.title}
           description={item.description}
-          link={item.link}
+          slug={item.slug}
         />
       ))}
     </div>
