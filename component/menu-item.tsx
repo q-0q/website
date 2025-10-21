@@ -324,6 +324,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
         gsap.set(transitionContainerRef.current, {
             height: "25%",
             opacity: 1,
+            scale: 1,
             x: computeOpenXDestination(index),
             y: 0,
         });

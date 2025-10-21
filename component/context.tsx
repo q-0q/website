@@ -34,48 +34,37 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
 
     const path = usePathname();
 
-  useEffect(() => {
-      if (previousSelectedPageIndex === null && selectedPageIndex === null) {
-        let init = true;
-        menuItems.forEach((i) => {
-          if (i.slug == path) {
-            setSelectedPageIndex(i.index);
-            console.log("seed closed");
-            setMenuState(MenuState.Closed);
-            init = false;
-          }
-        });
-        if (init) {
-          console.log("seed init");
-          setMenuState(MenuState.Init);
-        }
-      } else if (
-        previousSelectedPageIndex === null &&
-        selectedPageIndex !== null &&
-        path === "/" &&
-        menuState === MenuState.Closed
-      ) {
-        setMenuState(MenuState.Opening);
-        setPreviousSelectedPageIndex(selectedPageIndex);
-        setSelectedPageIndex(null);
-      } else if (
-        menuState === MenuState.Open && path !== "/"
-      ) {
-        setMenuState(MenuState.Closing);
-        menuItems.forEach((i) => {
-            if (i.slug == path) {
-            setSelectedPageIndex(i.index);
-            }
-        });
-        // console.log(
-        //     "Current: " + selectedPageIndex +
-        //     " Prev: " + previousSelectedPageIndex +
-        //     " Path: " + path +
-        //     " State: " + menuState
-        // )
-      }
-  }, [path]);
+    useEffect(() => {
+    const matchingItem = menuItems.find((item) => item.slug === path);
 
+    const shouldInit =
+        previousSelectedPageIndex === null && selectedPageIndex === null;
+
+    if (shouldInit) {
+        if (matchingItem) {
+        setSelectedPageIndex(matchingItem.index);
+        console.log("seed closed");
+        setMenuState(MenuState.Closed);
+        } else {
+        console.log("seed init");
+        setMenuState(MenuState.Init);
+        }
+    } else if (path === "/") {
+        setMenuState(MenuState.Open);
+        setSelectedPageIndex(null)
+    } else if (matchingItem) {
+        setSelectedPageIndex(matchingItem.index);
+        console.log("seed closed");
+        setMenuState(MenuState.Closed);
+    }
+    }, [path]);
+
+// console.log(
+//     "Current: " + selectedPageIndex +
+//     " Prev: " + previousSelectedPageIndex +
+//     " Path: " + path +
+//     " State: " + menuState
+// )
 
   return (
     <AppContext.Provider
