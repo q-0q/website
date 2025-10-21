@@ -1,6 +1,6 @@
 "use client";
 
-import { CSSProperties, useContext, useEffect, useRef } from "react";
+import { CSSProperties, RefObject, useContext, useEffect, useRef } from "react";
 import { menuItems } from "@/data/menu-data";
 import { useState } from "react";
 import { useAppContext } from "./context";
@@ -15,41 +15,40 @@ type MenuItemProps = {
   link: string;
 };
 
+enum MenuState {
+    Init,
+    Opening,
+    Closing
+}
+
+export { MenuState }
+
 export default function MenuItem({ index, title, description, link }: MenuItemProps) {
 
     const shapeRef = useRef<HTMLDivElement>(null);
     const mouseMoveContainerRef = useRef<HTMLDivElement>(null);
     const transitionContainerRef = useRef<HTMLDivElement>(null);
 
-    const { selectedPageIndex, setSelectedPageIndex} = useAppContext()
+    const { selectedPageIndex, setSelectedPageIndex, menuState, setMenuState} = useAppContext()
 
     function handleClick(){
         setSelectedPageIndex(index)
+        if (menuState === MenuState.Init || menuState === MenuState.Opening) {
+            setMenuState(MenuState.Closing);
+        } else {
+            setMenuState(MenuState.Opening);
+        }
     }
 
     useEffect(() => {
 
-        // Event when an item is clicked
-        if (selectedPageIndex === index) {
-            gsap.to(transitionContainerRef.current, {
-                x: 500
-    
-            })
-        } else {
-            gsap.to(transitionContainerRef.current, {
-              x: computeSwipeXDestination(index),
-            });
-        }
+        // menu-wide animations
+        choreograph();
 
         // Mouse motion effect
         const handleMouseMove = (e: MouseEvent) => {
             if (!shapeRef.current) return;
             if (!mouseMoveContainerRef.current) return;
-
-            if (selectedPageIndex === index) {
-                setMouseMoveRefTranslateX(0);
-                return;
-            }
 
             const rect = shapeRef.current.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
@@ -121,6 +120,56 @@ export default function MenuItem({ index, title, description, link }: MenuItemPr
       const output = padding + index * step;
       return output;
     }
+
+    function choreograph() {
+        switch (menuState) {
+          case MenuState.Init: {
+            choreographInit();
+            break;
+          }
+          case MenuState.Opening: {
+            choreographOpen();
+            break;
+          }
+          case MenuState.Closing: {
+            choreographClose();
+            break;
+          }
+        }
+    }
+
+    function choreographInit() {
+        gsap.to(transitionContainerRef.current, {
+          x: computeSwipeXDestination(index),
+          opacity: 1,
+        });
+    }
+
+    function choreographOpen() {
+        gsap.to(transitionContainerRef.current, {
+          x: computeSwipeXDestination(index),
+          height: "25%",
+          opacity: 1,
+        });
+    }
+
+    function choreographClose() {
+        if (selectedPageIndex === index) {
+            gsap.to(transitionContainerRef.current, {
+            x: 0,
+            opacity: 1,
+            });
+            gsap.to(mouseMoveContainerRef.current, {
+                x: 0,
+            });
+        } else {
+            gsap.to(transitionContainerRef.current, {
+            height: 0,
+            opacity: 0,
+            });
+        }
+    }
+
 }
 
 const styles: {
@@ -164,3 +213,4 @@ const styles: {
     flexDirection: "row",
   },
 };
+
