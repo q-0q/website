@@ -36,7 +36,7 @@ export default function RootLayout({
           style={styles.body}
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <Header />
+          {/* <Header /> */}
 
           <div style={styles.content}>
             <Menu></Menu>

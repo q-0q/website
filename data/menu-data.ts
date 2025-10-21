@@ -23,7 +23,7 @@ export const menuItems: MenuItemData[] = [
   {
     index: 2,
     title: "Code",
-    description: "Libraries & tools",
+    description: "Libraries, tools, & apps",
     slug: "/code",
   },
   {

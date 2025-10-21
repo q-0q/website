@@ -119,7 +119,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
           <div style={styles.shape} onClick={handleClick} ref={shapeRef}></div>
           <div style={styles.text}>
             <p onClick={handleClick} style={styles.name}>{title}</p> 
-            {/* <p style={styles.description}>{description} </p> */}
+            <p style={styles.description}>{description} </p>
           </div>
         </div>
       </div>
@@ -381,7 +381,7 @@ const styles: {
   },
   description: {
     color: "gray",
-    fontSize: "0.9rem"
+    fontSize: "0.8rem"
   },
 
   mouseMove: {

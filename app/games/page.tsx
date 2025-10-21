@@ -16,6 +16,7 @@ export default function Games() {
               title={item.title}
               description={item.description}
               slug={item.slug}
+              engine={item.engine}
             />
           ))}
     </>
