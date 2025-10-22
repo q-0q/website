@@ -1,25 +1,29 @@
-import { CSSProperties } from "react";
+import { CSSProperties, forwardRef, MouseEventHandler } from "react";
 
-type GameListItemProps = {
+type SubpageListItemProps = {
   title: string;
   description: string;
-  slug: string;
-  engine : string;
+  engine: string;
+  onClick: MouseEventHandler<HTMLDivElement>;
 };
 
-export default function GameListItem( {title, description, slug, engine} : GameListItemProps) {
-  return (
-    <div style={styles.container}>
-      <div style={styles.text}>
-        <div>
-          <p style={styles.title}>{title}</p>
-          <p style={styles.description}>{description}</p>
+const SubpageListItem = forwardRef<HTMLDivElement, SubpageListItemProps>(
+  ({ title, description, engine, onClick }, ref) => {
+    return (
+      <div style={styles.container} onClick={onClick} ref={ref}>
+        <div style={styles.text}>
+          <div>
+            <p style={styles.title}>{title}</p>
+            <p style={styles.description}>{description}</p>
+          </div>
         </div>
+        <div style={styles.thumbnail}></div>
       </div>
-      <div style={styles.thumbnail}></div>
-    </div>
-  );
-}
+    );
+  }
+);
+
+export default SubpageListItem;
 
 const styles: {
   container: CSSProperties;
@@ -42,8 +46,8 @@ const styles: {
     marginBottom: "10px",
   },
 
-  text: { 
-    display: "flex", 
+  text: {
+    display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
     height: "100%",
@@ -61,7 +65,6 @@ const styles: {
     backgroundColor: "white",
     width: "40%",
     height: "100%",
-    borderRadius: "6px"
+    borderRadius: "6px",
   },
 };
-

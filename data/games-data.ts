@@ -1,6 +1,6 @@
 // @/data/menu-data.ts
 
-export interface GameItemData {
+export interface SubpageListItemData {
   title: string;
   description: string;
   slug: string;
@@ -9,7 +9,7 @@ export interface GameItemData {
   engine: string;
 }
 
-export const gameItems: GameItemData[] = [
+export const gameItems: SubpageListItemData[] = [
   {
     title: "Iapetus",
     description: "Movement-centered 3D platformer",

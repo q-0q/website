@@ -31,20 +31,8 @@ export default function Subpage({ children } : SubpageProps ) {
   }, [menuState])
   
   return (
-    <div style={styles.subpage} ref={ref}>
-      { children }
+    <div className="subpage" ref={ref}>
+      {children}
     </div>
   );
 }
-
-const styles: { subpage: CSSProperties } = {
-  subpage: {
-    color: "black",
-    opacity: "0",
-    position: "absolute",
-    width: "700px",
-    maxWidth: "90vw",
-    top: "calc(var(--vh, 1vh) * 24)",
-    left: "calc(var(--vh, 1vh) * 3)",
-  },
-};
