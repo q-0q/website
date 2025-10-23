@@ -84,7 +84,7 @@ const styles: {
   divider: CSSProperties;
 } = {
   listOuterContainer: {
-    padding: "calc(var(--vh, 1vh) * 3)",
+    // padding: "calc(var(--vh, 1vh) * 3)",
     marginTop: "17vh",
     // height: "75%",
     width: "40%",
@@ -106,9 +106,10 @@ const styles: {
 
   selectionContainer: {
     height: "100%",
-    width: "40%",
+    width: "60%",
     flexDirection: "column",
-    marginLeft: "10px",
+    display: "flex",
+    // marginLeft: "10px",
     overflow: "scroll",
   },
 

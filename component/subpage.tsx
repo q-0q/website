@@ -40,6 +40,9 @@ export default function Subpage({ children } : SubpageProps ) {
 const styles: { container: CSSProperties } = {
   container: {
     // background: "red",
+    padding: "calc(var(--vh, 1vh) * 3)",
+    // paddingRight: "calc(var(--vh, 1vh) * 3)",
+    // paddingTop: "calc(var(--vh, 1vh) * 3)",
     opacity: "0",
     position: "absolute",
     display: "flex",
@@ -47,8 +50,7 @@ const styles: { container: CSSProperties } = {
     height: "calc(var(--vh, 1vh) * 100)",
     top: "0",
     left: 0,
-    // zIndex: -10,
-    pointerEvents: "none"
-    
+    pointerEvents: "none",
+    gap: "calc(var(--vh, 1vh) * 3)",
   },
 };

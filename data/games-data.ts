@@ -7,6 +7,7 @@ export interface SubpageListItemData {
   contributions: string;
   playUrl: string;
   engine: string;
+  markdownPath: string;
 }
 
 export const gameItems: SubpageListItemData[] = [
@@ -17,6 +18,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: "",
     engine: "Unity",
+    markdownPath: "markdown/iapetus.md"
   },
   {
     title: "Project Silver Needle",
