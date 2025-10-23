@@ -33,7 +33,7 @@ const styles: {
   text: CSSProperties;
 } = {
   container: {
-    width: "100%",
+    // width: "100%",
     height: "200px",
     borderColor: "gray",
     borderWidth: "1px",
@@ -44,6 +44,8 @@ const styles: {
     // background: "red",
     padding: "20px",
     marginBottom: "10px",
+    // zIndex: 200,
+    pointerEvents: "all"
   },
 
   text: {

@@ -31,8 +31,24 @@ export default function Subpage({ children } : SubpageProps ) {
   }, [menuState])
   
   return (
-    <div className="subpage" ref={ref}>
+    <div style={styles.container} ref={ref}>
       {children}
     </div>
   );
 }
+
+const styles: { container: CSSProperties } = {
+  container: {
+    // background: "red",
+    opacity: "0",
+    position: "absolute",
+    display: "flex",
+    width: "100vw",
+    height: "calc(var(--vh, 1vh) * 100)",
+    top: "0",
+    left: 0,
+    // zIndex: -10,
+    pointerEvents: "none"
+    
+  },
+};

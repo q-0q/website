@@ -381,7 +381,7 @@ const styles: {
   },
   description: {
     color: "gray",
-    fontSize: "0.8rem"
+    fontSize: "0.8rem",
   },
 
   mouseMove: {

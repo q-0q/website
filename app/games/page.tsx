@@ -6,11 +6,14 @@ import { gameItems } from "@/data/games-data";
 import Image from "next/image";
 import { useState, type CSSProperties } from "react";
 import SubpageList from "@/component/subpage-list";
+import Subpage from "@/component/subpage";
 
 
 export default function Games() {  
   return (
-    <SubpageList items={gameItems}></SubpageList>
+    <Subpage>
+      <SubpageList items={gameItems}></SubpageList>
+    </Subpage>
   );
 }
 

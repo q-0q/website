@@ -40,7 +40,7 @@ export default function RootLayout({
 
           <div style={styles.content}>
             <Menu></Menu>
-            <Subpage>{children}</Subpage>
+            {children}
           </div>
         </body>
       </AppContextProvider>

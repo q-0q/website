@@ -21,11 +21,10 @@ export default function Menu() {
   );
 }
 
-const styles : { menu: CSSProperties } = {
+const styles: { menu: CSSProperties } = {
   menu: {
     height: "calc(var(--vh, 1vh) * 100)",
     width: "10%",
     // display: "flex",
-
   },
 };
