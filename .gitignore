@@ -42,3 +42,4 @@ next-env.d.ts
 
 # Large videos that are converted to gif
 .mov
+.mp4
