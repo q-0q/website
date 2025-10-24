@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { SubpageListItemData } from "@/data/games-data";
 import SubpageListItem from "./subpage-list-item";
-import ItemDetailPanel from "./subpage-list-selection";
+import SubpageListSelection from "./subpage-list-selection";
 
 type SubpageListProps = {
   items: SubpageListItemData[];
@@ -67,7 +67,7 @@ export default function SubpageList({ items }: SubpageListProps) {
 
       <div style={styles.selectionContainer}>
         {selectedItemId ? (
-          <ItemDetailPanel itemId={selectedItemId} items={items} />
+          <SubpageListSelection itemId={selectedItemId} items={items} />
         ) : (
           <div></div>
         )}

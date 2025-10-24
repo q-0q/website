@@ -1,12 +1,10 @@
 import { SubpageListItemData } from "@/data/games-data";
-import { CSSProperties } from "react";
-import fs from "fs";
-import matter from "gray-matter";
-import html from "remark-html";
-import { remark } from "remark";
+import { CSSProperties, useEffect, useState } from "react";
+import { getMarkdownContent } from "@/app/api/api";
+import markdownStyles from "./markdown-styles.module.css";
 
 
-export default function ItemDetailPanel({
+export default function SubpageListSelection({
   itemId,
   items,
 }: {
@@ -16,47 +14,29 @@ export default function ItemDetailPanel({
   const item = items.find((i) => i.title === itemId);
   if (!item) return <div>Item not found</div>;
 
-  const { content: markdownContent } = getMarkdownFile(item.markdownPath);
-  const markdownHtml = markdownToHtml(markdownContent);
+  const [htmlContent, setHtmlContent] = useState("");
+
+  useEffect(() => {
+    if (item) getMarkdownContent(item.markdownPath).then(setHtmlContent);
+  }, [item]);
+
+  if (!item) return <div>Item not found</div>;
 
   return (
     <div style={styles.container}>
-      <h3>{item.title}</h3>
-      <p>{item.description}</p>
-
-      <div className="max-w-2xl mx-auto">
-        <div dangerouslySetInnerHTML={{ __html: markdownHtml }} />
-      </div>
+      <div
+        className={markdownStyles["markdown"]}
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
     </div>
   );
 }
-
-const styles: {
-  container: CSSProperties;
-} = {
+const styles: { container: CSSProperties } = {
   container: {
     border: "1px solid gray",
     borderRadius: "4px",
     padding: "1rem",
-    // marginTop: "2vh",
-    // marginBottom: "2vh",
     color: "white",
-    top: "0px",
-    // position: "fixed",
-    // flex: 1,
-  
     height: "100%",
-
   },
 };
-
-function getMarkdownFile(path : string) {
-  const fileContents = fs.readFileSync(path, "utf8");
-  const { data, content } = matter(fileContents);
-  return { ...data, content };
-}
-
-async function markdownToHtml(markdown: string) {
-  const result = await remark().use(html).process(markdown);
-  return result.toString();
-}
