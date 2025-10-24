@@ -14,9 +14,10 @@ export async function getMarkdownContent(path: string) {
       ? `https://${process.env.VERCEL_URL}`
       : "http://localhost:3000";
 
-  const res = await fetch(`${baseUrl}/${path}`);
+  const url = `${baseUrl}/${path}`;
+  const res = await fetch(url);
   if (!res.ok) {
-    throw new Error(`Failed to load markdown file: ${path}`);
+    throw new Error(`Failed to load markdown file: ${url}`);
   }
 
   const fileContents = await res.text();
