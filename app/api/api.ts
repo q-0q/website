@@ -10,7 +10,7 @@ export async function getMarkdownContent(path: string) {
 
   // Use the correct base URL for production and local dev
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL
+    process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
       : "http://localhost:3000";
 
