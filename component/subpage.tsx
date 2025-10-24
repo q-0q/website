@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef } from "react";
+import React, { ReactNode, Suspense, useEffect, useRef } from "react";
 import { CSSProperties } from "react";
 import "../app/globals.css";
 import { useAppContext } from "./context";
@@ -32,7 +32,7 @@ export default function Subpage({ children } : SubpageProps ) {
   
   return (
     <div style={styles.container} ref={ref}>
-      {children}
+      <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
     </div>
   );
 }
