@@ -1,13 +1,25 @@
-// app/actions/getMarkdownContent.ts
 "use server";
 
-import fs from "fs";
 import { remark } from "remark";
 import html from "remark-html";
 import matter from "gray-matter";
 
 export async function getMarkdownContent(path: string) {
-  const fileContents = fs.readFileSync(path, "utf8");
+  // Ensure the markdown files live under /public/
+  // Example: public/psn.md → accessible at /psn.md
+
+  // Use the correct base URL for production and local dev
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
+
+  const res = await fetch(`${baseUrl}/${path}`);
+  if (!res.ok) {
+    throw new Error(`Failed to load markdown file: ${path}`);
+  }
+
+  const fileContents = await res.text();
   const { content } = matter(fileContents);
   const result = await remark().use(html).process(content);
   return result.toString();
