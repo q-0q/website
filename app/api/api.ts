@@ -9,10 +9,9 @@ export async function getMarkdownContent(path: string) {
   // Example: public/psn.md → accessible at /psn.md
 
   // Use the correct base URL for production and local dev
-  const baseUrl =
-    process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
+    ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
+    : "http://localhost:3000";
 
   const url = `${baseUrl}/${path}`;
   const res = await fetch(url);
