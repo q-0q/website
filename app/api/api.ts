@@ -1,14 +1,18 @@
 "use server";
 
+import { unified } from "unified"
 import { remark } from "remark";
 import html from "remark-html";
+import oembed from "@agentofuser/remark-oembed"
+import remarkDirectiveSugar from "remark-directive-sugar";
+import rehypeStringify from "rehype-stringify";
+import rehypeFormat from "rehype-format";
+import remarkDirective from "remark-directive";
 import matter from "gray-matter";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
 
 export async function getMarkdownContent(path: string) {
-  // Ensure the markdown files live under /public/
-  // Example: public/psn.md → accessible at /psn.md
-
-  // Use the correct base URL for production and local dev
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
     ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
     : "http://localhost:3000";
@@ -21,6 +25,14 @@ export async function getMarkdownContent(path: string) {
 
   const fileContents = await res.text();
   const { content } = matter(fileContents);
-  const result = await remark().use(html).process(content);
+
+  const result = await unified()
+    .use(remarkParse)
+    .use(remarkDirective)
+    .use(remarkDirectiveSugar)
+    .use(remarkRehype)
+    .use(rehypeStringify)
+    .process(content);
+
   return result.toString();
 }

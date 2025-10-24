@@ -8,7 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@agentofuser/remark-oembed": "^1.0.4",
     "@gsap/react": "^2.1.2",
+    "@vercel/blob": "^2.0.0",
     "fs": "^0.0.1-security",
     "gray-matter": "^4.0.3",
     "gsap": "^3.13.0",
@@ -16,8 +18,14 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-markdown": "^10.1.0",
+    "rehype-format": "^5.0.1",
+    "rehype-stringify": "^10.0.1",
     "remark": "^15.0.1",
-    "remark-html": "^16.0.1"
+    "remark-directive": "^4.0.0",
+    "remark-directive-sugar": "^1.1.2",
+    "remark-html": "^16.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -26,5 +34,22 @@
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "remarkConfig": {
+    "settings": {
+      "bullet": "*"
+    },
+    "plugins": [
+      "remarkDirective",
+      "remarkDirectiveSugar",
+      "remark-preset-lint-consistent",
+      "remark-preset-lint-recommended",
+      [
+        "remark-toc",
+        {
+          "heading": "contents"
+        }
+      ]
+    ]
   }
 }

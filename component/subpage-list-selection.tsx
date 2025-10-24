@@ -16,6 +16,8 @@ export default function SubpageListSelection({
 
   const [htmlContent, setHtmlContent] = useState("");
 
+  console.log(htmlContent)
+  
   useEffect(() => {
     if (item) getMarkdownContent(item.markdownPath).then(setHtmlContent);
   }, [item]);
