@@ -39,3 +39,8 @@ body {
 :root {
   --brand-color: #d4f70e;
 }
+
+.rds-video {
+  width: 100%;
+  height: 400px;
+}

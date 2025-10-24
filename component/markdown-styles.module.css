@@ -63,3 +63,8 @@
   border-radius: 3px;
   font-family: monospace;
 }
+
+.markdown a {
+  color: var(--brand-color);
+  text-decoration: underline;
+}
