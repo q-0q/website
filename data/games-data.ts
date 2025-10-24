@@ -18,7 +18,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: "",
     engine: "Unity",
-    markdownPath: "markdown/iapetus.md"
+    markdownPath: "markdown/iapetus.md",
   },
   {
     title: "Project Silver Needle",
@@ -27,6 +27,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: "",
     engine: "Unity & Photon Quantum",
+    markdownPath: "markdown/psn.md",
   },
   {
     title: "Melody Temple",
@@ -35,6 +36,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: "",
     engine: "Godot",
+    markdownPath: "markdown/melody-temple.md",
   },
   {
     title: "Synapse",
@@ -43,6 +45,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: "",
     engine: "Unity",
+    markdownPath: "markdown/synapse.md",
   },
   {
     title: "PAWPRINCE",
@@ -51,6 +54,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: "",
     engine: "Unity",
+    markdownPath: "markdown/pawprince.md",
   },
   {
     title: "Ornament",
@@ -59,6 +63,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: "",
     engine: "Godot",
+    markdownPath: "markdown/ornament.md",
   },
   {
     title: "Dungeonballs",
@@ -67,6 +72,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: "",
     engine: "Unity",
+    markdownPath: "markdown/dungeonballs.md",
   },
 ];
 

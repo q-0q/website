@@ -110,11 +110,12 @@ const styles: {
     flexDirection: "column",
     display: "flex",
     // marginLeft: "10px",
-    overflow: "scroll",
+    // overflow: "scroll",
+    pointerEvents: "all",
   },
 
   divider: {
     color: "gray",
-    opacity: "0.5"
+    opacity: "0.5",
   },
 };

@@ -37,6 +37,7 @@ const styles: { container: CSSProperties } = {
     borderRadius: "4px",
     padding: "1rem",
     color: "white",
+    overflow: "scroll",
     height: "100%",
   },
 };
