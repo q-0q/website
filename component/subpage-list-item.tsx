@@ -1,15 +1,15 @@
-
 import { CSSProperties, forwardRef, MouseEventHandler } from "react";
 
 type SubpageListItemProps = {
   title: string;
   description: string;
   engine: string;
+  thumbnailVideoUrl: string;
   onClick: MouseEventHandler<HTMLDivElement>;
 };
 
 const SubpageListItem = forwardRef<HTMLDivElement, SubpageListItemProps>(
-  ({ title, description, engine, onClick }, ref) => {
+  ({ title, description, engine, thumbnailVideoUrl: videoUrl, onClick }, ref) => {
     return (
       <div style={styles.container} onClick={onClick} ref={ref}>
         <div style={styles.text}>
@@ -18,7 +18,20 @@ const SubpageListItem = forwardRef<HTMLDivElement, SubpageListItemProps>(
             <p style={styles.description}>{description}</p>
           </div>
         </div>
-        <div style={styles.thumbnail}></div>
+
+        <div style={styles.thumbnail}>
+          {videoUrl && (
+            <video
+              src={videoUrl}
+              style={styles.video}
+              autoPlay
+              muted
+              loop
+              playsInline
+              controls={false}
+            />
+          )}
+        </div>
       </div>
     );
   }
@@ -32,21 +45,20 @@ const styles: {
   description: CSSProperties;
   thumbnail: CSSProperties;
   text: CSSProperties;
+  video: CSSProperties;
 } = {
   container: {
-    // width: "100%",
     height: "200px",
     borderColor: "gray",
     borderWidth: "1px",
+    borderStyle: "solid",
     borderRadius: "4px",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    // background: "red",
     padding: "20px",
     marginBottom: "10px",
-    // zIndex: 200,
-    pointerEvents: "all"
+    pointerEvents: "all",
   },
 
   text: {
@@ -59,15 +71,30 @@ const styles: {
 
   title: {
     color: "white",
+    margin: 0,
   },
+
   description: {
     color: "gray",
     fontSize: "0.9rem",
   },
+
   thumbnail: {
-    backgroundColor: "white",
+    backgroundColor: "black",
     width: "40%",
     height: "100%",
     borderRadius: "6px",
+    overflow: "hidden",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  video: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    borderRadius: "6px",
+    pointerEvents: "none", // ensures it’s not interactable
   },
 };

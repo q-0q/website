@@ -55,6 +55,7 @@ export default function SubpageList({ items }: SubpageListProps) {
               title={item.title}
               description={item.description}
               engine={item.engine}
+              thumbnailVideoUrl={item.thumbnailVideoUrl}
               onClick={() => handleItemClick(item.title)}
               ref={(el) => {
                 itemRefs.current[item.title] = el;

@@ -8,6 +8,7 @@ export interface SubpageListItemData {
   playUrl: string;
   engine: string;
   markdownPath: string;
+  thumbnailVideoUrl: string;
 }
 
 export const gameItems: SubpageListItemData[] = [
@@ -19,6 +20,8 @@ export const gameItems: SubpageListItemData[] = [
     playUrl: "",
     engine: "Unity",
     markdownPath: "markdown/iapetus.md",
+    thumbnailVideoUrl:
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
   },
   {
     title: "Project Silver Needle",
@@ -28,6 +31,8 @@ export const gameItems: SubpageListItemData[] = [
     playUrl: "",
     engine: "Unity & Photon Quantum",
     markdownPath: "markdown/psn.md",
+    thumbnailVideoUrl:
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
   },
   {
     title: "Melody Temple",
@@ -37,6 +42,8 @@ export const gameItems: SubpageListItemData[] = [
     playUrl: "",
     engine: "Godot",
     markdownPath: "markdown/melody-temple.md",
+    thumbnailVideoUrl:
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
   },
   {
     title: "Synapse",
@@ -46,6 +53,8 @@ export const gameItems: SubpageListItemData[] = [
     playUrl: "",
     engine: "Unity",
     markdownPath: "markdown/synapse.md",
+    thumbnailVideoUrl:
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
   },
   {
     title: "PAWPRINCE",
@@ -55,6 +64,8 @@ export const gameItems: SubpageListItemData[] = [
     playUrl: "",
     engine: "Unity",
     markdownPath: "markdown/pawprince.md",
+    thumbnailVideoUrl:
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
   },
   {
     title: "Ornament",
@@ -64,6 +75,8 @@ export const gameItems: SubpageListItemData[] = [
     playUrl: "",
     engine: "Godot",
     markdownPath: "markdown/ornament.md",
+    thumbnailVideoUrl:
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
   },
   {
     title: "Dungeonballs",
@@ -73,6 +86,8 @@ export const gameItems: SubpageListItemData[] = [
     playUrl: "",
     engine: "Unity",
     markdownPath: "markdown/dungeonballs.md",
+    thumbnailVideoUrl:
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
   },
 ];
 
