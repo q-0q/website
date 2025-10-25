@@ -2,7 +2,7 @@
 
 ## About
 
-*Iaepetus* is a love letter to some of my all-time favorite platforming games like *Mirror's Edge*, *Super Mario Odyssey*, and *Celeste*. These games implement emergent movement systems where the player is given a sandbox of mobility tools that they are free to mix-and-match to carve their own personal paths through the game.
+*Iaepetus* is a 3D platformer inspired by games like *Mirror's Edge*, *Super Mario Odyssey*, and *Celeste*. These games implement emergent movement systems where the player is given a sandbox of mobility tools that they are free to mix-and-match to carve their own personal paths through the game.
 
 ::video{id=https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4}
 

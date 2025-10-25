@@ -32,7 +32,7 @@ export const gameItems: SubpageListItemData[] = [
     engine: "Unity & Photon Quantum",
     markdownPath: "markdown/psn.md",
     thumbnailVideoUrl:
-      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/psn-sindar.mp4",
   },
   {
     title: "Melody Temple",
@@ -43,7 +43,7 @@ export const gameItems: SubpageListItemData[] = [
     engine: "Godot",
     markdownPath: "markdown/melody-temple.md",
     thumbnailVideoUrl:
-      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/melody-thumb.mp4",
   },
   {
     title: "Synapse",
@@ -65,7 +65,7 @@ export const gameItems: SubpageListItemData[] = [
     engine: "Unity",
     markdownPath: "markdown/pawprince.md",
     thumbnailVideoUrl:
-      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/pawprince-thumb.mp4",
   },
   {
     title: "Ornament",
@@ -87,7 +87,7 @@ export const gameItems: SubpageListItemData[] = [
     engine: "Unity",
     markdownPath: "markdown/dungeonballs.md",
     thumbnailVideoUrl:
-      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/dungeonballs-thumb.mp4",
   },
 ];
 

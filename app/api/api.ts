@@ -11,6 +11,8 @@ import remarkDirective from "remark-directive";
 import matter from "gray-matter";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
+import rehypeHighlight from "rehype-highlight";
+
 
 export async function getMarkdownContent(path: string) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL

@@ -33,6 +33,14 @@
   font-weight: bold;
 }
 
+.markdown h4 {
+  font-size: 1.2rem; /* text-2xl */
+  margin-top: 1.5rem;
+  /* margin-bottom: 1rem; */
+  line-height: 1.4;
+  font-weight: bold;
+}
+
 .markdown ul {
   padding-left: 1.5rem;
   list-style-type: disc;
@@ -59,7 +67,7 @@
 }
 
 .markdown code {
-  background-color: #333;
+  /* background-color: red; */
   padding: 0.2rem 0.4rem;
   border-radius: 3px;
   font-family: monospace;

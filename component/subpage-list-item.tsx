@@ -81,7 +81,7 @@ const styles: {
 
   thumbnail: {
     backgroundColor: "black",
-    width: "40%",
+    width: "45%",
     height: "100%",
     borderRadius: "6px",
     overflow: "hidden",
@@ -95,6 +95,6 @@ const styles: {
     height: "100%",
     objectFit: "cover",
     borderRadius: "6px",
-    pointerEvents: "none", // ensures it’s not interactable
+    pointerEvents: "none",
   },
 };
