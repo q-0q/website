@@ -1,11 +1,22 @@
 import { CSSProperties, forwardRef, MouseEventHandler, useState } from "react";
 import Loader from "./loader";
 
+export interface SubpageListItemData {
+  title: string;
+  description: string;
+  slug: string;
+  contributions: string;
+  playUrl: string;
+  engine: string;
+  markdownPath: string;
+  thumbnailVideoUrl: string | null;
+}
+
 type SubpageListItemProps = {
   title: string;
   description: string;
   engine: string;
-  thumbnailVideoUrl: string;
+  thumbnailVideoUrl: string | null;
   onClick: MouseEventHandler<HTMLDivElement>;
   isSelected?: boolean;
 };
@@ -51,7 +62,7 @@ const SubpageListItem = forwardRef<HTMLDivElement, SubpageListItemProps>(
         </div>
 
         <div style={styles.thumbnail}>
-          {loading && <Loader />}
+          {loading && videoUrl && <Loader />}
 
           {videoUrl && (
             <video
@@ -133,7 +144,7 @@ const styles: {
   },
 
   thumbnail: {
-    backgroundColor: "black",
+    // backgroundColor: "black",
     width: "45%",
     height: "100%",
     borderRadius: "6px",

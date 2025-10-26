@@ -1,15 +1,6 @@
 // @/data/menu-data.ts
 
-export interface SubpageListItemData {
-  title: string;
-  description: string;
-  slug: string;
-  contributions: string;
-  playUrl: string;
-  engine: string;
-  markdownPath: string;
-  thumbnailVideoUrl: string;
-}
+import { SubpageListItemData } from "@/component/subpage-list-item";
 
 export const gameItems: SubpageListItemData[] = [
   {
@@ -24,7 +15,7 @@ export const gameItems: SubpageListItemData[] = [
       "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
   },
   {
-    title: "Project Silver Needle",
+    title: "Project SilverNeedle",
     description: "1v1 2D fighter with rollback netcode",
     slug: "/project-silver-needle",
     contributions: "Everything",

@@ -1,6 +1,6 @@
 // @/data/menu-data.ts
 
-import { SubpageListItemData } from "./games-data";
+import { SubpageListItemData } from "@/component/subpage-list-item";
 
 export const codeItems: SubpageListItemData[] = [
   {
@@ -11,7 +11,7 @@ export const codeItems: SubpageListItemData[] = [
     playUrl: "",
     engine: "",
     markdownPath: "markdown/wasp.md",
-    thumbnailVideoUrl: "",
+    thumbnailVideoUrl: null,
   },
   {
     title: "Website",
@@ -21,7 +21,7 @@ export const codeItems: SubpageListItemData[] = [
     playUrl: "",
     engine: "",
     markdownPath: "markdown/website.md",
-    thumbnailVideoUrl: "",
+    thumbnailVideoUrl: null,
   }
 ];
 

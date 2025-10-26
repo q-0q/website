@@ -15,7 +15,7 @@ Project SilverNeedle uses [Photon Quantum](https://www.photonengine.com/quantum)
 
 Quantum handles the synchronization of state over the network and, save for some performance considerations required of the developer, acts mostly as a black-box that "just works". One major limitation of Quantum is that it can only sync data over the network in the form of primitive types (mainly numbers and booleans). This means generic class objects cannot be synchronized over the network -- at least not directly.
 
-Game objects in *PSN* are implemented by [Wasp](../wasp/index.md) machines, which are large, complex, polymorphic objects in memory; however, the only data that needs to be synced to the network are an integer ID of the FSM's current state as well as an incrementing clock that represents the amount of time spent in the current state. Then, each frame, the client-side FSMs can read this data from the network and automatically assume the necessary state and its behavior, without needing to ever sync the FSM itself.
+Game objects in *PSN* are implemented by [Wasp](/code?item=Wasp) machines, which are large, complex, polymorphic objects in memory; however, the only data that needs to be synced to the network are an integer ID of the FSM's current state as well as an incrementing clock that represents the amount of time spent in the current state. Then, each frame, the client-side FSMs can read this data from the network and automatically assume the necessary state and its behavior, without needing to ever sync the FSM itself.
 
 ### How the engine works
 

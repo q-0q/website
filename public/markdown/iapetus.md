@@ -14,7 +14,7 @@ Supplementing these basic options are the flipdash, which acts as a horizontal, 
 
 ### Player controller
 
-The player controller is built with [Wasp](/code/item?=Wasp) machines at its core, but borrows a lot of the meta-patterns I first designed for *[Project Silver Needle](/games?item=Project%20Silver%20Needle)* that add support for inheritable state machines. *PSN*, however, is built on-top of Photon Quantum's ECS, which blocked my player controllers from being able to interface with Unity's native `MonoBehavior`. *Iapetus* is free from this restriction, meaning each Wasp machine can be its own `GameObject`.
+The player controller is built with [Wasp](/code?item=Wasp) machines at its core, but borrows a lot of the meta-patterns I first designed for *[Project Silver Needle](/games?item=Project%20Silver%20Needle)* that add support for inheritable state machines. *PSN*, however, is built on-top of Photon Quantum's ECS, which blocked my player controllers from being able to interface with Unity's native `MonoBehavior`. *Iapetus* is free from this restriction, meaning each Wasp machine can be its own `GameObject`.
 
 To keep controller code as reusable as possible, machine types follow class-based inheritance, where all machines inherit from the abstract base class `Fsm`. More specific machine types can then add extra configurations of top of this class. For example the abstract `GravityFsm` class inherits from `Fsm` and adds states and behaviors for ground-checking, falling, and other psuedo-physics tasks like depenetration.
 
