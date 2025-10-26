@@ -44,7 +44,7 @@ const styles: { container: CSSProperties } = {
   container: {
     border: "1px solid gray",
     borderRadius: "4px",
-    padding: "1rem",
+    padding: "2rem",
     color: "white",
     overflow: "scroll",
     height: "100%",

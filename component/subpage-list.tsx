@@ -21,7 +21,7 @@ export default function SubpageList({ items }: SubpageListProps) {
 
   const itemRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  // Scroll to the selected item when selectedItemId changes
+  // Scroll to selected item
   useEffect(() => {
     if (selectedItemId && itemRefs.current[selectedItemId]) {
       itemRefs.current[selectedItemId]?.scrollIntoView({
@@ -33,13 +33,10 @@ export default function SubpageList({ items }: SubpageListProps) {
 
   // Update selected item on URL change
   useEffect(() => {
-    if (selectedSlug) {
-      setSelectedItemId(selectedSlug);
-    }
+    if (selectedSlug) setSelectedItemId(selectedSlug);
   }, [selectedSlug]);
 
   const handleItemClick = (id: string) => {
-    console.log("clicked!")
     setSelectedItemId(id);
     router.push(`?item=${id}`, { scroll: false });
   };
@@ -57,6 +54,7 @@ export default function SubpageList({ items }: SubpageListProps) {
               engine={item.engine}
               thumbnailVideoUrl={item.thumbnailVideoUrl}
               onClick={() => handleItemClick(item.title)}
+              isSelected={selectedItemId === item.title}
               ref={(el) => {
                 itemRefs.current[item.title] = el;
               }}
@@ -77,7 +75,6 @@ export default function SubpageList({ items }: SubpageListProps) {
   );
 }
 
-
 const styles: {
   listOuterContainer: CSSProperties;
   listInnerContainer: CSSProperties;
@@ -85,12 +82,9 @@ const styles: {
   divider: CSSProperties;
 } = {
   listOuterContainer: {
-    // padding: "calc(var(--vh, 1vh) * 3)",
     marginTop: "17vh",
-    // height: "75%",
     width: "40%",
     flexDirection: "column",
-    // background: "red",
   },
 
   listInnerContainer: {
@@ -98,10 +92,7 @@ const styles: {
     overflow: "scroll",
     paddingTop: "15px",
     paddingBottom: "15px",
-    // paddingLeft: "5px",
-    // paddingRight: "5px",
     flexDirection: "column",
-    // marginBottom: "10px",
     pointerEvents: "all",
   },
 
@@ -110,8 +101,6 @@ const styles: {
     width: "60%",
     flexDirection: "column",
     display: "flex",
-    // marginLeft: "10px",
-    // overflow: "scroll",
     pointerEvents: "all",
   },
 

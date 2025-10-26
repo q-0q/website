@@ -7,25 +7,42 @@ type SubpageListItemProps = {
   engine: string;
   thumbnailVideoUrl: string;
   onClick: MouseEventHandler<HTMLDivElement>;
+  isSelected?: boolean;
 };
 
 const SubpageListItem = forwardRef<HTMLDivElement, SubpageListItemProps>(
   (
-    { title, description, engine, thumbnailVideoUrl: videoUrl, onClick },
+    {
+      title,
+      description,
+      engine,
+      thumbnailVideoUrl: videoUrl,
+      onClick,
+      isSelected = false,
+    },
     ref
   ) => {
     const [loading, setLoading] = useState(true);
+    const [isHovered, setIsHovered] = useState(false);
 
-    const handleVideoLoaded = () => {
-      setLoading(false);
-    };
+    const handleVideoLoaded = () => setLoading(false);
+    const handleVideoError = () => setLoading(false);
 
-    const handleVideoError = () => {
-      setLoading(false); // hide loader even if video fails to load
+    // Determine combined container style
+    const containerStyle: CSSProperties = {
+      ...styles.container,
+      ...(isHovered ? styles.hovered : {}),
+      ...(isSelected ? styles.selected : {}),
     };
 
     return (
-      <div style={styles.container} onClick={onClick} ref={ref}>
+      <div
+        style={containerStyle}
+        onClick={onClick}
+        ref={ref}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <div style={styles.text}>
           <div>
             <p style={styles.title}>{title}</p>
@@ -41,14 +58,14 @@ const SubpageListItem = forwardRef<HTMLDivElement, SubpageListItemProps>(
               src={videoUrl}
               style={{
                 ...styles.video,
-                display: loading ? "none" : "block", // hide video until loaded
+                display: loading ? "none" : "block",
               }}
               autoPlay
               muted
               loop
               playsInline
               controls={false}
-              onLoadedData={handleVideoLoaded} // fires when video data is ready
+              onLoadedData={handleVideoLoaded}
               onError={handleVideoError}
             />
           )}
@@ -62,6 +79,8 @@ export default SubpageListItem;
 
 const styles: {
   container: CSSProperties;
+  hovered: CSSProperties;
+  selected: CSSProperties;
   title: CSSProperties;
   description: CSSProperties;
   thumbnail: CSSProperties;
@@ -80,6 +99,19 @@ const styles: {
     padding: "20px",
     marginBottom: "10px",
     pointerEvents: "all",
+    backgroundColor: "transparent",
+    transition: "border-color 0.2s, background-color 0.2s",
+  },
+
+  hovered: {
+    borderColor: "#888",
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+  },
+
+  selected: {
+    borderColor: "#888",
+    // borderWidth: "2px",
+    backgroundColor: "rgba(255, 255, 255, 0.065)",
   },
 
   text: {
@@ -109,7 +141,7 @@ const styles: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    position: "relative", // allows loader centering
+    position: "relative",
   },
 
   video: {
