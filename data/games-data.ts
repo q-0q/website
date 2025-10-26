@@ -54,7 +54,7 @@ export const gameItems: SubpageListItemData[] = [
     engine: "Unity",
     markdownPath: "markdown/synapse.md",
     thumbnailVideoUrl:
-      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/synapse%20demo%20video.mp4",
   },
   {
     title: "PAWPRINCE",
