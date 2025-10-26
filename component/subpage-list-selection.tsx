@@ -3,6 +3,7 @@ import { CSSProperties, useEffect, useState } from "react";
 import { getMarkdownContent } from "@/app/api/api";
 import markdownStyles from "./markdown-styles.module.css";
 import { SquareLoader } from "react-spinners";
+import Loader from "./loader";
 
 export default function SubpageListSelection({
   itemId,
@@ -28,9 +29,7 @@ export default function SubpageListSelection({
   return (
     <div style={styles.container}>
       {loading ? (
-        <div style={styles.loaderContainer}>
-          <SquareLoader color="gray" />
-        </div>
+        <Loader></Loader>
       ) : (
         <div
           className={markdownStyles["markdown"]}
@@ -41,7 +40,7 @@ export default function SubpageListSelection({
   );
 }
 
-const styles: { container: CSSProperties; loaderContainer: CSSProperties } = {
+const styles: { container: CSSProperties } = {
   container: {
     border: "1px solid gray",
     borderRadius: "4px",
@@ -49,12 +48,5 @@ const styles: { container: CSSProperties; loaderContainer: CSSProperties } = {
     color: "white",
     overflow: "scroll",
     height: "100%",
-  },
-  loaderContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-    width: "100%",
-  },
+  }
 };
