@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import Menu from "@/component/menu";
-import Image from "next/image";
-import { useState, type CSSProperties } from "react";
+import SubpageList from "@/component/subpage-list";
+import Subpage from "@/component/subpage";
+import { codeItems } from "@/data/code-data";
 
-
-export default function Code() {  
+export default function Code() {
   return (
-    <p> Info about my code </p>
+    <Subpage>
+      <SubpageList items={codeItems}></SubpageList>
+    </Subpage>
   );
 }
-
