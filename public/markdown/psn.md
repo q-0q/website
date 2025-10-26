@@ -3,7 +3,7 @@
 
 ## About
 
-Project SilverNeedle (PSN) is a 1-vs-1 2D fighter. PSN is mostly inspired by modern titles like *Guilty Gear -STRIVE-* and *Street Fighter 6*, but also draws from a deeper ancestry of games including *Asuka 120%* and *Street Fighter III: Third Strike*.
+Project SilverNeedle (PSN) is a 1-vs-1 2D fighter. *PSN* is mostly inspired by modern titles like *Guilty Gear -STRIVE-* and *Street Fighter 6*, but also draws from a deeper ancestry of games including *Asuka 120%* and *Street Fighter III: Third Strike*.
 
 ::video{id=https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/psn-sindar.mp4}
 
@@ -15,7 +15,7 @@ Project SilverNeedle uses [Photon Quantum](https://www.photonengine.com/quantum)
 
 Quantum handles the synchronization of state over the network and, save for some performance considerations required of the developer, acts mostly as a black-box that "just works". One major limitation of Quantum is that it can only sync data over the network in the form of primitive types (mainly numbers and booleans). This means generic class objects cannot be synchronized over the network -- at least not directly.
 
-Game objects in PSN are implemented by [Wasp](../wasp/index.md) machines, which are large, complex, polymorphic objects in memory; however, the only data that needs to be synced to the network are an integer ID of the FSM's current state as well as an incrementing clock that represents the amount of time spent in the current state. Then, each frame, the client-side FSMs can read this data from the network and automatically assume the necessary state and its behavior, without needing to ever sync the FSM itself.
+Game objects in *PSN* are implemented by [Wasp](../wasp/index.md) machines, which are large, complex, polymorphic objects in memory; however, the only data that needs to be synced to the network are an integer ID of the FSM's current state as well as an incrementing clock that represents the amount of time spent in the current state. Then, each frame, the client-side FSMs can read this data from the network and automatically assume the necessary state and its behavior, without needing to ever sync the FSM itself.
 
 ### How the engine works
 
@@ -122,11 +122,11 @@ The static `AutoSetupFromAnimationPath` method builds out the `SectionGroup` fro
 
 ### Inputs
 
-PSN is a 5-button game. The buttons are `Light`, `Medium`, `Heavy`, `Special`, and `Grab`. The same button can be used for multiple actions depending on directional input; for example, for most characters, `Heavy` with no directional input is a high-damage finisher, while `Down` + `Heavy` is a combo-starting launcher.
+*PSN* is a 5-button game. The buttons are `Light`, `Medium`, `Heavy`, `Special`, and `Grab`. The same button can be used for multiple actions depending on directional input; for example, for most characters, `Heavy` with no directional input is a high-damage finisher, while `Down` + `Heavy` is a combo-starting launcher.
 
 Most games in the 2D Fighting genre implement [motion inputs](https://glossary.infil.net/?t=Motion%20Input). Motion inputs raise the execution barrier of certain player actions, which affects the feel of the gameplay and its percieved difficulty. Motion inputs also allows for more actions without needing to have lots of buttons, as the same buttons can be reused with different motions to create more inputs.
 
-With PSN, directional inputs are used (such as `Down` + `Heavy` or `Back` + `Special`) but I have opted to not implement motion inputs. PSN's characters are simple enough in their amount of options and mechanics to not need the increased amount of options that motion inputs provide. Implementing motion controls is also a surprisingly involved task. You need to track a rolling log of directional input over some time horizon, and then validate that the direction history equates to some motion when an input is attempted. It's crucial that this input log is synced over the network to ensure deterministic behavior which can put a large strain on networking performance if not implemented carefully. Further, defining a "motion" is complicated. Guilty Gear -STRIVE- uses a [complex system of rules](https://www.dustloop.com/w/GGST/Esoterica#Motion_Input_Buffer) to precisely define these motions and control how strictly they need to be performed.
+With *PSN*, directional inputs are used (such as `Down` + `Heavy` or `Back` + `Special`) but I have opted to not implement motion inputs. *PSN*'s characters are simple enough in their amount of options and mechanics to not need the increased amount of options that motion inputs provide. Implementing motion controls is also a surprisingly involved task. You need to track a rolling log of directional input over some time horizon, and then validate that the direction history equates to some motion when an input is attempted. It's crucial that this input log is synced over the network to ensure deterministic behavior which can put a large strain on networking performance if not implemented carefully. Further, defining a "motion" is complicated. Guilty Gear -STRIVE- uses a [complex system of rules](https://www.dustloop.com/w/GGST/Esoterica#Motion_Input_Buffer) to precisely define these motions and control how strictly they need to be performed.
 
 ### The air
 
@@ -136,6 +136,6 @@ In the Street Fighter franchise, characters cannot block in the air, and air mob
 
 From a game design perspective, a more air-oriented game is more difficult to create because it (literally) adds more dimensions to the gameplay, and new gameplay features must consider both grounded and aerial situations. An air-oriented game also tends to play faster than a grounded game as players generally have access to more mobility options.
 
-For PSN, I am aiming for an in-between. Players are able to multi-jump and block in the air, which allows for more potent anti-air attacks to have a place in the game, and makes jumping less punishing. Characters by default, however, cannot dash in the air or super-jump, which will mean fewer variables I need to consider as the gameplay designer.
+For *PSN*, I am aiming for an in-between. Players are able to multi-jump and block in the air, which allows for more potent anti-air attacks to have a place in the game, and makes jumping less punishing. Characters by default, however, cannot dash in the air or super-jump, which will mean fewer variables I need to consider as the gameplay designer.
 
 Further, giving characters a lower baseline of aerial power allows room for certain characters to have enhanced aerial mobility as part of their unique identities. When most characters are weak in some property (such as mobility, or defense, or offense), then it's easier to make that property a central part of some character's unique identity.
