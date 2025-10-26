@@ -1,4 +1,5 @@
-import { CSSProperties, forwardRef, MouseEventHandler } from "react";
+import { CSSProperties, forwardRef, MouseEventHandler, useState } from "react";
+import Loader from "./loader";
 
 type SubpageListItemProps = {
   title: string;
@@ -9,7 +10,20 @@ type SubpageListItemProps = {
 };
 
 const SubpageListItem = forwardRef<HTMLDivElement, SubpageListItemProps>(
-  ({ title, description, engine, thumbnailVideoUrl: videoUrl, onClick }, ref) => {
+  (
+    { title, description, engine, thumbnailVideoUrl: videoUrl, onClick },
+    ref
+  ) => {
+    const [loading, setLoading] = useState(true);
+
+    const handleVideoLoaded = () => {
+      setLoading(false);
+    };
+
+    const handleVideoError = () => {
+      setLoading(false); // hide loader even if video fails to load
+    };
+
     return (
       <div style={styles.container} onClick={onClick} ref={ref}>
         <div style={styles.text}>
@@ -20,15 +34,22 @@ const SubpageListItem = forwardRef<HTMLDivElement, SubpageListItemProps>(
         </div>
 
         <div style={styles.thumbnail}>
+          {loading && <Loader />}
+
           {videoUrl && (
             <video
               src={videoUrl}
-              style={styles.video}
+              style={{
+                ...styles.video,
+                display: loading ? "none" : "block", // hide video until loaded
+              }}
               autoPlay
               muted
               loop
               playsInline
               controls={false}
+              onLoadedData={handleVideoLoaded} // fires when video data is ready
+              onError={handleVideoError}
             />
           )}
         </div>
@@ -88,6 +109,7 @@ const styles: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    position: "relative", // allows loader centering
   },
 
   video: {
