@@ -2,7 +2,7 @@ import { SubpageListItemData } from "@/data/games-data";
 import { CSSProperties, useEffect, useState } from "react";
 import { getMarkdownContent } from "@/app/api/api";
 import markdownStyles from "./markdown-styles.module.css";
-
+import { SquareLoader } from "react-spinners";
 
 export default function SubpageListSelection({
   itemId,
@@ -12,28 +12,36 @@ export default function SubpageListSelection({
   items: SubpageListItemData[];
 }) {
   const item = items.find((i) => i.title === itemId);
-  if (!item) return <div>Item not found</div>;
-
   const [htmlContent, setHtmlContent] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  console.log(htmlContent)
-  
   useEffect(() => {
-    if (item) getMarkdownContent(item.markdownPath).then(setHtmlContent);
+    if (!item) return;
+    setLoading(true);
+    getMarkdownContent(item.markdownPath)
+      .then((content) => setHtmlContent(content))
+      .finally(() => setLoading(false));
   }, [item]);
 
   if (!item) return <div>Item not found</div>;
 
   return (
     <div style={styles.container}>
-      <div
-        className={markdownStyles["markdown"]}
-        dangerouslySetInnerHTML={{ __html: htmlContent }}
-      />
+      {loading ? (
+        <div style={styles.loaderContainer}>
+          <SquareLoader color="gray" />
+        </div>
+      ) : (
+        <div
+          className={markdownStyles["markdown"]}
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+        />
+      )}
     </div>
   );
 }
-const styles: { container: CSSProperties } = {
+
+const styles: { container: CSSProperties; loaderContainer: CSSProperties } = {
   container: {
     border: "1px solid gray",
     borderRadius: "4px",
@@ -41,5 +49,12 @@ const styles: { container: CSSProperties } = {
     color: "white",
     overflow: "scroll",
     height: "100%",
+  },
+  loaderContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    width: "100%",
   },
 };
