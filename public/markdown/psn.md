@@ -74,17 +74,17 @@ The balance of fighting games is extremely sensitive and requires lots of iterat
 `SectionGroup`s are essentially a timeline that lets me declare a series of configurations that are used throughout the duration of a state. So, given this configuration:
 
 ```c#
-    var hitboxes = new SectionGroup<Hit>()
+var hitboxes = new SectionGroup<Hit>()
+{
+    Sections = new List<Tuple<int, Hit>>()
     {
-        Sections = new List<Tuple<int, Hit>>()
-        {
-            new(startup, null),
-            new(active, hit),
-            new (20, null)
-        }
-    };
+        new(startup, null),
+        new(active, hit),
+        new (20, null)
+    }
+};
 
-    StateMapConfig.HitSectionGroup.Dictionary[state] = hitboxes;
+StateMapConfig.HitSectionGroup.Dictionary[state] = hitboxes;
 ```
 
 ...we can see that during the first `startup` frames of the state (in this case, 16 frames), no `Hit` is active, then the `Hit` is active for (2) active frames, and then finally is null again for the remainder of the state. Through this mechanism I can easily change the timing of an attack with a single line of code.

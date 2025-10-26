@@ -68,9 +68,14 @@
 
 .markdown code {
   /* background-color: red; */
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
+  /* padding: 0.2rem 0.4rem; */
+  /* border-radius: 10px; */
   font-family: monospace;
+}
+
+.markdown pre {
+  /* background-color: red; */
+  max-height: 40vh;
 }
 
 .markdown a {
