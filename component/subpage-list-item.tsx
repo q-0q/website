@@ -112,6 +112,7 @@ const styles: {
     pointerEvents: "all",
     backgroundColor: "transparent",
     transition: "border-color 0.2s, background-color 0.2s",
+    cursor: "pointer",
   },
 
   hovered: {

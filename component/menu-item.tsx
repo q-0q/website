@@ -378,6 +378,7 @@ const styles: {
     width: "calc(var(--vh, 1vh) * 15)",
     height: "100%",
     background: "var(--brand-color)",
+    cursor: "pointer",
   },
   text: {
     paddingTop: "20px",
@@ -386,6 +387,7 @@ const styles: {
   },
   name: {
     color: "white",
+    cursor: "pointer",
   },
   description: {
     color: "gray",

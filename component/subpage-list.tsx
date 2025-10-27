@@ -55,14 +55,6 @@ export default function SubpageList({ items }: SubpageListProps) {
     router.push(`?item=${id}`, { scroll: false });
   };
 
-  const handleSelectionClick = () => {
-    if (isMobile) {
-      // Collapse selection back to list on mobile
-      setSelectedItemId(null);
-      router.push("?", { scroll: false });
-    }
-  };
-
   // === Mobile layout ===
   if (isMobile) {
     return (
@@ -94,7 +86,6 @@ export default function SubpageList({ items }: SubpageListProps) {
         ) : (
           <div
             style={mobileStyles.selectionContainer}
-            onClick={handleSelectionClick}
           >
             <SubpageListSelection itemId={selectedItemId} items={items} />
           </div>
@@ -204,7 +195,6 @@ const mobileStyles: Record<string, CSSProperties> = {
     height: "100%",
     overflowY: "auto",
     pointerEvents: "all",
-    cursor: "pointer",
   },
 };
 
