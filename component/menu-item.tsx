@@ -7,7 +7,8 @@ import { useAppContext } from "./context";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { inverseLerp, lerp, setVhVariable } from "@/helper/helper";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { MOBILE_BREAKPOINT } from "./subpage-list";
 
 type MenuItemProps = {
   index: number;
@@ -32,6 +33,9 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
     const mouseMoveContainerRef = useRef<HTMLDivElement>(null);
     const transitionContainerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const selectedSlug = searchParams.get("item");
+    const path = usePathname();
 
     const { 
         selectedPageIndex, 
@@ -42,8 +46,12 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
         setMenuState
     } = useAppContext()
 
-
     function handleClick(){
+
+        if (selectedSlug && window.innerWidth < MOBILE_BREAKPOINT) {
+          router.push("?");
+          return;
+        }
 
         let prev = selectedPageIndex
         let current = selectedPageIndex === index ? null : index;

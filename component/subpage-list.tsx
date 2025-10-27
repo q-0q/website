@@ -5,8 +5,7 @@ import { CSSProperties, useEffect, useRef, useState } from "react";
 import SubpageListItem, { SubpageListItemData } from "./subpage-list-item";
 import SubpageListSelection from "./subpage-list-selection";
 
-// 💡 Adjustable mobile breakpoint
-const MOBILE_BREAKPOINT = 768; // px — adjust as needed
+export const MOBILE_BREAKPOINT = 768;
 
 type SubpageListProps = {
   items: SubpageListItemData[];
@@ -46,8 +45,10 @@ export default function SubpageList({ items }: SubpageListProps) {
 
   // Sync selected item with URL
   useEffect(() => {
-    if (selectedSlug) setSelectedItemId(selectedSlug);
-  }, [selectedSlug]);
+    const slug = searchParams.get("item");
+    setSelectedItemId(slug);
+  }, [searchParams.toString()]);
+
 
   const handleItemClick = (id: string) => {
     setSelectedItemId(id);
