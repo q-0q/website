@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -19,10 +19,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// export const metadata: Metadata = {
-//   title: "Jack Withers",
-//   description: "Personal website for Jack Withers A.K.A. q-0q",
-// };
+export const metadata: Metadata = {
+  title: "Jack Withers",
+  description: "Personal website for Jack Withers A.K.A. q-0q",
+};
 
 export default function RootLayout({
   children,
