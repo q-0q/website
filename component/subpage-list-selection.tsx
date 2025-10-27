@@ -1,9 +1,10 @@
-import { SubpageListItemData } from "@/data/games-data";
+
 import { CSSProperties, useEffect, useState } from "react";
 import { getMarkdownContent } from "@/app/api/api";
 import markdownStyles from "./markdown-styles.module.css";
 import { SquareLoader } from "react-spinners";
 import Loader from "./loader";
+import { SubpageListItemData } from "./subpage-list-item";
 
 export default function SubpageListSelection({
   itemId,
