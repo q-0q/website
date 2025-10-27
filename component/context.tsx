@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, MenuHTMLAttributes, ReactNode, useContext, useEffect, useRef, useState } from "react";
+import { createContext, MenuHTMLAttributes, ReactNode, Suspense, useContext, useEffect, useRef, useState } from "react";
 import { MenuState } from "./menu-item";
 import { menuItems } from "@/data/menu-data";
 import { usePathname } from "next/navigation";
@@ -80,7 +80,7 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
         setMenuState
       }}
     >
-      {children}
+      <Suspense fallback={<></>}>{children}</Suspense>
     </AppContext.Provider>
   );
 };

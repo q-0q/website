@@ -32,7 +32,7 @@ export default function Subpage({ children } : SubpageProps ) {
   
   return (
     <div style={styles.container} ref={ref}>
-      <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+      { children }
     </div>
   );
 }
