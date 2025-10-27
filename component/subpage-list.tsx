@@ -2,8 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { CSSProperties, useEffect, useRef, useState } from "react";
-import { SubpageListItemData } from "@/data/games-data";
-import SubpageListItem from "./subpage-list-item";
+import SubpageListItem, { SubpageListItemData } from "./subpage-list-item";
 import SubpageListSelection from "./subpage-list-selection";
 
 type SubpageListProps = {
