@@ -1,18 +1,11 @@
-"use server";
-
-import { unified } from "unified"
-import { remark } from "remark";
-import html from "remark-html";
-import oembed from "@agentofuser/remark-oembed"
-import remarkDirectiveSugar from "remark-directive-sugar";
-import rehypeStringify from "rehype-stringify";
-import rehypeFormat from "rehype-format";
-import remarkDirective from "remark-directive";
-import matter from "gray-matter";
+import { unified } from "unified";
 import remarkParse from "remark-parse";
+import remarkDirective from "remark-directive";
+import remarkDirectiveSugar from "remark-directive-sugar";
 import remarkRehype from "remark-rehype";
 import rehypeHighlight from "rehype-highlight";
-
+import rehypeStringify from "rehype-stringify";
+import matter from "gray-matter";
 
 export async function getMarkdownContent(path: string) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
@@ -33,6 +26,7 @@ export async function getMarkdownContent(path: string) {
     .use(remarkDirective)
     .use(remarkDirectiveSugar)
     .use(remarkRehype)
+    .use(rehypeHighlight)
     .use(rehypeStringify)
     .process(content);
 
