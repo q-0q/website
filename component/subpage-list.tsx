@@ -182,7 +182,7 @@ const mobileStyles: Record<string, CSSProperties> = {
   container: {
     marginTop: "17vh",
     width: "100%",
-    height: "75vh",
+    height: "calc(var(--vh, 1vh) * 75)",
     display: "flex",
     flexDirection: "column",
   },
