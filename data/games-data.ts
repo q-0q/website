@@ -78,7 +78,7 @@ export const gameItems: SubpageListItemData[] = [
     engine: "Godot",
     markdownPath: "markdown/ornament.md",
     thumbnailVideoUrl:
-      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/ornament-jump.mp4",
     date: "2025-10-28T00:16:41+0000",
   },
   {
