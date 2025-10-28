@@ -14,6 +14,7 @@ export const gameItems: SubpageListItemData[] = [
     markdownPath: "markdown/iapetus.md",
     thumbnailVideoUrl:
       "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
+    date: "2025-10-26T00:16:41+0000",
   },
   {
     title: "Project SilverNeedle",
@@ -26,6 +27,7 @@ export const gameItems: SubpageListItemData[] = [
     markdownPath: "markdown/psn.md",
     thumbnailVideoUrl:
       "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/psn-sindar.mp4",
+    date: "2025-10-28T00:16:41+0000",
   },
   {
     title: "Melody Temple",
@@ -38,6 +40,7 @@ export const gameItems: SubpageListItemData[] = [
     markdownPath: "markdown/melody-temple.md",
     thumbnailVideoUrl:
       "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/melody-thumb.mp4",
+    date: "2025-10-28T00:16:41+0000",
   },
   {
     title: "Synapse",
@@ -50,6 +53,7 @@ export const gameItems: SubpageListItemData[] = [
     markdownPath: "markdown/synapse.md",
     thumbnailVideoUrl:
       "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/synapse%20demo%20video.mp4",
+    date: "2025-10-27T00:16:41+0000",
   },
   {
     title: "PAWPRINCE",
@@ -62,6 +66,7 @@ export const gameItems: SubpageListItemData[] = [
     markdownPath: "markdown/pawprince.md",
     thumbnailVideoUrl:
       "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/pawprince-thumb.mp4",
+    date: "2025-10-28T00:16:41+0000",
   },
   {
     title: "Ornament",
@@ -74,6 +79,7 @@ export const gameItems: SubpageListItemData[] = [
     markdownPath: "markdown/ornament.md",
     thumbnailVideoUrl:
       "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
+    date: "2025-10-28T00:16:41+0000",
   },
   {
     title: "Dungeonballs",
@@ -86,6 +92,7 @@ export const gameItems: SubpageListItemData[] = [
     markdownPath: "markdown/dungeonballs.md",
     thumbnailVideoUrl:
       "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/dungeonballs-thumb.mp4",
+    date: "2025-10-28T00:16:41+0000",
   },
 ];
 

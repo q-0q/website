@@ -13,6 +13,7 @@ export const codeItems: SubpageListItemData[] = [
     engine: "",
     markdownPath: "markdown/wasp.md",
     thumbnailVideoUrl: null,
+    date: "2025-10-28T00:16:41+0000",
   },
   {
     title: "Website",
@@ -24,6 +25,7 @@ export const codeItems: SubpageListItemData[] = [
     engine: "",
     markdownPath: "markdown/website.md",
     thumbnailVideoUrl: null,
+    date: "2025-10-28T00:16:41+0000",
   },
 ];
 

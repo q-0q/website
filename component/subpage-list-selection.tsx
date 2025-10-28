@@ -2,7 +2,6 @@
 import { CSSProperties, useEffect, useState } from "react";
 import { getMarkdownContent } from "@/app/api/api";
 import markdownStyles from "./markdown-styles.module.css";
-import { SquareLoader } from "react-spinners";
 import Loader from "./loader";
 import { SubpageListItemData } from "./subpage-list-item";
 
@@ -14,8 +13,11 @@ export default function SubpageListSelection({
   items: SubpageListItemData[];
 }) {
   const item = items.find((i) => i.title === itemId);
+  if (!item) return;
   const [htmlContent, setHtmlContent] = useState("");
   const [loading, setLoading] = useState(true);
+  const date = new Date(item.date);
+  console.log(date)
 
   useEffect(() => {
     if (!item) return;
@@ -63,6 +65,9 @@ return (
             )}
           </div>
         </div>
+        <time style={styles.time} dateTime={date.toDateString()}>
+          Edited {date.toDateString()}
+        </time>
         {/* <hr style={styles.divider} /> */}
         <div
           className={markdownStyles["markdown"]}
@@ -81,6 +86,7 @@ const styles: {
   header: CSSProperties;
   title: CSSProperties;
   divider: CSSProperties;
+  time: CSSProperties;
 } = {
   container: {
     border: "1px solid gray",
@@ -91,7 +97,6 @@ const styles: {
     height: "100%",
   },
   header: {
-    marginBottom: "1rem",
     justifyContent: "space-between",
     alignItems: "center",
     display: "flex",
@@ -110,5 +115,9 @@ const styles: {
     color: "gray",
     opacity: "0.5",
     margin: "1rem 0 1rem 0",
+  },
+  time: {
+    color: "gray",
+    fontSize: "0.75rem"
   },
 };

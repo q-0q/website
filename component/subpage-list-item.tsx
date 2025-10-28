@@ -11,6 +11,7 @@ export interface SubpageListItemData {
   engine: string;
   markdownPath: string;
   thumbnailVideoUrl: string | null;
+  date: string;
 }
 
 type SubpageListItemProps = {
