@@ -5,7 +5,7 @@ import { CSSProperties, useEffect, useRef, useState } from "react";
 import SubpageListItem, { SubpageListItemData } from "./subpage-list-item";
 import SubpageListSelection from "./subpage-list-selection";
 
-export const MOBILE_BREAKPOINT = 768;
+export const MOBILE_BREAKPOINT = 800;
 
 type SubpageListProps = {
   items: SubpageListItemData[];
@@ -174,9 +174,9 @@ const styles: {
 // =====================
 const mobileStyles: Record<string, CSSProperties> = {
   container: {
-    marginTop: "18vh",
+    marginTop: "11vh",
     width: "100%",
-    height: "calc(var(--vh, 1vh) * 74)",
+    height: "calc(var(--vh, 1vh) * 80)",
     display: "flex",
     flexDirection: "column",
   },

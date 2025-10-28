@@ -186,6 +186,10 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
         return output;
     }
 
+    function computeClosedHeight() {
+      return window.innerWidth < MOBILE_BREAKPOINT ? "8%" : "15%"
+    }
+
     function choreograph() {
     
         switch (menuState) {
@@ -291,7 +295,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
             },
             "+=" + scaleDuration.toString()
         ).to(transitionContainerRef.current, {
-            height: "15%",
+            height: computeClosedHeight(),
               y: computeClosedYDestination(),
               onComplete: () => {
                 router.push(slug);
@@ -323,16 +327,13 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
             gsap.set(mouseMoveContainerRef.current, {
               x: 0,
             });
-            gsap.set(
-              transitionContainerRef.current,
-              {
-                x: computeClosedXDestination(),
-                opacity: 1,
-                y: computeClosedYDestination(),
-                // duration: 0.1,
-                height: "15%"
-              }
-            );
+            gsap.set(transitionContainerRef.current, {
+              x: computeClosedXDestination(),
+              opacity: 1,
+              y: computeClosedYDestination(),
+              // duration: 0.1,
+              height: computeClosedHeight(),
+            });
 
           } else {
             gsap.set(transitionContainerRef.current, {
@@ -362,6 +363,7 @@ const styles: {
   shape: CSSProperties;
   container: CSSProperties;
   text: CSSProperties;
+  mobileText: CSSProperties;
   mouseMove: CSSProperties;
   name: CSSProperties;
   description: CSSProperties;
@@ -384,6 +386,12 @@ const styles: {
     paddingTop: "20px",
     paddingLeft: "10px",
     maxWidth: "30%",
+  },
+  mobileText: {
+    paddingTop: "20px",
+    paddingLeft: "10px",
+    maxWidth: "30%",
+    background: "red",
   },
   name: {
     color: "white",

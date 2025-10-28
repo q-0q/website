@@ -1,8 +1,11 @@
+"use client";
+
 import { CSSProperties, useEffect, useState } from "react";
 import { getMarkdownContent } from "@/app/api/api";
 import markdownStyles from "./markdown-styles.module.css";
 import Loader from "./loader";
 import { SubpageListItemData } from "./subpage-list-item";
+import { MOBILE_BREAKPOINT } from "./subpage-list";
 
 export default function SubpageListSelection({
   itemId,
@@ -15,6 +18,7 @@ export default function SubpageListSelection({
   if (!item) return;
   const [htmlContent, setHtmlContent] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const date = new Date(item.date);
 
   useEffect(() => {
@@ -27,62 +31,78 @@ export default function SubpageListSelection({
 
   if (!item) return <div>Item not found</div>;
 
+  useEffect(() => {
+    const checkMobile = () =>
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  
   return (
-    <div style={styles.container}>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          {/* Header */}
-          <div style={styles.header}>
-            <div style={styles.title}>{item.title}</div>
-            <div style={styles.buttonContainer}>
-              {item.sourceUrl && (
-                <a
-                  href={item.sourceUrl}
-                  style={{
-                    ...styles.button,
-                    borderWidth: "1px",
-                    borderColor: "var(--brand-color)",
-                    color: "var(--brand-color)",
-                  }}
-                >
-                  Source
-                </a>
-              )}
-              {item.playUrl && (
-                <a
-                  href={item.playUrl}
-                  style={{
-                    ...styles.button,
-                    backgroundColor: "var(--brand-color)",
-                    color: "black",
-                  }}
-                >
-                  Play
-                </a>
-              )}
+    <>
+      <hr style={styles.divider}></hr>
+      <div
+        style={{
+          ...(isMobile ? styles.mobileContainer : styles.container),
+        }}
+      >
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            {/* Header */}
+            <div style={styles.header}>
+              <div style={styles.title}>{item.title}</div>
+              <div style={styles.buttonContainer}>
+                {item.sourceUrl && (
+                  <a
+                    href={item.sourceUrl}
+                    style={{
+                      ...styles.button,
+                      borderWidth: "1px",
+                      borderColor: "var(--brand-color)",
+                      color: "var(--brand-color)",
+                    }}
+                  >
+                    Source
+                  </a>
+                )}
+                {item.playUrl && (
+                  <a
+                    href={item.playUrl}
+                    style={{
+                      ...styles.button,
+                      backgroundColor: "var(--brand-color)",
+                      color: "black",
+                    }}
+                  >
+                    Play
+                  </a>
+                )}
+              </div>
             </div>
-          </div>
 
-          {/* Date */}
-          <time style={styles.time} dateTime={date.toDateString()}>
-            Edited {date.toDateString()}
-          </time>
+            <time style={styles.time} dateTime={date.toDateString()}>
+              Edited {date.toDateString()}
+            </time>
 
-          {/* Article content */}
-          <div
-            className={markdownStyles["markdown"]}
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
-          />
-        </>
-      )}
-    </div>
+            <div
+              className={markdownStyles["markdown"]}
+              dangerouslySetInnerHTML={{ __html: htmlContent }}
+            />
+          </>
+        )}
+      </div>
+    </>
   );
 }
 
+
 const styles: {
   container: CSSProperties;
+  mobileContainer: CSSProperties;
   button: CSSProperties;
   header: CSSProperties;
   buttonContainer: CSSProperties;
@@ -95,6 +115,18 @@ const styles: {
     borderColor: "#474747",
     borderRadius: "4px",
     padding: "2rem",
+    color: "white",
+    overflow: "scroll",
+    height: "100%",
+  },
+
+  mobileContainer: {
+    // border: "1px solid",
+    // width: "100vw",
+    // borderColor: "#474747",
+    // borderRadius: "4px",
+    // backgroundColor: "red",
+    paddingTop: "2rem",
     color: "white",
     overflow: "scroll",
     height: "100%",
@@ -129,9 +161,9 @@ const styles: {
     borderStyle: "solid",
   },
   divider: {
-    color: "gray",
-    opacity: "0.5",
-    margin: "1rem 0",
+    color: "#474747",
+    width: "200%"
+    // margin: "1rem 0",
   },
   time: {
     color: "gray",
