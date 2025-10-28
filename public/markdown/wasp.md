@@ -1,5 +1,3 @@
-# Wasp
-
 ## About
 
 Wasp is an open-source state machine Nuget package designed for use in game controllers.
@@ -21,7 +19,7 @@ Machine.Configure(State.Idle)
     .Permit(Trigger.InputMoveVector2, State.Walking);
 
 Machine.Configure(State.Falling)
-    .Permit(Trigger.InputMoveVector2, State.Floating);
+    .Permit(Trigger.InputMoveVector2, State.Gliding);
 ```
 
 Then, somewhere else, you can fire a Trigger on the Machine without caring what State it's in.
@@ -34,7 +32,7 @@ void Update() {
 }
 ```
 
-In this example, if the Machine is in the Idle State when the Trigger is fired, the Machine would transition into the Walking State. But if the Machine was in the Falling State, the Machine would go into the Floating State instead. Simple!
+In this example, if the Machine is in the Idle State when the Trigger is fired, the Machine would transition into the Walking State. But if the Machine was in the Falling State, the Machine would go into the Gliding State instead. Simple!
 
 Wasp Machines act as a source-of-truth that can track entity state, but how you read that state is entirely up to you. A simple approach is to conditionally run code based on the Machine state using if-statements.
 
@@ -126,12 +124,10 @@ Machine.Configure(State.Grounded)
     .Permit(Trigger.GroundCheckFailed, State.Falling);
 
 Machine.Configure(State.Idle)
-    .SubstateOf(State.Grounded)
-    .Permit(Trigger.InputMoveVector2, State.Walking);
+    .SubstateOf(State.Grounded);
 
 Machine.Configure(State.Walking)
-    .SubstateOf(State.Grounded)
-    .Permit(Trigger.InputMoveVector2, State.Running);
+    .SubstateOf(State.Grounded);
 ```
 
 In this example, the Idle and Walking States have both been configured as Substates of the Grounded State. This means when the Machine is in the Idle State or in the Walking State, it's also effectively in the Grounded State. Both of these Substates will respond to the GroundCheckFailed Trigger because they inherit the permitted transition from their Grounded superstate.
@@ -143,30 +139,23 @@ This pattern allows you to write shared configurations a single time and then sh
 One of Wasp's most powerful features is that it enables entirely abstract inheritance patterns.
 
 ```csharp
-Machine.Configure(State.Moving)
-    .Permit(Trigger.Collision, State.Crash);
-
-Machine.Configure(State.Grounded)
-    .Permit(Trigger.GroundCheckFailed, State.Falling);
-
-Machine.Configure(State.Airborne)
-    .Permit(Trigger.GroundCheckSucceeded, State.Idle);
+Machine.Configure(State.Moving);
+Machine.Configure(State.Grounded);
+Machine.Configure(State.Airborne);
 
 Machine.Configure(State.Idle)
-    .SubstateOf(State.Grounded)
-    .Permit(Trigger.InputMoveVector2, State.Walking);
+    .SubstateOf(State.Grounded);
 
 Machine.Configure(State.Walking)
     .SubstateOf(State.Grounded)
-    .SubstateOf(State.Moving)
-    .Permit(Trigger.InputMoveVector2, State.Running);
+    .SubstateOf(State.Moving);
 
-Machine.Configure(State.Falling)
+Machine.Configure(State.Gliding)
     .SubstateOf(State.Airborne)
     .SubstateOf(State.Moving);
 ```
 
-In this more complex example, we have 3 superstates: Grounded, Airborne, and Moving. Notice how the Walking State inherits Grounded and Moving, while the Falling State inherits Airborne and Moving. Crucially, Grounded, Airborne, and Moving do not inherit from eachother. You can see here that Substates are free to mix-and-match superstates however they see fit. In this way, it can be helpful to think of Wasp States as based on a composition pattern rather than inheritance.
+In this more complex example, we have 3 superstates: Grounded, Airborne, and Moving. Notice how the Walking State inherits Grounded and Moving, while the Gliding State inherits Airborne and Moving. Crucially, Grounded, Airborne, and Moving do not inherit from eachother. You can see here that Substates are free to mix-and-match superstates however they see fit. In this way, it can be helpful to think of Wasp States as based on a composition pattern rather than inheritance.
 
 Substates also chain inheritance if their parent superstates happen to also be Substates.
 
@@ -208,3 +197,22 @@ print(Machine.IsInState(State.Grounded)); // prints "true"
 print(Machine.IsInState(State.Airborne)); // prints "false"
 print(Machine.IsInState(State.Actionable)); // prints "true"
 ```
+
+### Inherited Actions
+
+When a State is entered or exited, it invokes not only its own Actions, but those of its superstates as well.
+
+```csharp
+Machine.Configure(State.Actionable)
+    .OnEntry(_ => { print("Actionable entered"); });
+
+Machine.Configure(State.Grounded)
+    .SubstateOf(State.Actionable)
+    .OnEntry(_ => { print("Grounded entered"); });
+
+Machine.Configure(State.Idle)
+    .SubstateOf(State.Grounded)
+    .OnEntry(_ => { print("Idle entered"); });
+```
+
+Given this example, when the Machine enters the Idle State, all three print statements will be executed.

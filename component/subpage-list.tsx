@@ -139,7 +139,7 @@ const styles: {
   divider: CSSProperties;
 } = {
   listOuterContainer: {
-    marginTop: "17vh",
+    marginTop: "18vh",
     width: "40%",
     flexDirection: "column",
   },
@@ -172,9 +172,9 @@ const styles: {
 // =====================
 const mobileStyles: Record<string, CSSProperties> = {
   container: {
-    marginTop: "17vh",
+    marginTop: "18vh",
     width: "100%",
-    height: "calc(var(--vh, 1vh) * 75)",
+    height: "calc(var(--vh, 1vh) * 74)",
     display: "flex",
     flexDirection: "column",
   },

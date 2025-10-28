@@ -6,7 +6,8 @@ export interface SubpageListItemData {
   description: string;
   slug: string;
   contributions: string;
-  playUrl: string;
+  playUrl: string | null;
+  sourceUrl : string | null;
   engine: string;
   markdownPath: string;
   thumbnailVideoUrl: string | null;

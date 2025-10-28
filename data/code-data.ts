@@ -8,7 +8,8 @@ export const codeItems: SubpageListItemData[] = [
     description: "Flexible state machine library for game development",
     slug: "/wasp",
     contributions: "Everything",
-    playUrl: "",
+    playUrl: null,
+    sourceUrl: "https://github.com/wasp-state-machine/wasp",
     engine: "",
     markdownPath: "markdown/wasp.md",
     thumbnailVideoUrl: null,
@@ -18,10 +19,11 @@ export const codeItems: SubpageListItemData[] = [
     description: "The site you're using now",
     slug: "/website",
     contributions: "Everything",
-    playUrl: "",
+    playUrl: null,
+    sourceUrl: "https://github.com/q-0q/website",
     engine: "",
     markdownPath: "markdown/website.md",
     thumbnailVideoUrl: null,
-  }
+  },
 ];
 

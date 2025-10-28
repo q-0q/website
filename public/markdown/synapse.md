@@ -1,5 +1,3 @@
-# Synapse
-
 ## About
 
 *Synapse* was developed for the Fall 2022 season of Imbricate Collective, a multimedia collective based in Ann Arbor, MI, USA. It explores flow, feedback, and breath in music.

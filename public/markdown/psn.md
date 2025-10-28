@@ -1,9 +1,6 @@
-
-# Project SilverNeedle
-
 ## About
 
-Project SilverNeedle (PSN) is a 1-vs-1 2D fighter. *PSN* is mostly inspired by modern titles like *Guilty Gear -STRIVE-* and *Street Fighter 6*, but also draws from a deeper ancestry of games including *Asuka 120%* and *Street Fighter III: Third Strike*.
+*Project SilverNeedle* is a 1-vs-1 2D fighter. *PSN* is mostly inspired by modern titles like *Guilty Gear -STRIVE-* and *Street Fighter 6*, but also draws from a deeper ancestry of games including *Asuka 120%* and *Street Fighter III: Third Strike*.
 
 ::video{id=https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/psn-sindar.mp4}
 
@@ -11,7 +8,7 @@ Project SilverNeedle (PSN) is a 1-vs-1 2D fighter. *PSN* is mostly inspired by m
 
 ### Netcode
 
-Project SilverNeedle uses [Photon Quantum](https://www.photonengine.com/quantum) as its netcode solution for implementing [client side prediction and rollback](https://www.snapnet.dev/docs/core-concepts/input-delay-vs-rollback/#rollback-client-side-prediction). The core game simulation happens inside Quantum's deterministic kernel, while Unity serves as a wrapper engine that captures user input, renders graphics, and plays audio.
+*Project SilverNeedle* uses [Photon Quantum](https://www.photonengine.com/quantum) as its netcode solution for implementing [client side prediction and rollback](https://www.snapnet.dev/docs/core-concepts/input-delay-vs-rollback/#rollback-client-side-prediction). The core game simulation happens inside Quantum's deterministic kernel, while Unity serves as a wrapper engine that captures user input, renders graphics, and plays audio.
 
 Quantum handles the synchronization of state over the network and, save for some performance considerations required of the developer, acts mostly as a black-box that "just works". One major limitation of Quantum is that it can only sync data over the network in the form of primitive types (mainly numbers and booleans). This means generic class objects cannot be synchronized over the network -- at least not directly.
 
@@ -30,45 +27,43 @@ To keep controller code as reusable as possible, machine types follow class-base
 The balance of fighting games is extremely sensitive and requires lots of iteration to get right, so it's important to have the configurations for player actions be easy to read and edit. For *PSN* I designed a declarative system that hooks up directly to the Wasp machines of game objects. Here's an example configuration of the hitboxes for an attack:
 
 ```c#
+var hit = new Hit()
 {
-    var hit = new Hit()
+    Level = 3,
+    TrajectoryHeight = FP.FromString("6.8"),
+    TrajectoryXVelocity = 5,
+    BlockPushback = FP.FromString("2.5"),
+    HitPushback = FP.FromString("1.5"),
+    GravityScaling = FP.FromString("1"),
+    GravityProration = FP.FromString("1.4"),
+    GroundBounce = true,
+    VisualHitPositionOffset = new FPVector2(7, 5),
+    VisualAngle = 70,
+    VisualHitLarge = true,
+    Damage = 20,
+    ProxBlockDistance = 9,
+    HitboxCollections = new SectionGroup<CollisionBoxCollection>()
     {
-        Level = 3,
-        TrajectoryHeight = FP.FromString("6.8"),
-        TrajectoryXVelocity = 5,
-        BlockPushback = FP.FromString("2.5"),
-        HitPushback = FP.FromString("1.5"),
-        GravityScaling = FP.FromString("1"),
-        GravityProration = FP.FromString("1.4"),
-        GroundBounce = true,
-        VisualHitPositionOffset = new FPVector2(7, 5),
-        VisualAngle = 70,
-        VisualHitLarge = true,
-        Damage = 20,
-        ProxBlockDistance = 9,
-        HitboxCollections = new SectionGroup<CollisionBoxCollection>()
+        Sections = new List<Tuple<int, CollisionBoxCollection>>()
         {
-            Sections = new List<Tuple<int, CollisionBoxCollection>>()
+            new (active, new CollisionBoxCollection()
             {
-                new (active, new CollisionBoxCollection()
+                CollisionBoxes = new List<CollisionBox>()
                 {
-                    CollisionBoxes = new List<CollisionBox>()
+                    new CollisionBox()
                     {
-                        new CollisionBox()
-                        {
-                            Height = FP.FromString("7"),
-                            Width = FP.FromString("8"),
-                            GrowWidth = true,
-                            GrowHeight = true,
-                            PosY = FP.FromString("0"),
-                            PosX = 0
-                        }
+                        Height = FP.FromString("7"),
+                        Width = FP.FromString("8"),
+                        GrowWidth = true,
+                        GrowHeight = true,
+                        PosY = FP.FromString("0"),
+                        PosX = 0
                     }
-                })
-            }
+                }
+            })
         }
-    };
-}
+    }
+};
 ```
 
 `SectionGroup`s are essentially a timeline that lets me declare a series of configurations that are used throughout the duration of a state. So, given this configuration:

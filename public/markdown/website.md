@@ -1,5 +1,3 @@
-# Website
-
 ## About
 
 This site is built with [Next.js](https://nextjs.org/) and hosted on [Vercel](https://vercel.com/). UI animations are done with the [GSAP](https://gsap.com/) framework.

@@ -27,21 +27,61 @@ export default function SubpageListSelection({
 
   if (!item) return <div>Item not found</div>;
 
-  return (
-    <div style={styles.container}>
-      {loading ? (
-        <Loader></Loader>
-      ) : (
+return (
+  <div style={styles.container}>
+    {loading ? (
+      <Loader />
+    ) : (
+      <>
+        <div style={styles.header}>
+          <div style={styles.title}>{item.title}</div>
+          <div>
+            {item.sourceUrl && (
+              <a
+                href={item.sourceUrl}
+                style={{
+                  ...styles.button,
+                  borderWidth: "1px",
+                  borderColor: "var(--brand-color)",
+                  color: "var(--brand-color)",
+                }}
+              >
+                Source
+              </a>
+            )}
+            {item.playUrl && (
+              <a
+                href={item.playUrl}
+                style={{
+                  ...styles.button,
+                  backgroundColor: "var(--brand-color)",
+                  color: "black",
+                }}
+              >
+                Play
+              </a>
+            )}
+          </div>
+        </div>
+        {/* <hr style={styles.divider} /> */}
         <div
           className={markdownStyles["markdown"]}
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
-      )}
-    </div>
-  );
+      </>
+    )}
+  </div>
+);
+
 }
 
-const styles: { container: CSSProperties } = {
+const styles: {
+  container: CSSProperties;
+  button: CSSProperties;
+  header: CSSProperties;
+  title: CSSProperties;
+  divider: CSSProperties;
+} = {
   container: {
     border: "1px solid gray",
     borderRadius: "4px",
@@ -49,5 +89,26 @@ const styles: { container: CSSProperties } = {
     color: "white",
     overflow: "scroll",
     height: "100%",
-  }
+  },
+  header: {
+    marginBottom: "1rem",
+    justifyContent: "space-between",
+    alignItems: "center",
+    display: "flex",
+  },
+  title: {
+    fontSize: "2.5rem",
+    fontWeight: "bold",
+  },
+  button: {
+    width: "fit-content",
+    padding: "0.5rem 1rem 0.5rem 1rem",
+    margin: "0 0.5rem 0 0.5rem",
+    borderRadius: "30px",
+  },
+  divider: {
+    color: "gray",
+    opacity: "0.5",
+    margin: "1rem 0 1rem 0",
+  },
 };

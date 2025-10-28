@@ -8,7 +8,8 @@ export const gameItems: SubpageListItemData[] = [
     description: "Movement-centered 3D platformer",
     slug: "/iapetus",
     contributions: "Everything",
-    playUrl: "",
+    playUrl: "https://q-0q.itch.io/iapetus",
+    sourceUrl: "https://github.com/q-0q/iapetus",
     engine: "Unity",
     markdownPath: "markdown/iapetus.md",
     thumbnailVideoUrl:
@@ -19,7 +20,8 @@ export const gameItems: SubpageListItemData[] = [
     description: "1v1 2D fighter with rollback netcode",
     slug: "/project-silver-needle",
     contributions: "Everything",
-    playUrl: "",
+    playUrl: null,
+    sourceUrl: "https://github.com/q-0q/ProjectSilverNeedle",
     engine: "Unity & Photon Quantum",
     markdownPath: "markdown/psn.md",
     thumbnailVideoUrl:
@@ -30,7 +32,8 @@ export const gameItems: SubpageListItemData[] = [
     description: "Musical 2D platformer",
     slug: "/melody-temple",
     contributions: "Everything",
-    playUrl: "",
+    playUrl: "https://q-0q.itch.io/melody-temple",
+    sourceUrl: "https://github.com/q-0q/melody-temple",
     engine: "Godot",
     markdownPath: "markdown/melody-temple.md",
     thumbnailVideoUrl:
@@ -41,7 +44,8 @@ export const gameItems: SubpageListItemData[] = [
     description: "Graph-based music synthesizer",
     slug: "/synapse",
     contributions: "Everything",
-    playUrl: "",
+    playUrl: "https://q-0q.itch.io/synapse",
+    sourceUrl: "https://github.com/q-0q/synapse",
     engine: "Unity",
     markdownPath: "markdown/synapse.md",
     thumbnailVideoUrl:
@@ -52,7 +56,8 @@ export const gameItems: SubpageListItemData[] = [
     description: "Isometric puzzle adventure",
     slug: "/pawprince",
     contributions: "Everything",
-    playUrl: "",
+    playUrl: null,
+    sourceUrl: "https://github.com/q-0q/PAWPRINCE",
     engine: "Unity",
     markdownPath: "markdown/pawprince.md",
     thumbnailVideoUrl:
@@ -63,7 +68,8 @@ export const gameItems: SubpageListItemData[] = [
     description: "2D metroidvania",
     slug: "/ornament",
     contributions: "Everything",
-    playUrl: "",
+    playUrl: null,
+    sourceUrl: "https://github.com/q-0q/ornament",
     engine: "Godot",
     markdownPath: "markdown/ornament.md",
     thumbnailVideoUrl:
@@ -74,7 +80,8 @@ export const gameItems: SubpageListItemData[] = [
     description: "3D adventure game with funky gravity",
     slug: "/dungeonballs",
     contributions: "Everything",
-    playUrl: "",
+    playUrl: null,
+    sourceUrl: null,
     engine: "Unity",
     markdownPath: "markdown/dungeonballs.md",
     thumbnailVideoUrl:
