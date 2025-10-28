@@ -79,8 +79,6 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
 
     useEffect(() => {
 
-        setVhVariable();
-        
         // Mouse motion effect
         const handleMouseMove = (e: MouseEvent) => {
             // if (isMobile) return;
@@ -108,6 +106,8 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
             choreograph();
         }
 
+        handleResize();
+
         window.addEventListener("mousemove", handleMouseMove);
         window.addEventListener("resize", handleResize);
 
@@ -130,7 +130,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
           <div style={styles.shape} onClick={handleClick} ref={shapeRef}></div>
           <div
             style={{
-              ...(isMobile && selectedPageIndex == index && menuState == MenuState.Closed ? styles.mobileText : styles.text),
+              ...(isMobile && selectedPageIndex == index && (menuState == MenuState.Closed) ? styles.mobileText : styles.text),
             }}
           >
             <p onClick={handleClick} style={styles.name}>
@@ -391,14 +391,14 @@ const styles: {
     cursor: "pointer",
   },
   text: {
-    paddingTop: "20px",
+    paddingTop: "10px",
     paddingLeft: "10px",
     maxWidth: "10%",
   },
   mobileText: {
-    paddingTop: "20px",
+    paddingTop: "10px",
     paddingLeft: "10px",
-    width: "50%",
+    width: "fit-content"
   },
   name: {
     color: "white",
