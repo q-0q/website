@@ -100,20 +100,24 @@ const styles: {
   },
   header: {
     display: "flex",
-    flexWrap: "wrap", // ✅ allows wrapping
+    flexWrap: "wrap", 
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: "0.5rem",
-    gap: "0.5rem", // spacing when wrapped
-  },
-  buttonContainer: {
-    display: "flex",
-    flexWrap: "wrap",
     gap: "0.5rem",
   },
   title: {
     fontSize: "2.5rem",
     fontWeight: "bold",
+    flex: "1 1 auto",
+    minWidth: 0, 
+    wordBreak: "break-word",
+  },
+  buttonContainer: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "0.5rem",
+    justifyContent: "flex-end",
     flexShrink: 0,
   },
   button: {
