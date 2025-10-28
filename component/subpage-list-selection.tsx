@@ -121,11 +121,6 @@ const styles: {
   },
 
   mobileContainer: {
-    // border: "1px solid",
-    // width: "100vw",
-    // borderColor: "#474747",
-    // borderRadius: "4px",
-    // backgroundColor: "red",
     paddingTop: "2rem",
     color: "white",
     overflow: "scroll",

@@ -36,6 +36,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
     const searchParams = useSearchParams();
     const selectedSlug = searchParams.get("item");
     const path = usePathname();
+    const [isMobile, setIsMobile] = useState(false);
 
     const { 
         selectedPageIndex, 
@@ -82,6 +83,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
         
         // Mouse motion effect
         const handleMouseMove = (e: MouseEvent) => {
+            // if (isMobile) return;
             if (!shapeRef.current) return;
             if (!mouseMoveContainerRef.current) return;
 
@@ -101,6 +103,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
         };
 
         const handleResize = () => {
+            setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
             setVhVariable();
             choreograph();
         }
@@ -125,8 +128,14 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
       <div style={styles.container} ref={transitionContainerRef}>
         <div ref={mouseMoveContainerRef} style={styles.mouseMove}>
           <div style={styles.shape} onClick={handleClick} ref={shapeRef}></div>
-          <div style={styles.text}>
-            <p onClick={handleClick} style={styles.name}>{title}</p> 
+          <div
+            style={{
+              ...(isMobile && selectedPageIndex == index && menuState == MenuState.Closed ? styles.mobileText : styles.text),
+            }}
+          >
+            <p onClick={handleClick} style={styles.name}>
+              {title}
+            </p>
             <p style={styles.description}>{description} </p>
           </div>
         </div>
@@ -370,11 +379,10 @@ const styles: {
 } = {
   container: {
     height: "25%",
-    width: "30vw",
+    width: "100vw",
     display: "flex",
     flexDirection: "row",
     marginLeft: "calc(var(--vh, 1vh) * -100)",
-    // background: "red",
   },
   shape: {
     width: "calc(var(--vh, 1vh) * 15)",
@@ -385,13 +393,12 @@ const styles: {
   text: {
     paddingTop: "20px",
     paddingLeft: "10px",
-    maxWidth: "30%",
+    maxWidth: "10%",
   },
   mobileText: {
     paddingTop: "20px",
     paddingLeft: "10px",
-    maxWidth: "30%",
-    background: "red",
+    width: "50%",
   },
   name: {
     color: "white",
@@ -403,7 +410,7 @@ const styles: {
   },
 
   mouseMove: {
-    width: "25vw",
+    width: "100%",
     // background: "blue",
     zIndex: "10",
     display: "flex",
