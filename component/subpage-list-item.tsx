@@ -137,7 +137,7 @@ const styles: {
 } = {
   container: {
     height: "200px",
-    borderColor: "gray",
+    borderColor: "#474747",
     borderWidth: "1px",
     borderStyle: "solid",
     borderRadius: "4px",

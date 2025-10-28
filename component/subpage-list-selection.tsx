@@ -91,7 +91,8 @@ const styles: {
   time: CSSProperties;
 } = {
   container: {
-    border: "1px solid gray",
+    border: "1px solid",
+    borderColor: "#474747",
     borderRadius: "4px",
     padding: "2rem",
     color: "white",
