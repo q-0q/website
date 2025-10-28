@@ -42,7 +42,7 @@ export default function SubpageListSelection({
   
   return (
     <>
-      <hr style={styles.divider}></hr>
+      {isMobile && (<hr style={styles.divider}></hr>)}
       <div
         style={{
           ...(isMobile ? styles.mobileContainer : styles.container),

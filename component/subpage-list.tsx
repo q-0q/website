@@ -174,9 +174,9 @@ const styles: {
 // =====================
 const mobileStyles: Record<string, CSSProperties> = {
   container: {
-    marginTop: "11vh",
+    marginTop: "12vh",
     width: "100%",
-    height: "calc(var(--vh, 1vh) * 85)",
+    height: "calc(var(--vh, 1vh) * 77)",
     display: "flex",
     flexDirection: "column",
   },

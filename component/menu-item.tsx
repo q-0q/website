@@ -30,6 +30,7 @@ export { MenuState }
 export default function MenuItem({ index, title, description, slug }: MenuItemProps) {
 
     const shapeRef = useRef<HTMLDivElement>(null);
+    const descriptionRef = useRef<HTMLDivElement>(null);
     const mouseMoveContainerRef = useRef<HTMLDivElement>(null);
     const transitionContainerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
@@ -130,13 +131,19 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
           <div style={styles.shape} onClick={handleClick} ref={shapeRef}></div>
           <div
             style={{
-              ...(isMobile && selectedPageIndex == index && (menuState == MenuState.Closed) ? styles.mobileText : styles.text),
+              ...(isMobile &&
+              selectedPageIndex == index &&
+              menuState == MenuState.Closed
+                ? styles.mobileText
+                : styles.text),
             }}
           >
             <p onClick={handleClick} style={styles.name}>
               {title}
             </p>
-            <p style={styles.description}>{description} </p>
+            <p ref={descriptionRef} style={styles.description}>
+              {description}{" "}
+            </p>
           </div>
         </div>
       </div>
@@ -196,7 +203,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
     }
 
     function computeClosedHeight() {
-      return window.innerWidth < MOBILE_BREAKPOINT ? "8%" : "15%"
+      return window.innerWidth < MOBILE_BREAKPOINT ? "10%" : "15%"
     }
 
     function choreograph() {
@@ -255,6 +262,10 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
         gsap.to(mouseMoveContainerRef.current, {
           x: 0,
         });
+        gsap.to(descriptionRef.current, {
+          opacity: 1,
+          duration: 0.1,
+        });
         if (previousSelectedPageIndex === index) {
           tl.to(transitionContainerRef.current, {
             duration: xCloseDuration,
@@ -294,6 +305,10 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
         if (selectedPageIndex === index) {
             gsap.to(mouseMoveContainerRef.current, {
                 x: 0,
+            });
+            gsap.to(descriptionRef.current, {
+              opacity: 0,
+              duration: 0.1,
             });
             tl.to(
               transitionContainerRef.current,
@@ -336,6 +351,10 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
             gsap.set(mouseMoveContainerRef.current, {
               x: 0,
             });
+            gsap.to(descriptionRef.current, {
+              opacity: 1,
+              duration: 0.1,
+            });
             gsap.set(transitionContainerRef.current, {
               x: computeClosedXDestination(),
               opacity: 1,
@@ -357,6 +376,10 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
 
 
     function choreographOpen() {
+        gsap.to(descriptionRef.current, {
+          opacity: 1,
+          duration: 0.1,
+        });
         gsap.set(transitionContainerRef.current, {
           height: "25%",
           opacity: 1,
@@ -379,7 +402,7 @@ const styles: {
 } = {
   container: {
     height: "25%",
-    width: "100vw",
+    width: "80vw",
     display: "flex",
     flexDirection: "row",
     marginLeft: "calc(var(--vh, 1vh) * -100)",
