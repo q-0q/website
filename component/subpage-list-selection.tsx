@@ -42,7 +42,7 @@ export default function SubpageListSelection({
   
   return (
     <>
-      {isMobile && (<hr style={styles.divider}></hr>)}
+      {isMobile && <hr style={styles.divider}></hr>}
       <div
         style={{
           ...(isMobile ? styles.mobileContainer : styles.container),
@@ -95,6 +95,7 @@ export default function SubpageListSelection({
           </>
         )}
       </div>
+      {isMobile && <hr style={styles.divider}></hr>}
     </>
   );
 }
@@ -124,7 +125,7 @@ const styles: {
     paddingTop: "2rem",
     color: "white",
     overflow: "scroll",
-    height: "100%",
+    height: "99%", // ensures the bottom divider is visible
   },
   header: {
     display: "flex",
