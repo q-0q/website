@@ -22,6 +22,8 @@ To keep controller code as reusable as possible, machine types follow class-base
 
 `SummonFsm` is a sibling class to `PlayerFsm` that implements behaviors needed for "`Summon`s", which includes any game object created by a player, like projectiles or puppets. Specific `Summon`s then implement this class.
 
+::video{id=https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/psn-astrid.mp4}
+
 #### Declarative character data
 
 The balance of fighting games is extremely sensitive and requires lots of iteration to get right, so it's important to have the configurations for player actions be easy to read and edit. For *PSN* I designed a declarative system that hooks up directly to the Wasp machines of game objects. Here's an example configuration of the hitboxes for an attack:
