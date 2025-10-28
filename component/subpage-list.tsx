@@ -71,6 +71,8 @@ export default function SubpageList({ items }: SubpageListProps) {
                     title={item.title}
                     description={item.description}
                     engine={item.engine}
+                    playUrl={item.playUrl}
+                    sourceUrl={item.sourceUrl}
                     thumbnailVideoUrl={item.thumbnailVideoUrl}
                     onClick={() => handleItemClick(item.title)}
                     isSelected={selectedItemId === item.title}
@@ -84,9 +86,7 @@ export default function SubpageList({ items }: SubpageListProps) {
             </div>
           </>
         ) : (
-          <div
-            style={mobileStyles.selectionContainer}
-          >
+          <div style={mobileStyles.selectionContainer}>
             <SubpageListSelection itemId={selectedItemId} items={items} />
           </div>
         )}
@@ -105,6 +105,8 @@ export default function SubpageList({ items }: SubpageListProps) {
               key={item.title}
               title={item.title}
               description={item.description}
+                    playUrl={item.playUrl}
+                    sourceUrl={item.sourceUrl}
               engine={item.engine}
               thumbnailVideoUrl={item.thumbnailVideoUrl}
               onClick={() => handleItemClick(item.title)}

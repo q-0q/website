@@ -100,7 +100,7 @@ const styles: {
   },
   header: {
     display: "flex",
-    flexWrap: "wrap", 
+    flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: "0.5rem",
@@ -110,7 +110,7 @@ const styles: {
     fontSize: "2.5rem",
     fontWeight: "bold",
     flex: "1 1 auto",
-    minWidth: 0, 
+    minWidth: 0,
     wordBreak: "break-word",
   },
   buttonContainer: {

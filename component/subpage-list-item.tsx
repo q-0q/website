@@ -20,6 +20,8 @@ type SubpageListItemProps = {
   engine: string;
   thumbnailVideoUrl: string | null;
   onClick: MouseEventHandler<HTMLDivElement>;
+  sourceUrl: string | null;
+  playUrl: string | null;
   isSelected?: boolean;
 };
 
@@ -29,6 +31,8 @@ const SubpageListItem = forwardRef<HTMLDivElement, SubpageListItemProps>(
       title,
       description,
       engine,
+      sourceUrl,
+      playUrl,
       thumbnailVideoUrl: videoUrl,
       onClick,
       isSelected = false,
@@ -56,10 +60,38 @@ const SubpageListItem = forwardRef<HTMLDivElement, SubpageListItemProps>(
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div style={styles.text}>
-          <div>
+        <div style={styles.information}>
+          <div style={styles.text}>
             <p style={styles.title}>{title}</p>
             <p style={styles.description}>{description}</p>
+          </div>
+
+          <div style={styles.buttonContainer}>
+            {/* {sourceUrl && (
+              <a
+                href={sourceUrl}
+                style={{
+                  ...styles.badge,
+                  borderWidth: "1px",
+                  borderColor: "var(--brand-color)",
+                  color: "var(--brand-color)",
+                }}
+              >
+                Source
+              </a>
+            )} */}
+            {playUrl && (
+              <a
+                href={playUrl}
+                style={{
+                  ...styles.badge,
+                  backgroundColor: "var(--brand-color)",
+                  color: "black",
+                }}
+              >
+                Play
+              </a>
+            )}
           </div>
         </div>
 
@@ -96,9 +128,12 @@ const styles: {
   selected: CSSProperties;
   title: CSSProperties;
   description: CSSProperties;
-  thumbnail: CSSProperties;
   text: CSSProperties;
+  thumbnail: CSSProperties;
+  information: CSSProperties;
   video: CSSProperties;
+  badge: CSSProperties;
+  buttonContainer: CSSProperties;
 } = {
   container: {
     height: "200px",
@@ -131,9 +166,19 @@ const styles: {
   text: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    alignContent: "space-between",
+    height: "100%",
+    // width: "50%",
+    // backgroundColor: "red",
+  },
+
+  information: {
+    display: "flex",
+    flexDirection: "column",
+    alignContent: "space-between",
     height: "100%",
     width: "50%",
+    // backgroundColor: "red",
   },
 
   title: {
@@ -164,5 +209,22 @@ const styles: {
     objectFit: "cover",
     borderRadius: "6px",
     pointerEvents: "none",
+  },
+
+  badge: {
+    width: "fit-content",
+    padding: "0.2rem 0.5rem",
+    borderRadius: "30px",
+    textDecoration: "none",
+    borderStyle: "solid",
+    fontSize: "0.75rem",
+  },
+
+  buttonContainer: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "0.5rem",
+    justifyContent: "flex-start",
+    flexShrink: 0,
   },
 };

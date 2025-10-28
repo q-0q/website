@@ -11,14 +11,10 @@ type SubpageProps = {
 
 export default function Subpage({ children } : SubpageProps ) {
 
+  const newLocal = useAppContext();
     const { 
-        selectedPageIndex, 
-        setSelectedPageIndex, 
-        previousSelectedPageIndex,
-        setPreviousSelectedPageIndex,
-        menuState, 
-        setMenuState
-    } = useAppContext()
+        menuState    
+      } = newLocal
 
     const ref = useRef<HTMLDivElement>(null);
       
