@@ -1,6 +1,6 @@
 ## About
 
-Wasp is an open-source state machine Nuget package designed for use in game controllers.
+Wasp is an open-source state machine NuGet package designed for use in game controllers.
 
 Wasp is heavily inspired by [Stateless](https://github.com/dotnet-state-machine/stateless/tree/dev), and mirrors most of its patterns. I came across Stateless when looking for an FSM solution for my fighting game [Project SilverNeedle](../psn/index.md). Despite Stateless being one of the most popular FSM libraries, its source was ancient and bloated, and lacked crucial features I needed for my project; so, I decided to create my own.
 
@@ -12,7 +12,7 @@ Wasp was designed specifically with PSN in mind, but it is an independent kernel
 
 ## Overview
 
-Wasp provides a Machine class which represents the State of an entity. Machines are affected by Triggers, which are basically an event that is invoked from somewhere else. States of the Machine can be individually permit the Machine to transition to another State when a particular Trigger is fired.
+Wasp provides a Machine class which represents the State of an entity. Machines are affected by Triggers, which are basically events that are invoked from somewhere else. States of the Machine can individually permit the Machine to transition to another State when a particular Trigger is fired.
 
 ```csharp
 Machine.Configure(State.Idle)
@@ -27,14 +27,14 @@ Then, somewhere else, you can fire a Trigger on the Machine without caring what 
 ```csharp
 void Update() {
     Vector2 moveVector2 = _playerInput.actions["Move"].ReadValue<Vector2>();
-    if (moveVector2.magnitude > 0.05f) return;
+    if (moveVector2.magnitude < 0.05f) return;
     Machine.Fire(Trigger.InputMoveVector2);
 }
 ```
 
 In this example, if the Machine is in the Idle State when the Trigger is fired, the Machine would transition into the Walking State. But if the Machine was in the Falling State, the Machine would go into the Gliding State instead. Simple!
 
-Wasp Machines act as a source-of-truth that can track entity state, but how you read that state is entirely up to you. A simple approach is to conditionally run code based on the Machine state using if-statements.
+Wasp Machines act as a source of truth that can track entity state, but how you read that state is entirely up to you. A simple approach is to conditionally run code based on the Machine state using if-statements.
 
 ```csharp
 void Update() {
@@ -72,7 +72,7 @@ void Update()
 
 ## Clauses
 
-In addition to the basic Permit function that allows a State to transition to another given a particular Trigger, the PermitIf function supports the use of conditional transitions. The PermitIf function takes a boolean Func (a "clause") that must evaulate to true before the transition can occur.
+In addition to the basic Permit function that allows a State to transition to another given a particular Trigger, the PermitIf function supports the use of conditional transitions. The PermitIf function takes a boolean Func (a "clause") that must evaluate to true before the transition can occur.
 
 ```csharp
 Machine.Configure(State.Alive)
@@ -84,25 +84,25 @@ Machine.Configure(State.Alive)
 
 ## Transition Actions
 
-You can embed csharp Actions directly into Wasp Machines to run code when a State is entered or exited.
+You can embed C# Actions directly into Wasp Machines to run code when a State is entered or exited.
 
 ```csharp
 Machine.Configure(State.KnockedOver)
     .OnEntry(_ => { _animator.Play("KnockedOver"); })
-    .OnExit(_ => { SoundManager.Play("Grunt_01") });
+    .OnExit(_ => { SoundManager.Play("Grunt_01"); });
 
 Machine.Configure(State.Dead)
     .OnEntry(_ => { _animator.Play("Dead"); });
 ```
 
-## Transition parameters
+## Transition Parameters
 
 When firing a Trigger on a Machine, you can optionally pass parameters in the form of a TriggerParams object. TriggerParams is an abstract class that must be implemented within your code to include the data you would like to pass.
 
 ```csharp
 public class StringParam : Wasp.TriggerParams
 {
-    public String s;
+    public string s;
 }
 
 Machine.Configure(State.MyState)
@@ -115,7 +115,7 @@ Machine.Configure(State.MyState)
 Machine.Fire(Trigger.MyTrigger, new StringParam() { s = "Hello World" } );
 ```
 
-## State inheritance
+## State Inheritance
 
 In Wasp, States can be declared as Substates of other States. Doing so will cause the Substate to inherit all of the configurations of the superstate.
 
@@ -134,7 +134,7 @@ In this example, the Idle and Walking States have both been configured as Substa
 
 This pattern allows you to write shared configurations a single time and then share that configuration across any State you need.
 
-### Nested and non-linear inheritance
+### Nested and Non-Linear Inheritance
 
 One of Wasp's most powerful features is that it enables entirely abstract inheritance patterns.
 
@@ -155,7 +155,7 @@ Machine.Configure(State.Gliding)
     .SubstateOf(State.Moving);
 ```
 
-In this more complex example, we have 3 superstates: Grounded, Airborne, and Moving. Notice how the Walking State inherits Grounded and Moving, while the Gliding State inherits Airborne and Moving. Crucially, Grounded, Airborne, and Moving do not inherit from eachother. You can see here that Substates are free to mix-and-match superstates however they see fit. In this way, it can be helpful to think of Wasp States as based on a composition pattern rather than inheritance.
+In this more complex example, we have 3 superstates: Grounded, Airborne, and Moving. Notice how the Walking State inherits Grounded and Moving, while the Gliding State inherits Airborne and Moving. Crucially, Grounded, Airborne, and Moving do not inherit from each other. You can see here that Substates are free to mix and match superstates however they see fit. In this way, it can be helpful to think of Wasp States as based on a composition pattern rather than inheritance.
 
 Substates also chain inheritance if their parent superstates happen to also be Substates.
 
@@ -174,7 +174,7 @@ In this example, if the Machine is in the Idle State when the AttackInput is fir
 
 ### State() vs. IsInState(TState state)
 
-Two functions exist to read the current State of a Machine. The most basic is State() which returns the current State of the Machine. The other is IsInState(TState state), which returns a boolean representing whether the Machine is in the provided State. IsInState respects inheritance.
+Two functions exist to read the current State of a Machine. The most basic is State(), which returns the current State of the Machine. The other is IsInState(TState state), which returns a boolean representing whether the Machine is in the provided State. IsInState respects inheritance.
 
 ```csharp
 Machine.Configure(State.Actionable)
@@ -200,7 +200,7 @@ print(Machine.IsInState(State.Actionable)); // prints "true"
 
 ### Inherited Actions
 
-When a State is entered or exited, it invokes not only its own Actions, but those of its superstates as well.
+When a State is entered or exited, it invokes not only its own Actions but those of its superstates as well.
 
 ```csharp
 Machine.Configure(State.Actionable)
