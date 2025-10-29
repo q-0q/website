@@ -18,9 +18,9 @@ Game objects in *PSN* are implemented by [Wasp](/code?item=Wasp) machines, which
 
 #### Polymorphic state machines
 
-To keep controller code as reusable as possible, machine types follow class-based inheritance, where all machines inherit from the abstract base class `Fsm`. This highest-up class implements triggers for systems that all game objects need, for example, collision detection and input handling. More specific machine types can then add extra configurations on top of this class. The abstract `PlayerFsm` class inherits from `Fsm` and adds states and behaviors for all universal player actions like moving and blocking. Individual characters then inherit from `PlayerFsm` and add all of their individual attacks and animations.
+To keep controller code as reusable as possible, machine types follow class-based inheritance, where all machines inherit from the abstract base class Fsm. This highest-up class implements triggers for systems that all game objects need, for example, collision detection and input handling. More specific machine types can then add extra configurations on top of this class. The abstract PlayerFsm class inherits from Fsm and adds states and behaviors for all universal player actions like moving and blocking. Individual characters then inherit from PlayerFsm and add all of their individual attacks and animations.
 
-`SummonFsm` is a sibling class to `PlayerFsm` that implements behaviors needed for "`Summon`s," which includes any game object created by a player, like projectiles or puppets. Specific `Summon`s then implement this class.
+SummonFsm is a sibling class to PlayerFsm that implements behaviors needed for "Summons," which includes any game object created by a player, like projectiles or puppets. Specific Summons then implement this class.
 
 ::video{id=https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/psn-astrid.mp4}
 
@@ -68,7 +68,7 @@ var hit = new Hit()
 };
 ```
 
-`SectionGroup`s are essentially a timeline that lets me declare a series of configurations that are used throughout the duration of a state. So, given this configuration:
+SectionGroups are essentially a timeline that lets me declare a series of configurations that are used throughout the duration of a state. So, given this configuration:
 
 ```c#
 var hitboxes = new SectionGroup<Hit>()
@@ -84,7 +84,7 @@ var hitboxes = new SectionGroup<Hit>()
 StateMapConfig.HitSectionGroup.Dictionary[state] = hitboxes;
 ```
 
-...we can see that during the first `startup` frames of the state (in this case, 16 frames), no `Hit` is active, then the `Hit` is active for (2) active frames, and then finally is null again for the remainder of the state. Through this mechanism, I can easily change the timing of an attack with a single line of code.
+...we can see that during the startup frames of the state (in this case, 16 frames), no Hit is active, then the Hit is active for (2) active frames, and then finally is null again for the remainder of the state. Through this mechanism, I can easily change the timing of an attack with a single line of code.
 
 ### Animation workflow
 
@@ -112,17 +112,17 @@ Util.AutoSetupFromAnimationPath(animation, this);
 StateMapConfig.FighterAnimation.Dictionary[state] = animation;
 ```
 
-The static `AutoSetupFromAnimationPath` method builds out the `SectionGroup` from the animation directory that was filled by Blender.
+The static AutoSetupFromAnimationPath method builds out the SectionGroup from the animation directory that was filled by Blender.
 
 ## Gameplay insights
 
 ### Inputs
 
-*PSN* is a 5-button game. The buttons are `Light`, `Medium`, `Heavy`, `Special`, and `Grab`. The same button can be used for multiple actions depending on directional input; for example, for most characters, `Heavy` with no directional input is a high-damage finisher, while `Down` + `Heavy` is a combo-starting launcher.
+*PSN* is a 5-button game. The buttons are Light, Medium, Heavy, Special, and Grab. The same button can be used for multiple actions depending on directional input; for example, for most characters, Heavy with no directional input is a high-damage finisher, while Down + Heavy is a combo-starting launcher.
 
 Most games in the 2D Fighting genre implement [motion inputs](https://glossary.infil.net/?t=Motion%20Input). Motion inputs raise the execution barrier of certain player actions, which affects the feel of the gameplay and its perceived difficulty. Motion inputs also allow for more actions without needing to have lots of buttons, as the same buttons can be reused with different motions to create more inputs.
 
-With *PSN*, directional inputs are used (such as `Down` + `Heavy` or `Back` + `Special`), but I have opted to not implement motion inputs. *PSN*'s characters are simple enough in their amount of options and mechanics to not need the increased amount of options that motion inputs provide. Implementing motion controls is also a surprisingly involved task. You need to track a rolling log of directional input over some time horizon and then validate that the direction history equates to some motion when an input is attempted. It's crucial that this input log is synced over the network to ensure deterministic behavior, which can put a large strain on networking performance if not implemented carefully. Further, defining a "motion" is complicated. *Guilty Gear -STRIVE-* uses a [complex system of rules](https://www.dustloop.com/w/GGST/Esoterica#Motion_Input_Buffer) to precisely define these motions and control how strictly they need to be performed.
+With *PSN*, directional inputs are used (such as Down + Heavy or Back + Special), but I have opted to not implement motion inputs. *PSN*'s characters are simple enough in their amount of options and mechanics to not need the increased amount of options that motion inputs provide. Implementing motion controls is also a surprisingly involved task. You need to track a rolling log of directional input over some time horizon and then validate that the direction history equates to some motion when an input is attempted. It's crucial that this input log is synced over the network to ensure deterministic behavior, which can put a large strain on networking performance if not implemented carefully. Further, defining a "motion" is complicated. *Guilty Gear -STRIVE-* uses a [complex system of rules](https://www.dustloop.com/w/GGST/Esoterica#Motion_Input_Buffer) to precisely define these motions and control how strictly they need to be performed.
 
 ### The air
 
