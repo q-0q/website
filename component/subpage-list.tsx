@@ -181,7 +181,7 @@ const mobileStyles: Record<string, CSSProperties> = {
     flexDirection: "column",
   },
   listOuterContainer: {
-    width: "100%",
+    width: "99%",
     height: "100%",
     display: "flex",
     flexDirection: "column",
