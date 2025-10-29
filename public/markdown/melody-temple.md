@@ -8,11 +8,11 @@
 
 ### Player controller
 
-The player controller for *Melody Temple* evolved from that I made for [Ornament](/games?item=Ornament). Each player State is a Node within the Godot scene tree, which are parented to a controller Node that act as the actual "machine".
+The player controller for *Melody Temple* evolved from that I made for [Ornament](/games?item=Ornament). Each player State is a Node within the Godot scene tree, which is parented to a controller Node that acts as the actual "machine".
 
-In this way the player state machine is natively integrated with the engine's object system, unlike Wasp machines used in my Unity projects which are represented entirely within code. This Node-based approach provides some advantages, such as being able to export state parameters to a GUI.
+In this way, the player state machine is natively integrated with the engine's object system, unlike Wasp machines used in my Unity projects, which are represented entirely within code. This Node-based approach provides some advantages, such as being able to export state parameters to a GUI.
 
-The machine pretty simple:
+The machine is pretty simple:
 
 ```python
 # Player.gd
@@ -27,7 +27,7 @@ func _physics_process(delta):
 	time_in_current_state += delta
 ```
 
-The main difference between this pattern and what I do with Wasp is that state transitions are not initiated by event-based triggers but rather a single function.
+The main difference between this pattern and what I do with Wasp is that state transitions are not initiated by event-based triggers but rather by a single function.
 
 ```python
 # Player.gd
@@ -79,7 +79,7 @@ func condition():
 		Player.is_on_floor())
 ```
 
-Over all, this approach is nice because the state machine and the game controller are one in the same; however since implementing *Melody Temple*'s controller I've learned that for more complex controllers it's better to keep the state machine disjointed from the behavior code that runs in your update loop. It makes everything more flexible.
+Overall, this approach is nice because the state machine and the game controller are one and the same; however, since implementing *Melody Temple*'s controller, I've learned that for more complex controllers, it's better to keep the state machine disjointed from the behavior code that runs in your update loop. It makes everything more flexible.
 
 ### Launching with momentum store
 
@@ -97,7 +97,7 @@ func on_enter():
 		enter_velocity = Vector2.ZERO
 ```
 
-In order to allow players to get the maximum boost without requiring them to jump with frame-perfect timing, the moving platforms implement a "velocity cache". Using a circular queue, the moving platforms track their velocity every frame over some time horizon, throwing away the oldest values when the queue fills up. When the platform is requested to report its current speed, it actually scans its entire queue and reports the maximum value currently inside of it, which is actually the platform's maximum velocity "recently". The larger the size of the queue, the larger the forgiveness window and the easier it is for players to achieve the maximum speed when jumping.
+In order to allow players to get the maximum boost without requiring them to jump with frame-perfect timing, the moving platforms implement a "velocity cache." Using a circular queue, the moving platforms track their velocity every frame over some time horizon, throwing away the oldest values when the queue fills up. When the platform is requested to report its current speed, it actually scans its entire queue and reports the maximum value currently inside of it, which is actually the platform's maximum velocity "recently." The larger the size of the queue, the larger the forgiveness window and the easier it is for players to achieve the maximum speed when jumping.
 
 ```python
 # MovingPlatform.gd
@@ -108,9 +108,9 @@ func _physics_process(delta):
 	speed_cache.insert(position_delta)
 ```
 
-Lastly, *Melody Temple* features many platforming sections that involve moving platforms parented to one another, where the motion of one platform affects another. My first approach to account for this was to just track the moving platform's world-space position-delta (velocity) in their velocity caches. That would neatly capture the parented movement without any extra logic.
+Lastly, *Melody Temple* features many platforming sections that involve moving platforms parented to one another, where the motion of one platform affects another. My first approach to account for this was to just track the moving platform's world-space position delta (velocity) in their velocity caches. That would neatly capture the parented movement without any extra logic.
 
-I soon realized that doing it this way means the player still needs to perform frame-perfect inputs in order to get the *platforms* to move at their maximum speeds. I solved this problem by only tracking local-space motion in the individual platform's caches, but using a recursive reporting scheme where each moving platform first asks its parent platform to report its speed, which it then sums with its own reported speed before passing that value on, up until it reaches the player. The result is that each link in the recursive call reports its own individual maximum speed, which makes it much easier for the player to get those maximum-height jumps.
+I soon realized that doing it this way means the player still needs to perform frame-perfect inputs in order to get the *platforms* to move at their maximum speeds. I solved this problem by only tracking local-space motion in the individual platform's caches but using a recursive reporting scheme where each moving platform first asks its parent platform to report its speed, which it then sums with its own reported speed before passing that value on, up until it reaches the player. The result is that each link in the recursive call reports its own individual maximum speed, which makes it much easier for the player to get those maximum-height jumps.
 
 ```python
 # MovingPlatform.gd
