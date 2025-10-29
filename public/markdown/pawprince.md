@@ -6,13 +6,13 @@
 
 ### Procedural fog
 
-For *PAWPRINCE* I implemented a fog-of-war system that creates volumes of black fog. Observers, such as the player, carve out lines of sight inside the fog, creating a nice volumetric effect. Game objects are hidden in the fog using simple raycasting.
+For *PAWPRINCE* I implemented a fog-of-war system that creates volumes of black fog. Observers, such as the player, carve out lines of sight inside the fog, creating a nice volumetric effect. Game objects are hidden in the fog using simple ray casting.
 
 ::video{id=https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/pawprince-thumb.mp4}
 
-Rather than line-of-sight being treated like a 3D sphere casting out of from the observer in all directions, occlusion is instead only calculated along two axes - it's essentially treated like a cylinder, not a sphere. This means walls of fog carved out by line-of-sight will always be perfectly vertical, instead of domed like they would appear if the line-of-sight was spherical. When using the fog in a top-down camera setup, it creates a very clean and precise look, regardless of how tall the occluders might be.
+Rather than line-of-sight being treated like a 3D sphere casting out from the observer in all directions, occlusion is instead only calculated along two axes - it's essentially treated like a cylinder, not a sphere. This means walls of fog carved out by line-of-sight will always be perfectly vertical, instead of domed like they would appear if the line-of-sight was spherical. When using the fog in a top-down camera setup, it creates a very clean and precise look, regardless of how tall the occluders might be.
 
-For each fog volume in the scene, I dynamically instantiate an orthographic camera looking straight down. This camera only captures renderers in a special Occluders layer, allowing me to select which GameObjects in the scene actually obscure line-of-sight. This occlusion camera outputs to a special occlusion texture which is entirely white except for the top-down silhouttes of occluders which are rendered as black.
+For each fog volume in the scene, I dynamically instantiate an orthographic camera looking straight down. This camera only captures renderers in a special Occluders layer, allowing me to select which GameObjects in the scene actually obscure line-of-sight. This occlusion camera outputs to a special occlusion texture which is entirely white except for the top-down silhouettes of occluders which are rendered as black.
 
 This occlusion texture, along with the world positions of all of the observers, are then fed into a compute shader. The compute shader uses a raymarching technique to compute line-of-sight and outputs a black-and-white 3D render texture that represents the desired fog opacity as voxels.
 
