@@ -9,7 +9,7 @@ export const resumeItems: SubpageListItemData[] = [
     contributions: null,
     playUrl: null,
     sourceUrl:
-      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/Jack-Withers-Resume.pdf",
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/Jack-Withers-Resume-1.0.0.pdf",
     sourceButtonTextOverride: "View as PDF",
     engine: null,
     markdownPath: "markdown/resume.md",
