@@ -8,7 +8,7 @@
 
 ### Player controller
 
-The player controller for *Melody Temple* evolved from that I made for [Ornament](/games?item=Ornament). Each player State is a Node within the Godot scene tree, which is parented to a controller Node that acts as the actual "machine".
+The player controller for *Melody Temple* evolved from that I made for *[Ornament](/games?item=Ornament)*. Each player State is a Node within the Godot scene tree, which is parented to a controller Node that acts as the actual "machine".
 
 In this way, the player state machine is natively integrated with the engine's object system, unlike Wasp machines used in my Unity projects, which are represented entirely within code. This Node-based approach provides some advantages, such as being able to export state parameters to a GUI.
 

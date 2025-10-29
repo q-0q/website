@@ -9,7 +9,7 @@
 
 ### Player controller
 
-The player controller for *Ornament* was the first state machine pattern I ever built, and it paved the way for [Melody Temple](/games?item=Melody%20Temple)'s Godot state machine, and eventually the [Wasp](/code?item=Wasp) library. Each player State is a Node within the Godot scene tree, which are parented to a controller Node that acted as the actual "machine".
+The player controller for *Ornament* was the first state machine pattern I ever built, and it paved the way for *[Melody Temple](/games?item=Melody%20Temple)*'s Godot state machine, and eventually the [Wasp](/code?item=Wasp) library. Each player State is a Node within the Godot scene tree, which are parented to a controller Node that acted as the actual "machine".
 
 In this way, the player state machine is natively integrated with the engine's object system, unlike Wasp machines used in my Unity projects which are represented entirely within code. This Node-based approach provides some advantages, such as being able to export state parameters to a GUI.
 
