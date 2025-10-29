@@ -6,7 +6,6 @@ export const gameItems: SubpageListItemData[] = [
   {
     title: "Iapetus",
     description: "Movement-centered 3D platformer",
-    slug: "/iapetus",
     contributions: "Everything",
     playUrl: "https://q-0q.itch.io/iapetus",
     sourceUrl: "https://github.com/q-0q/iapetus",
@@ -19,7 +18,6 @@ export const gameItems: SubpageListItemData[] = [
   {
     title: "Project SilverNeedle",
     description: "1v1 2D fighter with rollback netcode",
-    slug: "/project-silver-needle",
     contributions: "Everything",
     playUrl: null,
     sourceUrl: "https://github.com/q-0q/ProjectSilverNeedle",
@@ -32,7 +30,6 @@ export const gameItems: SubpageListItemData[] = [
   {
     title: "Melody Temple",
     description: "Musical 2D platformer",
-    slug: "/melody-temple",
     contributions: "Everything",
     playUrl: "https://q-0q.itch.io/melody-temple",
     sourceUrl: "https://github.com/q-0q/melody-temple",
@@ -45,7 +42,6 @@ export const gameItems: SubpageListItemData[] = [
   {
     title: "Synapse",
     description: "Graph-based music synthesizer",
-    slug: "/synapse",
     contributions: "Everything",
     playUrl: "https://q-0q.itch.io/synapse",
     sourceUrl: "https://github.com/q-0q/synapse",
@@ -58,7 +54,6 @@ export const gameItems: SubpageListItemData[] = [
   {
     title: "PAWPRINCE",
     description: "Isometric puzzle adventure",
-    slug: "/pawprince",
     contributions: "Everything",
     playUrl: null,
     sourceUrl: "https://github.com/q-0q/PAWPRINCE",
@@ -71,7 +66,6 @@ export const gameItems: SubpageListItemData[] = [
   {
     title: "Ornament",
     description: "2D metroidvania",
-    slug: "/ornament",
     contributions: "Everything",
     playUrl: null,
     sourceUrl: "https://github.com/q-0q/ornament",

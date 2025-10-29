@@ -4,11 +4,10 @@ import Loader from "./loader";
 export interface SubpageListItemData {
   title: string;
   description: string;
-  slug: string;
-  contributions: string;
+  contributions: string | null;
   playUrl: string | null;
   sourceUrl : string | null;
-  engine: string;
+  engine: string | null;
   markdownPath: string;
   thumbnailVideoUrl: string | null;
   date: string;
@@ -17,7 +16,7 @@ export interface SubpageListItemData {
 type SubpageListItemProps = {
   title: string;
   description: string;
-  engine: string;
+  engine: string | null;
   thumbnailVideoUrl: string | null;
   onClick: MouseEventHandler<HTMLDivElement>;
   sourceUrl: string | null;
