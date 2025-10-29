@@ -41,7 +41,7 @@ const styles: { container: CSSProperties } = {
     opacity: "0",
     position: "absolute",
     display: "flex",
-    width: "100vw",
+    width: "99vw", // prevents right edge from being clipped on mobile
     height: "calc(var(--vh, 1vh) * 100)",
     top: "0",
     left: 0,
