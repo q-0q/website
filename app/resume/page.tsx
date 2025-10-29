@@ -1,11 +1,13 @@
-"use client"
+"use client";
 
-import Menu from "@/component/menu";
-import Image from "next/image";
-import { useState, type CSSProperties } from "react";
+import SubpageList from "@/component/subpage-list";
+import Subpage from "@/component/subpage";
+import { resumeItems } from "@/data/resume-data";
 
-
-export default function Resume() {  
-  return <p> Info about my resume </p>;
+export default function Resume() {
+  return (
+    <Subpage>
+      <SubpageList items={resumeItems}></SubpageList>
+    </Subpage>
+  );
 }
-

@@ -66,7 +66,7 @@ export default function SubpageListSelection({
                       color: "var(--brand-color)",
                     }}
                   >
-                    Source
+                    {(item.sourceButtonTextOverride ? item.sourceButtonTextOverride : "Source")}
                   </a>
                 )}
                 {item.playUrl && (
@@ -158,8 +158,6 @@ const styles: {
   },
   divider: {
     color: "#474747",
-    width: "200%"
-    // margin: "1rem 0",
   },
   time: {
     color: "gray",

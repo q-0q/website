@@ -35,7 +35,6 @@ export default function Subpage({ children } : SubpageProps ) {
 
 const styles: { container: CSSProperties } = {
   container: {
-    // background: "red",
     padding: "calc(var(--vh, 1vh) * 3)",
     // paddingRight: "calc(var(--vh, 1vh) * 3)",
     // paddingTop: "calc(var(--vh, 1vh) * 3)",

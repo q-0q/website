@@ -9,6 +9,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: "https://q-0q.itch.io/iapetus",
     sourceUrl: "https://github.com/q-0q/iapetus",
+    sourceButtonTextOverride: null,
     engine: "Unity",
     markdownPath: "markdown/iapetus.md",
     thumbnailVideoUrl:
@@ -21,6 +22,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: null,
     sourceUrl: "https://github.com/q-0q/ProjectSilverNeedle",
+    sourceButtonTextOverride: null,
     engine: "Unity & Photon Quantum",
     markdownPath: "markdown/psn.md",
     thumbnailVideoUrl:
@@ -33,6 +35,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: "https://q-0q.itch.io/melody-temple",
     sourceUrl: "https://github.com/q-0q/melody-temple",
+    sourceButtonTextOverride: null,
     engine: "Godot",
     markdownPath: "markdown/melody-temple.md",
     thumbnailVideoUrl:
@@ -45,6 +48,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: "https://q-0q.itch.io/synapse",
     sourceUrl: "https://github.com/q-0q/synapse",
+    sourceButtonTextOverride: null,
     engine: "Unity",
     markdownPath: "markdown/synapse.md",
     thumbnailVideoUrl:
@@ -57,6 +61,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: null,
     sourceUrl: "https://github.com/q-0q/PAWPRINCE",
+    sourceButtonTextOverride: null,
     engine: "Unity",
     markdownPath: "markdown/pawprince.md",
     thumbnailVideoUrl:
@@ -69,6 +74,7 @@ export const gameItems: SubpageListItemData[] = [
     contributions: "Everything",
     playUrl: null,
     sourceUrl: "https://github.com/q-0q/ornament",
+    sourceButtonTextOverride: null,
     engine: "Godot",
     markdownPath: "markdown/ornament.md",
     thumbnailVideoUrl:

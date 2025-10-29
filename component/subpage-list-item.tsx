@@ -7,6 +7,7 @@ export interface SubpageListItemData {
   contributions: string | null;
   playUrl: string | null;
   sourceUrl : string | null;
+  sourceButtonTextOverride : string | null;
   engine: string | null;
   markdownPath: string;
   thumbnailVideoUrl: string | null;
