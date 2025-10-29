@@ -138,6 +138,7 @@ const styles: {
   container: {
     height: "200px",
     borderColor: "#474747",
+    boxSizing: "border-box",
     borderWidth: "1px",
     borderStyle: "solid",
     borderRadius: "4px",

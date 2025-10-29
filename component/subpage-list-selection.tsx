@@ -153,6 +153,7 @@ const styles: {
     width: "fit-content",
     padding: "0.5rem 1rem",
     borderRadius: "30px",
+    boxSizing: "border-box",
     textDecoration: "none",
     borderStyle: "solid",
   },
