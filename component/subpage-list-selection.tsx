@@ -143,6 +143,7 @@ const styles: {
     wordBreak: "break-word",
   },
   buttonContainer: {
+    paddingRight: "5px",
     display: "flex",
     flexWrap: "wrap",
     gap: "0.5rem",
