@@ -26,12 +26,17 @@ export default function SubpageList({ items }: SubpageListProps) {
   // Detect screen size and update mobile state
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+      const mobile = window.innerWidth < MOBILE_BREAKPOINT;
+      setIsMobile(mobile);
+      if (!mobile && !selectedItemId) {
+        handleItemClick(items[0].title);
+      }
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
 
   // Scroll to selected item (desktop only)
   useEffect(() => {
