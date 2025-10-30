@@ -120,9 +120,3 @@ func report_speed():
 		parent_report = get_parent().report_speed()
 	return parent_report + speed_cache.get_min().rotated(global_rotation)
 ```
-
-## Gameplay insights
-
-### Difficulty
-
-### Convolution
