@@ -4,6 +4,6 @@ Thanks for checking out my site. While your here, check out my [video games](/ga
 
 If you'd like to get in touch, please shoot me an email at [jrwthrs@gmail.com](mailto:jrwthrs@gmail.com).
 
-:::image-div{style="width: 400px; margin: auto"}
+:::image-div{style="width: 400px; margin: auto; max-width: 100%"}
 ![](https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/bio_bw.jpg)
 :::
