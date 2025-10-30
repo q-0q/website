@@ -158,7 +158,9 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
     }
 
     function computeInitChoreoDuration(index: number) {
-      return index * 0.175 + 0.5;
+      const numTiles = 4;
+      const reversedIndex = numTiles - 1 - index;
+      return reversedIndex * 0.175 + 0.5;
     }
 
     function computeOpenXDestination(index: number) {
@@ -186,7 +188,9 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
         step = maxStep * s;
       }
 
-      const output = padding + index * step + 100 * vh;
+      const reversedIndex = numTiles - 1 - index;
+      const output = padding + reversedIndex * step + 100 * vh;
+
       return output;
     }
 

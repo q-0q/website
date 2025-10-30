@@ -136,7 +136,7 @@ const styles: {
   buttonContainer: CSSProperties;
 } = {
   container: {
-    height: "22%",
+    height: "27%",
     borderColor: "#474747",
     boxSizing: "border-box",
     borderWidth: "1px",
@@ -196,7 +196,7 @@ const styles: {
     // backgroundColor: "black",
     width: "45%",
     height: "100%",
-    borderRadius: "6px",
+    borderRadius: "3px",
     overflow: "hidden",
     display: "flex",
     justifyContent: "center",
@@ -208,7 +208,7 @@ const styles: {
     width: "100%",
     height: "100%",
     objectFit: "cover",
-    borderRadius: "6px",
+    // borderRadius: "6px",
     pointerEvents: "none",
   },
 

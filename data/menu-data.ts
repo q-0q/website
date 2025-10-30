@@ -10,27 +10,27 @@ export interface MenuItemData {
 export const menuItems: MenuItemData[] = [
   {
     index: 0,
-    title: "Bio",
-    description: "More about me",
-    slug: "/bio",
+    title: "Games",
+    description: "Interactive experiences",
+    slug: "/games",
   },
   {
     index: 1,
-    title: "Resume",
-    description: "Professional and educational experience",
-    slug: "/resume",
-  },
-  {
-    index: 2,
     title: "Code",
     description: "Libraries, tools, & apps",
     slug: "/code",
   },
   {
+    index: 2,
+    title: "Resume",
+    description: "Professional and educational experience",
+    slug: "/resume",
+  },
+  {
     index: 3,
-    title: "Games",
-    description: "Interactive experiences",
-    slug: "/games",
+    title: "Bio",
+    description: "More about me",
+    slug: "/bio",
   },
 ];
 
