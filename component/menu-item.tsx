@@ -388,19 +388,23 @@ const styles: {
     paddingTop: "10px",
     paddingLeft: "10px",
     maxWidth: "10%",
+    maxHeight: "100%",
   },
   mobileText: {
     paddingTop: "10px",
     paddingLeft: "10px",
-    width: "fit-content"
+    width: "fit-content",
+    maxHeight: "100%",
   },
   name: {
     color: "white",
     cursor: "pointer",
+    maxHeight: "100%",
   },
   description: {
     color: "gray",
-    fontSize: "0.8rem",
+    fontSize: "0.75rem",
+    maxHeight: "100%"
   },
 
   mouseMove: {
