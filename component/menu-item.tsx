@@ -9,6 +9,7 @@ import { useGSAP } from "@gsap/react";
 import { inverseLerp, lerp, setVhVariable } from "@/helper/helper";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { MOBILE_BREAKPOINT } from "./subpage-list";
+import Badge from "./badge";
 
 type MenuItemProps = {
   index: number;
@@ -132,12 +133,12 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
           <div
             style={{
               ...(isMobile &&
-              selectedPageIndex == index &&
-              menuState == MenuState.Closed
+                selectedPageIndex == index &&
+                menuState == MenuState.Closed
                 ? styles.mobileText
                 : styles.text),
-            }}
-          >
+              }}
+              >
             <p onClick={handleClick} style={styles.name}>
               {title}
             </p>
@@ -163,36 +164,7 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
       return reversedIndex * 0.175 + 0.5;
     }
 
-    function computeOpenXDestination(index: number) {
-      const vh = window.innerHeight / 100;
 
-      const numTiles = 4;
-      const tileWidth = 25 * vh;
-      const maxPadding = 100;
-      const maxCascade = 300;
-
-      const maxStep = maxCascade / (numTiles - 1);
-      const cascadeWidth = maxStep * (numTiles - 1);
-      const totalWidth = tileWidth + cascadeWidth + 2 * maxPadding;
-
-      let padding: number;
-      let step: number;
-
-      if (totalWidth <= window.innerWidth) {
-        padding = maxPadding;
-        step = maxStep;
-      } else {
-        const denominator = maxCascade + 2 * maxPadding;
-        const s = (window.innerWidth - tileWidth) / denominator;
-        padding = maxPadding * s;
-        step = maxStep * s;
-      }
-
-      const reversedIndex = numTiles - 1 - index;
-      const output = padding + reversedIndex * step + 100 * vh;
-
-      return output;
-    }
 
     function computeClosedXDestination() {
         const vh = window.innerHeight / 100;
@@ -214,27 +186,22 @@ export default function MenuItem({ index, title, description, slug }: MenuItemPr
     
         switch (menuState) {
           case MenuState.Init: {
-            console.log("choreo init");
             choreographInit();
             break;
           }
           case MenuState.Opening: {
-            console.log("choreo open");
             choreographOpening();
             break;
           }
           case MenuState.Closing: {
-            console.log("choreo close");
             choreographClose();
             break;
           }
           case MenuState.Closed: {
-            console.log("choreo closed");
             choreographClosed();
             break;
           }
           case MenuState.Open: {
-            console.log("choreo closed");
             choreographOpen();
             break;
           }
@@ -445,3 +412,33 @@ const styles: {
   },
 };
 
+export function computeOpenXDestination(index: number) {
+  const vh = window.innerHeight / 100;
+
+  const numTiles = 4;
+  const tileWidth = 25 * vh;
+  const maxPadding = 100;
+  const maxCascade = 300;
+
+  const maxStep = maxCascade / (numTiles - 1);
+  const cascadeWidth = maxStep * (numTiles - 1);
+  const totalWidth = tileWidth + cascadeWidth + 2 * maxPadding;
+
+  let padding: number;
+  let step: number;
+
+  if (totalWidth <= window.innerWidth) {
+    padding = maxPadding;
+    step = maxStep;
+  } else {
+    const denominator = maxCascade + 2 * maxPadding;
+    const s = (window.innerWidth - tileWidth) / denominator;
+    padding = maxPadding * s;
+    step = maxStep * s;
+  }
+
+  const reversedIndex = numTiles - 1 - index;
+  const output = padding + reversedIndex * step + 100 * vh;
+
+  return output;
+}

@@ -8,6 +8,7 @@ import { AppContextProvider } from "@/component/context";
 import Header from "@/component/header";
 import Menu from "@/component/menu";
 import Subpage from "@/component/subpage";
+import Badge from "@/component/badge";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
           {/* <Header /> */}
 
           <div style={styles.content}>
+            <Badge></Badge>
             <Menu></Menu>
             {children}
           </div>
