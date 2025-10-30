@@ -136,7 +136,7 @@ const styles: {
   buttonContainer: CSSProperties;
 } = {
   container: {
-    height: "200px",
+    height: "22%",
     borderColor: "#474747",
     boxSizing: "border-box",
     borderWidth: "1px",
