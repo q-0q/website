@@ -40,7 +40,7 @@ export default function RootLayout({
           {/* <Header /> */}
 
           <div style={styles.content}>
-            <Badge></Badge>
+            {/* <Badge></Badge> */}
             <Menu></Menu>
             {children}
           </div>
