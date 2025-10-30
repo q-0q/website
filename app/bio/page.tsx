@@ -1,11 +1,13 @@
-"use client"
+"use client";
 
-import Menu from "@/component/menu";
-import Image from "next/image";
-import { useState, type CSSProperties } from "react";
+import SubpageList from "@/component/subpage-list";
+import Subpage from "@/component/subpage";
+import { bioItems } from "@/data/bio-data";
 
-
-export default function Bio() {  
-  return <p> Info about my bio </p>;
+export default function Bio() {
+  return (
+    <Subpage>
+      <SubpageList items={bioItems}></SubpageList>
+    </Subpage>
+  );
 }
-
