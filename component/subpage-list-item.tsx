@@ -151,6 +151,7 @@ const styles: {
     backgroundColor: "transparent",
     transition: "border-color 0.2s, background-color 0.2s",
     cursor: "pointer",
+    overflow: "hidden"
   },
 
   hovered: {
@@ -189,7 +190,7 @@ const styles: {
 
   description: {
     color: "gray",
-    fontSize: "0.9rem",
+    fontSize: "0.8rem",
   },
 
   thumbnail: {
