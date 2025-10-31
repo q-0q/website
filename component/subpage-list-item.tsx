@@ -151,7 +151,8 @@ const styles: {
     backgroundColor: "transparent",
     transition: "border-color 0.2s, background-color 0.2s",
     cursor: "pointer",
-    overflow: "hidden"
+    overflow: "hidden",
+    minHeight: "140px",
   },
 
   hovered: {
