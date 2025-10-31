@@ -149,6 +149,7 @@ const styles: {
     marginTop: "18vh",
     width: "40%",
     maxWidth: "400px",
+    minWidth: "250px",
     flexDirection: "column",
   },
 
@@ -162,10 +163,10 @@ const styles: {
   },
 
   selectionContainer: {
+    paddingLeft: "calc(var(--vh, 1vh) * 3)",
     height: "100%",
-    // width: "60%",
+    width: "60%",
     maxWidth: "800px",
-    flex: 1,
     flexDirection: "column",
     display: "flex",
     pointerEvents: "all",

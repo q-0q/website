@@ -47,7 +47,6 @@ const styles: { container: CSSProperties } = {
     height: "calc(var(--vh, 1vh) * 100)",
     top: "0",
     left: 0,
-    pointerEvents: "none",
-    gap: "calc(var(--vh, 1vh) * 3)",
+    pointerEvents: "none"
   },
 };
