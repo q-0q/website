@@ -54,8 +54,9 @@ const styles: { body: CSSProperties; content: CSSProperties } = {
   body: {
     height: "calc(var(--vh, 1vh) * 100)",
     width: "100vw",
+    maxWidth: "10rem",
     alignItems: "start",
-    background: "black",
+    // background: "red",
   },
   content: {},
 };

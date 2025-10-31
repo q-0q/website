@@ -42,6 +42,8 @@ const styles: { container: CSSProperties } = {
     position: "absolute",
     display: "flex",
     width: "100vw",
+    // background: "red",
+    // maxWidth: "1300px",
     height: "calc(var(--vh, 1vh) * 100)",
     top: "0",
     left: 0,

@@ -148,6 +148,7 @@ const styles: {
   listOuterContainer: {
     marginTop: "18vh",
     width: "40%",
+    maxWidth: "400px",
     flexDirection: "column",
   },
 
@@ -162,7 +163,9 @@ const styles: {
 
   selectionContainer: {
     height: "100%",
-    width: "60%",
+    // width: "60%",
+    maxWidth: "800px",
+    flex: 1,
     flexDirection: "column",
     display: "flex",
     pointerEvents: "all",
