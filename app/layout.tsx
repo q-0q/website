@@ -56,7 +56,7 @@ const styles: { body: CSSProperties; content: CSSProperties } = {
     width: "100vw",
     maxWidth: "10rem",
     alignItems: "start",
-    // background: "red",
+    background: "black",
   },
   content: {},
 };
