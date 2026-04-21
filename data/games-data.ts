@@ -4,17 +4,17 @@ import { SubpageListItemData } from "@/component/subpage-list-item";
 
 export const gameItems: SubpageListItemData[] = [
   {
-    title: "Iapetus",
-    description: "Movement-centered 3D platformer",
+    title: "Amadea",
+    description: "Movement-centered 3D platformer adventure",
     contributions: "Everything",
-    playUrl: "https://q-0q.itch.io/iapetus",
-    sourceUrl: "https://github.com/q-0q/iapetus",
+    playUrl: "https://q-0q.itch.io/amadea",
+    sourceUrl: "https://github.com/q-0q/amadea",
     sourceButtonTextOverride: null,
     engine: "Unity",
-    markdownPath: "markdown/iapetus.md",
+    markdownPath: "markdown/amadea.md",
     thumbnailVideoUrl:
-      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/iapetus-thumb.mp4",
-    date: "2025-10-26T00:16:41+0000",
+      "https://osgho0ft4qfkeusc.public.blob.vercel-storage.com/amadea-thumb.mp4",
+    date: "2026-04-22T00:16:41+0000",
   },
   {
     title: "Project SilverNeedle",
